@@ -1,5 +1,7 @@
 This project is included in Public-Project,Coded by lz
 该程序包含在 Public-Project内，所有版本为lz编写
+
+版本信息
 Recommend Version:2.6
 Latest Version:2.7(Debuging...)
 

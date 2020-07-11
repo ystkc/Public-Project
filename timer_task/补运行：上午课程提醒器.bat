@@ -1,0 +1,1 @@
+start "上午的课程提醒器" ./timer_task.exe "4" "54" "6" "4" "1" "start_now"
