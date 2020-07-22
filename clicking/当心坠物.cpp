@@ -76,7 +76,7 @@ const char Cnp='',Endnp='}';
 string Msbl[]={"|","*","#","+",""," ","  ","│","┃","┆","┇","┊","┋","╳","□","■","█","▌","○","●","☆","★","?","?","?"},Msbt[]={"-","*","#","+",""," ","  ","─","━","┄","┅","┈","┉","╳","□","■","█","▄","○","●","☆","★","?","?","?"};
 string Wdbdsl[]={"|","*","#","+"," ","!","?","'",".","+"},Wdbdst[]={"-","*","#","+"," ","!","?","'",".","="};
 const char Ch0[]="┼",Ch1[]="╋",En0[]="+",En1[]="*",Sp0[]="╬",Sp1[]="#";//光标形式 (1个半角或全角字符)
-const string Verson="ClickingVersonsV2.6\nCreated by Lz\n",Licenses=" 帮助:[2019.8.18]\n 说白了，电脑怎么用就怎么用\n \n 这个程序是一个用鼠标操纵的程序（仅此而已）。\n 使用时将光标准心对准文字点击就能选择。\n 如果其他窗口遮住了文字，可以拖动边框来移开，但部分窗口可能不允许。\n \n \n 帮助只有那么多，后面的不用看了\n \n 完成时间: \n";
+const string Verson="ClickingVersonsV2.6\nCreated by Lz\n",Licenses=" 帮助:[2019.8.18]\n \n 这个程序是一个用鼠标和键盘操纵的程序。\n将鼠标对准你要选择的文字(例如\"[开始游戏]\")\n然后点击即可继续，就像点击按钮一样。\n更多游戏规则在开始游戏之后就能见到了\n\n\n 本程序只能在Win7下运行，如果需要重新编译，请用C++5.6.1和4.9.2编译器！\n另外：由于本程序采用多线程，所以可能导致程序稳定性降低\n 如果本程序中途出现黑屏、死机、乱码等现象请重新打开即可，十分抱歉\n 本程序的完成离不开网上各位大佬的详细教程，再次衷心感谢，让我学到了很多\n 不然也不可能自己编出一个1200多行的程序啊~\n 当初也是觉得c++的键盘控制极其不方便，所以有了这个想法\n 然后用了两年时间编写了一个叫clicking的平台，却一直没想到些什么东西进去好\n 直到这个暑假，终于想到了一个游戏，于是就编了进去，名曰\"当心坠物\" \n \n \n \n 最后一次完成时间: 2019.9.6\n";
 const int Ath[15]={67,79,68,69,68,32,66,89,58,76,105,110,90,101,46};
 
 int Enabled;//输入数据，总数，Windows版本，线程是否启动，返回数据
@@ -346,6 +346,7 @@ void spclr(int wd)
 	gotoxy(0,0);
 	return;
 }
+void cw(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,int cmdl,int cmmd,int cmbds,int cl);
 void msgbox(int wd,int sx,int sy,int cl,string msg,int md,int bdstyle)//MessageBox信息框 
 //explain:SHOWpos(sx,sy),MSG:msg,showing mod,BoardStyle[See Msbl Msbt]
 {
@@ -425,6 +426,10 @@ void msgbox(int wd,int sx,int sy,int cl,string msg,int md,int bdstyle)//MessageB
 			for(int i=1;i<=mxl&&i+sx+1<iar-30;i++)printf(" ");
 		}
 		eout(msg,sx+1,sy+1);
+	}
+	if(md==3)
+	{
+		cw(wd,sx+1,sy+1,msg,0,"",-1,-1,0,0,0,wOldColorAttrs);
 	}
 	return;
 }
@@ -520,7 +525,12 @@ void* chw(void* cwcn)//menu choosing system菜单选择系统*
 	int bs=wd,o=0;
 	for(int i=0;i<ww.size();i++)
 	if(ww[i]-'0'==wd){ww.erase(i,1);ww.insert(0,1,(char)wd+'0');o=1;break;}
-	if(!o)return NULL;
+	if(!o||Enabled==1)
+	{
+//		for(int i=0;i<ww.size();i++)
+//		spclr(ww[i]-'0');
+		return NULL;
+	}
 	Enabled=1;
 	goto A;
 	while(Enabled)
@@ -738,7 +748,7 @@ void* chw(void* cwcn)//menu choosing system菜单选择系统*
 void ent(int dl/*LEAST 50!*/,int wd,int ls,int wt)//menu choosing system starter菜单选择系统启动程序* 
 //explain:Fps:1000/dl(ms),which menu,whether going on when get values,whether waiting
 {
-	Enabled=1;
+//	Enabled=1;
 	CWCN* cwcn;
 	tcwcn.dl=dl;
 	tcwcn.wd=wd;
@@ -763,29 +773,36 @@ string ch(int k)
 		ans=char((k%10)+'0')+ans;
 		k/=10;
 	}
+	if(ans=="")return "0"; 
 	return ans;
 }
 void pmain()
 {
-	lFreeze();
 	system("mode con cols=68 lines=38");
-	cwd(1,2,"菜单",0,0,50,24);
-	ent(30,1,1,0);lock(1);lock(3);lock(4);
-	int ans=0,MAXSCORE[3],lto=0;
+	lock(8); 
+	cwd(8,0,"使用说明",1,1,60,30);
+	cw(8,2,2,"使用说明：请仔细阅读！！}如果你看到这些字，你的程序已经成功运行} }由于调用系统，程序可能不稳定，如果黑屏请重新打开",0,"",0,0,0,0,0,wOldColorAttrs);
+	cw(8,4,2,"本程序只能在Win7下运行，如果需要重新编译，请用C++5.6.1版本！",0,"",0,0,0,0,0,0x1|0x4|0x8);
+	cw(8,5,2,"}这个C++程序允许你用鼠标选择}你可以用鼠标点击所有带有[ ]的文字} 试一试点击下面的按钮",0,"",0,0,0,0,0,0x2|0x4|0x8);
+	cw(8,15,30,"[点我！]",129,"",0,0,0,0,0,wOldColorAttrs);
+	ent(30,8,1,0);
+	while(chv[0]==0)Sleep(50);
+	tasks_sys[++tasks_sys[0]]=-8;
+	lock(1);lock(3);lock(4);
+	int ans=0,MAXSCORE[3],lto=0,sto=0,spu=0,spd=0,inv=0;
 	for(int i=0;i<3;i++)MAXSCORE[i]=0;
 	while(ans!=16)
 	{
 		cwd(1,2,"菜单",0,0,50,24);
 		cw(1,4,19,">:当心坠物:)",0,"",0,0,0,0,0,0x1|0x2|0x8|0x10|0x80);
 		cw(1,5,15,"用鼠标点击文字来继续！",0,"",0,0,0,0,0,wOldColorAttrs|0x8);
-		cw(1,8,21,"开始游戏",1,"准备好你的键盘和鼠标哦~",-1,-1,0,1,10,0x1|0x2|0x8);
-		cw(1,10,21,"使用帮助",2,"",-1,-1,100,2,15,0x1|0x4|0x8);
-		cw(1,15,23,"退出",16,"走的那么急啊qwq",-1,-1,50,0,3,0x2|0x8|0x20);
-		cw(1,23,41,"移动窗口",3,"点击后可以拖动窗口",-1,-1,0,0,1,wOldColorAttrs);
+		cw(1,8,21,"[开始游戏]",1,"准备好你的鼠标和键盘",-1,-1,0,1,10,0x1|0x2|0x8);
+		cw(1,10,21,"[使用帮助]",2,"用你的鼠标点击所有带[ ]的文字}在游戏里有详细规则讲解}点击查看更多",-1,-1,100,2,15,0x1|0x4|0x8);
+		cw(1,15,23,"[退出]",16,"点击退出",-1,-1,50,0,3,0x2|0x8|0x20);
 		cw(1,24,5,"By LZ",0,"",0,0,0,0,0,wOldColorAttrs);
 		cw(1,17,17,"最高纪录：简单："+ch(MAXSCORE[0])+"}中等："+ch(MAXSCORE[1])+"}困难："+ch(MAXSCORE[2]),0,"",-1,-1,50,0,3,0x2|0x4|0x8);
 		
-		
+		chv[0]=0;
 		while(chv[0]==0)Sleep(50);
 		ans=chv[chv[0]--];
 		if(ans==2)
@@ -806,21 +823,24 @@ void pmain()
 //		if(ans==32)tasks_sys[++tasks_sys[0]]=-2;
 		if(ans==1)
 		{
+			Enabled=0;Sleep(300);
 			system("cls");
 			int GRD;
 			tasks_sys[++tasks_sys[0]]=-1;
 			cwd(5,2,"选择难度",10,5,38,20);
-			cw(5,7,21,"简单",11,"只用鼠标操控",-1,-1,0,0,9,0x2|0x8);
-			cw(5,9,21,"中等",12,"鼠标+键盘",-1,-1,0,0,9,0x1|0x2|0x8);
-			cw(5,12,15,"莫名其妙（困难）",13,"",-1,-1,0,0,9,0x1|0x4|0x8);
-			cw(5,16,12,"三个等级都是不同的模式！}一定都要看哦~}困难关有几率打出不死局哦",0,"",0,0,0,0,0,wOldColorAttrs);
+			cw(5,7,21,"[简单]",11,"只用鼠标操控",-1,-1,0,0,9,0x2|0x8);
+			cw(5,9,21,"[困难]",12,"鼠标+键盘",-1,-1,0,0,9,0x1|0x2|0x8);
+			cw(5,12,20,"[BUG模式]",13,"",-1,-1,0,0,9,0x1|0x4|0x8);
+			cw(5,16,12,"三个等级都是不同的模式！",0,"",0,0,0,0,0,wOldColorAttrs|0x8);
 			tasks_sys[++tasks_sys[0]]=5;
+			ent(50,5,1,0);
+			
 			chv[0]=0;
 			while(chv[0]==0)Sleep(50);
 			GRD=chv[chv[0]--];
 			tasks_sys[++tasks_sys[0]]=-5;
 			
-			int HARD=24,SLEEP=500,MS=0,PMS=1,tROUND=0,invROUND=0,SCORE=0,pSCORE=0,INV=0,BROAD=50,pROUND=0,LIVE=3,lt[35],livv=0;
+			int HARD=24,SLEEP=450,MS=0,PMS=1,tROUND=0,invROUND=0,SCORE=0,pSCORE=0,INV=0,BROAD=50,pROUND=0,LIVE=3,lt[35],livv=0;
 			for(int i=0;i<35;i++)lt[i]=2147483647;lt[26]=0;
 			char tmp='a'+26;
 			string tmps="";
@@ -836,34 +856,34 @@ void pmain()
 			cw(4,4,37,"得分：0",0,"得分}会随时间增加",-1,-1,0,0,3,wOldColorAttrs);
 			cw(4,6,37,"附加属性",0,"如果你碰到了}三种方块}它的属性会显示",-1,-1,0,0,3,0x2|0x4|0x8);
 			cw(4,11,37,"3!",0,"",-1,-1,0,0,3,0x1|0x2|0x8);
-			cw(4,12,37,"移动鼠标来开始}将鼠标移到'提示'}上即可暂停~}小提示：}可以通过暂停观察情况",0,"",-1,-1,0,0,3,0x2|0x8);
+			cw(4,12,37,"将鼠标移到这里}即可暂停~}暂停以后可以观察情况",0,"",-1,-1,0,0,3,0x2|0x8);
 			cw(4,17,37,"退出",4,"点击直接退出",-1,-1,0,0,1,wOldColorAttrs);
 			
-			cwd(2,3,"游戏规则",10,5,40,32);
-			cw(2,6,11,"点击开始后，你的鼠标下会出现}一个可以自由移动的'┼'}接着你要移动鼠标使'┼'避开}不断从顶端掉下的 ■}如果你被砸中,你会失去一点生命}生命为0时游戏结束}但是有三种方块是可以碰的}1.  可以使掉落速度变慢}2.  可以使掉落速度变快}3.  可以使你一段时间无敌}将鼠标移到游戏窗口外可暂停}快去试试吧！",0,"",0,0,0,0,0,0x2|0x4|0x8);
-			if(GRD>11)cw(2,19,11,"另外顶端还会掉下一些小写字母}你也要在键盘上打出来}否则也会减少生命",0,"",0,0,0,0,0,0x2|0x4|0x8),BROAD=0,LIVE=5;
-			if(GRD>12)cw(2,23,11,"之所以要叫莫名其妙，是因为这}里面加入了一些早期版本}存在的可怕的bug,每15秒多一个}因此你有15条命，祝你好运}希望你喜欢(嘿嘿)！",0,"",0,0,0,0,0,0x2|0x4|0x8),LIVE=15,BROAD=-100;
+//			cwd(2,3,"游戏规则",10,5,40,32);
+//			cw(2,6,11,"开始后，你不需要点击}你只需移动鼠标}避开从顶端掉下的 ■}如果鼠标被■砸中}你会失去一点生命}生命为0时游戏结束}但有三种方块是可以碰的}1.  可以使掉落速度变慢}2.  可以使掉落速度变快}3.  可以使你一段时间无敌}将鼠标移出窗口可暂停",0,"",0,0,0,0,0,wOldColorAttrs|0x8);
+//			if(GRD>11)cw(2,19,11,"另外顶端还会掉下一些小写字母}你也要在键盘上打出来}否则也会减少生命",0,"",0,0,0,0,0,0x2|0x4|0x8),BROAD=0,LIVE=5;
+//			if(GRD>12)cw(2,23,11,"之所以要叫莫名其妙，是因为这}里面加入了一些早期版本}存在的可怕的bug,每15秒多一个}因此你有15条命，祝你好运}希望你喜欢(嘿嘿)！",0,"",0,0,0,0,0,0x2|0x4|0x8),LIVE=15,BROAD=-100;
 			cw(4,3,37,"速度："+ch(SLEEP)+" ms",0,"这是掉落速度}注意它会变快",-1,-1,0,0,3,wOldColorAttrs);
 			cw(4,5,37,"生命："+ch(LIVE),0,"注意你的生命值",-1,-1,0,0,3,wOldColorAttrs);
-			cw(2,28,20,"[OK]",32,"隐藏帮助",-1,-1,0,0,1,wOldColorAttrs|0x8);
-			cw(2,13,13,"■",0,"注意我是蓝色的",-1,-1,0,0,1,0x1|0x2|0x8) ;
-			cw(2,14,13,"■",0,"注意我是红色的",-1,-1,0,0,1,0x1|0x4|0x8) ;
-			cw(2,15,13,"▲",0,"注意我是绿色的",-1,-1,0,0,1,0x2|0x8) ;
-
-			Sleep(400);
-			tasks_sys[++tasks_sys[0]]=2;
-//			tasks_sys[++tasks_sys[0]]=3;
-//			tasks_sys[++tasks_sys[0]]=4;
-			
-			
-			
-			chv[0]=0;
-			while(chv[0]==0)Sleep(50);
-			tasks_sys[++tasks_sys[0]]=-2;
-			ans=chv[chv[0]--];
+//			cw(2,28,20,"[OK]",32,"隐藏帮助",-1,-1,0,0,1,wOldColorAttrs|0x8);
+//			cw(2,13,13,"■",0,"注意我是蓝色的",-1,-1,0,0,1,0x1|0x2|0x8) ;
+//			cw(2,14,13,"■",0,"注意我是红色的",-1,-1,0,0,1,0x1|0x4|0x8) ;
+//			cw(2,15,13,"▲",0,"注意我是绿色的",-1,-1,0,0,1,0x2|0x8) ;
+//
+//			Sleep(400);
+//			tasks_sys[++tasks_sys[0]]=2;
+////			tasks_sys[++tasks_sys[0]]=3;
+////			tasks_sys[++tasks_sys[0]]=4;
+//			
+//			
+//			
+//			chv[0]=0;
+//			while(chv[0]==0)Sleep(50);
+//			tasks_sys[++tasks_sys[0]]=-2;
+//			ans=chv[chv[0]--];
 			cw(4,1,37,"状态：就绪    ",0,"这是游戏状态",-1,-1,0,0,3,wOldColorAttrs);//1,43 
 			
-			Sleep(1000);
+//			Sleep(1000);
 			cw(4,11,37,"2!",0,"",-1,-1,0,0,3,0x1|0x2|0x8);
 			Sleep(1000);
 			cw(4,11,37,"1!",0,"",-1,-1,0,0,3,0x1|0x2|0x8);
@@ -896,32 +916,89 @@ void pmain()
 							{
 								lto=1;
 								Sleep(200);Enabled=0;Sleep(300);
-								msgbox(3,i+2,1,0x1|0x2|0x8,"看！这就是字母}现在在键盘上打出它}注意是小写",0,3);
+								msgbox(3,i+2,1,0x1|0x2|0x8,"看！这就是字母}现在在键盘上打出它}注意是小写",0,0);
 								tmp=getch();
 								while(tmp!=tmps[0])
 								{
 									tmp=getch();
 								}
-								spclr(3);
-								spclr(4);
-								msgbox(3,i+2,1,0x1|0x2|0x8,"干得漂亮！}记得要在它掉到底之前打出来哦",0,1);
-								Sleep(1500);
-								spclr(3);
-								spclr(4);
 								SCORE+=5,lt[tmp-'a']=2147483647;
 								for(int e=1;e<=25;e++)
 								for(int i=1;i<33;i+=2)
 								if(c_sys[3][e][i]==tmps)
 								c_sys[3][e][i]="　",cl_sys[3][e][i]=wOldColorAttrs,cz_sys[3][e][i]=20;
+								spclr(3);
+								spclr(4);
+								msgbox(3,i+2,1,0x1|0x2|0x8,"干得漂亮！}记得要在它掉到底之前打出来哦}任意键继续...",0,1);
+								Sleep(500);
+								tmp=getch();
+								spclr(3);
+								spclr(4);
 								ccv=ccvn=20;
 								ent(30,3,1,0);
 							}
 						}
-						else cw(3,1,i,"■",21,"",-1,-1,0,0,3,wOldColorAttrs);
+						else 
+						{
+							cw(3,1,i,"■",21,"",-1,-1,0,0,3,wOldColorAttrs);
+							if(sto==0)
+							{
+								sto=1;
+								Sleep(200);Enabled=0;Sleep(300);
+								msgbox(3,i+2,1,0x1|0x2|0x8,"看！这就是障碍物}这个游戏不需要点击鼠标}你可以自由移动你的鼠标}但注意不要碰到这个方块}不然你会减少生命}任意键继续...",0,0);
+								tmp=getch();
+								spclr(3);
+								spclr(4);
+								ccv=ccvn=20;
+								ent(30,3,1,0);
+							}
+						}
 					}
-					else if(tROUND==0&&1+(rand())%(HARD*6)==1)cw(3,1,i,"■",22,"",-1,-1,0,0,3,0x1|0x2|0x8);
-					else if(pROUND==0&&1+(rand())%(HARD*6)==1)cw(3,1,i,"■",23,"",-1,-1,0,0,3,0x1|0x4|0x8);
-					else if(invROUND==0&&1+(rand())%(HARD*18)==1)cw(3,1,i,"▲",24,"",-1,-1,0,0,3,0x2|0x8);
+					else if(SCORE>100&&tROUND==0&&1+(rand())%(HARD*6)==1)
+					{
+						cw(3,1,i,"■",22,"",-1,-1,0,0,3,0x1|0x2|0x8);
+						if(spd==0)
+						{
+							spd=1;
+							Sleep(200);Enabled=0;Sleep(300);
+							msgbox(3,i+2,1,0x1|0x2|0x8,"看！这个方块可以让你减速}你可以尝试去碰它}任意键继续...",0,0);
+							tmp=getch();
+							spclr(3);
+							spclr(4);
+							ccv=ccvn=20;
+							ent(30,3,1,0);
+						}
+					} 
+					else if(pROUND==0&&1+(rand())%(HARD*6)==1)
+					{
+						cw(3,1,i,"■",23,"",-1,-1,0,0,3,0x1|0x4|0x8);
+						if(spu==0)
+						{
+							spu=1;
+							Sleep(200);Enabled=0;Sleep(300);
+							msgbox(3,i+2,1,0x1|0x2|0x8,"注意！这个方块会让你加速}你最好不要去碰它}任意键继续...",0,0);
+							tmp=getch();
+							spclr(3);
+							spclr(4);
+							ccv=ccvn=20;
+							ent(30,3,1,0);
+						}
+					}
+					else if(SCORE>50&&invROUND==0&&1+(rand())%(HARD*18)==1)
+					{
+						cw(3,1,i,"▲",24,"",-1,-1,0,0,3,0x2|0x8);
+						if(inv==0)
+						{
+							inv=1;
+							Sleep(200);Enabled=0;Sleep(300);
+							msgbox(3,i+2,1,0x1|0x2|0x8,"这个方块可以让你无敌}你可以尝试去碰他}任意键继续...",0,0);
+							tmp=getch();
+							spclr(3);
+							spclr(4);
+							ccv=ccvn=20;
+							ent(30,3,1,0);
+						}
+					} 
 				}
 				if(GRD<13||(GRD==13&&SCORE>600))
 				{
@@ -1063,8 +1140,8 @@ void pmain()
 					if(BROAD%700==0)LIVE++;
 					if(GRD>11&&BROAD%450==0)LIVE++;
 					if(GRD>12&&BROAD%200==0)LIVE++;
-					SLEEP=SLEEP/2+100;
-					HARD=HARD/2+4;
+					SLEEP=SLEEP/2+75;
+					HARD=HARD/2+3;
 					BROAD+=100;
 					cw(4,3,43,ch(SLEEP),0,"",0,0,0,0,0,wOldColorAttrs);
 				}
@@ -1096,10 +1173,17 @@ void pmain()
 						tmp=getch();
 						if(tmp==27)
 						{
-							msgbox(3,10,10,0x4|0x2|0x8,"请问你是要退出吗？}ESC退出，其他继续",2,wOldColorAttrs);
+							Enabled=0;Sleep(200);
+							msgbox(3,10,10,0x4|0x2|0x8,"请问你是要退出吗？}ESC退出，其他继续",1,wOldColorAttrs);
 							tmp=getch();
 							if(tmp==27){ans=4;goto C;}
+							else 
+							{
+								ent(30,3,1,0);
+								
+							}
 						}
+						if(tmp<'a'||tmp>'z')continue;
 						if(lt[tmp-'a']!=2147483647)SCORE+=5,lt[tmp-'a']=2147483647;
 						tmps="";
 						tmps+=tmp;
@@ -1165,6 +1249,9 @@ void pmain()
 						while(ccvn<20)
 						{
 							Sleep(10);
+							if(chv[0]&&chv[chv[0]--]==4)goto C;
+							if(Enabled==0)ent(30,3,1,0);
+							cw(3,0,0,ch(ccv)+ch(chv[0]),0,"",0,0,0,0,0,wOldColorAttrs);
 						}
 						cw(4,1,43,"开始",0,"",0,0,0,0,0,wOldColorAttrs);
 						INV=1;invROUND=pSCORE-5;
@@ -1174,12 +1261,14 @@ void pmain()
 				SCORE++;pSCORE++;
 				cw(4,4,43,ch(SCORE)+" 时间："+ch(pSCORE),0,"",0,0,0,0,0,wOldColorAttrs);
 				if(livv==1)LIVE--,livv=0,cw(4,5,43,ch(LIVE)+' ',0,"",0,0,0,0,0,0x4|0x8);
+//				if(Enabled==0) ent(30,3,1,0);
+//				cw(3,0,0,ch(ccv)+ch(chv[0]),0,"",0,0,0,0,0,wOldColorAttrs);
 			}
 			C:;
 			cw(4,1,43,"结束",0,"",0,0,0,0,0,wOldColorAttrs);
 			if(ans!=4)cw(4,5,43,"0",0,"",0,0,0,0,0,0x4|0x8);
 			Sleep(250);Enabled=0;Sleep(250);
-			if(ans!=4)msgbox(3,10,10,wOldColorAttrs,"Game Over",2,1);
+			if(ans!=4)msgbox(3,10,10,wOldColorAttrs,"Game Over",3,1);
 			Sleep(1000);
 			if(SCORE>MAXSCORE[GRD-11])
 			{
@@ -1224,7 +1313,7 @@ int main()
 	if(o==0)
 	{
 		cout<<"请允许修改注册表，这是为了使字体更大、更清晰\n不用担心，稍后会还原原来的设置\n";
-		system("reg ADD HKCU\\Console /v FontSize /t REG_DWORD /f /d 0x0014000a");
+		system("reg ADD HKCU\\Console /v FontSize /t REG_DWORD /f /d 0x014000a");
 //		Pr((char*)"a.bat",1,"reg QUERY HKCU\\Console /v FontSize >que.txt");
 		DD();
 		system("if not exist \".\\当心坠物.exe\" echo 请不要改动exe的名字！请将其改回：当心坠物.exe，否则无法启动");

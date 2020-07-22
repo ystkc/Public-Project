@@ -21,18 +21,22 @@ PS:并没有装逼，都是自己翻的awa...
 **/
 
 
-#include<iostream>
 #include<cstdio>
-#include<cmath>
-#include<pthread.h>
+bool NXYD() {puts("初次见面，耐心一点");}
+bool CCJM=NXYD();
+#include<iostream>
 #include<fstream>
 #include<string>
 #include<cstring>
-#include<stdlib.h>
 #include<windows.h>
+#include<pthread.h>
+#include<cmath>
 #include<conio.h>
 using namespace std;
+
+/*LZ的蒟蒻专用color库*/
 #define TD() (SetConsoleTextAttribute(OPhandle,FOREGROUND_INTENSITY ))
+#define TN() (SetConsoleTextAttribute(OPhandle,FOREGROUND_RED |FOREGROUND_BLUE |FOREGROUND_GREEN ))
 #define TDBlue() (SetConsoleTextAttribute(OPhandle,FOREGROUND_INTENSITY |FOREGROUND_BLUE))
 #define TDGreen() (SetConsoleTextAttribute(OPhandle,FOREGROUND_INTENSITY |FOREGROUND_GREEN))
 #define TDRed() (SetConsoleTextAttribute(OPhandle,FOREGROUND_INTENSITY |FOREGROUND_RED))
@@ -62,6 +66,7 @@ BACKGROUND_GREEN 0x20
 BACKGROUND_RED 0x40
 BACKGROUND_INTENSITY 0x80
 */
+
 #define KEY_DOWN(VK_NONAME) ((GetAsyncKeyState(VK_NONAME) & 0x8000) ? 1:0)
 #define CW_USEDEFAULT       ((int)0x80000000)
 #define DD() (SetConsoleTextAttribute(OPhandle, wOldColorAttrs))
@@ -76,151 +81,128 @@ BACKGROUND_INTENSITY 0x80
 #define chck( k1, k2) ((k1&0x80)&&(k2&0x80))
 
 //CSYS NORMAL SYMBOL!--------------------------------
-//!!!:请勿调换变量声明顺序，否则后果自负! 
-//struct csysb{int k,wd;};
-struct CWCN{int dl,wd,ls;}tcwcn;
 
+//Library
 const char Cnp=''/*(char)1:USE IT if you need to recognize the next two char as a chinese*/,Endnp='}';
-string Msbl[]={"|","*","#","+",""," ","  ","│","┃","┆","┇","┊","┋","╳","□","■","█","▌","○","●","☆","★","?","?","?"},Msbt[]={"-","*","#","+",""," ","  ","─","━","┄","┅","┈","┉","╳","□","■","█","▄","○","●","☆","★","?","?","?"};
-string Wdbdsl[]={"|","*","#","+"," ","!","?","'",".","+"},Wdbdst[]={"-","*","#","+"," ","!","?","'",".","="};
+string Msbl[]={"|","*","#","+",""," ","  ","│","┃","┆","┇","┊","┋","╳","□","■","█","▌","○","●","☆","★","?","?","?"}
+	  ,Msbt[]={"-","*","#","+",""," ","  ","─","━","┄","┅","┈","┉","╳","□","■","█","▄","○","●","☆","★","?","?","?"};
+string Wdbdsl[]={"|","*","#","+"," ","!","?","'",".","+"}
+	  ,Wdbdst[]={"-","*","#","+"," ","!","?","'",".","="};
 const char Ch0[]="┼",Ch1[]="╋",En0[]="+",En1[]="*",Sp0[]="╬",Sp1[]="#";//光标形式 (1个半角或全角字符)
-const string OptionsForge="[DoNOTModify]Identifier:ClickingVersonsV2.6-By LZ-\n[WindowPosition](left,width,top,heigh)\n4\n-1 -1 -1 -1\n[Trans;wOldColorAttrs]\n4\n1 7 8 16\n[EOUT:EoutDelay,IDDTFP]\n2\n7 25\n[WindowVerson](<8:0;>7:1)\n1\n0\n[ProcessName](Format:*.exe)\n-1\nclicking!.exe\n"/*0 0 677 459*/,Verson="ClickingVersonsV2.6\nCreated by Lz\n",Licenses="License:\n \n ----------------------------------------------------------------\n Clicking_System()\n About{\n Create:lz\n Coded:V1.0 to latest:lz\n Debug:V1.0 to latest:lz\n Other license:\n //The first run will be interrupted because of the initialize of 'options.txt'.\n //Run _example() to learn to use or ask the editor.\n //You can edit it as you like,and you'd better tell lz about it.\n //I will be thankful if you discover any bug in it.\n \n PS:并没有装逼，都是自己翻的awa... \n \n --本程序(clicking)由linze原创，需要外传请通知作者，感谢配合！\n 如果你需要将其作为礼物或者仅仅作为交流用途发给别人，你只需注明原作者即可。\n （其实我也只是编来玩，没有谋求利益的意思，这还可以被更多人认可，为什么不呢？）\n 联系作者：qq:1612162886(验证信息注明你是通过程序备注找到的)；洛谷ID：43845（是OIer就来luogu啊）\n }\n \n **完整版**\n Help:[2019.7.19]\n 这个程序就是一个可DIY的拥有鼠标控制功能的程序，你可以通过鼠标来控制程序，告诉他你想干嘛，而不再使用键盘\n 教程稍稍冗(rǒng)长，请见谅！\n \n 接下来是教程：如果你是制作者，请看①；如果你是使用者，请看②。\n \n \n \n \n \n \n \n \n①：\n 	\n 	想要编一个属于自己的鼠标控制程序吗？？赶紧往下看吧！\n 	\n 	本程序包含三个板块：1.菜单写入器；2.菜单执行（选择）器；3.区域选择器。\n 	虽然程序里有很多别的干货，但是出于线程稳定和变量依赖考虑，不建议单独调用。\n 	\n 	☆数据公开：\n 	string Msbl[]={'|','*','#','+','',' ','  ','│','┃','┆','┇','┊','┋','╳','□','■','█','▌','○','●','☆','★','?','?','?'},Msbt[]={'-','*','#','+','',' ','  ','─','━','┄','┅','┈','┉','╳','□','■','█','▄','○','●','☆','★','?','?','?'};\n 	string Wdbdsl[]={'|','*','#','+',' ','!','?',''','.','+'},Wdbdst[]={'-','*','#','+',' ','!','?',''','.','='};\n 	const char Ch0[]='┼',Ch1[]='╋',En0[]='+',En1[]='*',Sp0[]='╬',Sp1[]='#';//光标形式 (1个半角或全角字符)\n 	\n 	//颜色参考 \n 	FOREGROUND_BLUE 0x1 蓝色字\n 	FOREGROUND_GREEN 0x2 绿色字\n 	FOREGROUND_RED 0x4 红色字\n 	FOREGROUND_INTENSITY 0x8（加亮）\n 	BACKGROUND_BLUE 0x10 蓝色背景\n 	BACKGROUND_GREEN 0x20 绿色背景\n 	BACKGROUND_RED 0x40 红色背景\n 	BACKGROUND_INTENSITY 0x80（加亮） \n 	\n 	\n 	★★★从这里开始就是如何编一个鼠标控制程序的过程了，跟着看下去包你看懂\n 	★Step1.\n 	1.void cwd(int wd,int wdbds,string wdtp,int cwl,int cwt,int cwr,int cwb)//window writing system窗口创建系统\n 	2.void cw(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,int cmdl,int cmmd,int cmbds,int cl)//menu writing system菜单写入系统*\n 	\n 	\n 	用法：cwd用于创建窗口，cw用于写入文字用于执行的菜单（也就是在屏幕上会显示的东西）\n 	☆注意要先创建才能写入\n 	解释:1:	wd：你的窗口编号（如果你只有一个窗口，你就写个1或者随便编个数）\n 	wdbds:你的窗口边框形式（可以在上面的Wdbdsl和Wdbdst选一对，他们是一一对应的，填写他们是数组中的第几个）\n 	wdtp:你的窗口标题（不用担心，程序已经帮你自动居中了，不过要注意不能超过窗口宽度）\n 	cwl:你的窗口左坐标（你的窗口显示出来时，左边框的坐标）\n 	cwt:你的窗口上坐标（全都同上）\n 	cwr:右坐标（全都同上）\n 	cwb:下坐标（全都同上）\n 	2:	wd:你的窗口编号（你创建的窗口的编号）\n 	x,y:文字的起始点坐标（是绝对坐标而不是相对窗口位置坐标）\n 	s:你的文字内容\n 	ct:文字值（就是你点击他的时候程序会返回一个什么值，如果想要他不返回（就是点它也没反应）就填0，不要填负数，因为负数是保留值）\n 	cm:它的注释，就是你的鼠标停留在上面时会弹出一个小窗口显示着（如果不要就填''，然后接下来cml,cmt,cmdl,cmmd,cmbds都可以填0）\n 	cml,cmt:注释的位置（绝对坐标），如果懒可以两个都填-1，程序会自动帮你分配\n 	cmdl:你的鼠标停留在上面过多少时间才显示注释（单位ms）\n 	cmmd:注释样式（0：默认；1:3D，2:闪电字幕（可以自己试试看））\n 	cmbds:注释边框模式（可以从Msbl和Msbt里面选一对，和窗口边框样式规则一样）\n 	cl:注释颜色（填写的时候可以填FOREGROUND_BLUE...也可以填0x1...，如果要混色的话在两个属性之间加个'|'）\n 	★Step2.\n 	1.void ent(int dl/*LEAST 50!*/,int wd,int ls,int wt)//menu choosing system starter菜单选择系统启动程序* \n 	\n 	用法：ent用于启动窗口选择主程序\n 	解释:1:dl:刷新间隔时间（就是这个程序多久反应一次（。。。），单位ms，建议不小于50ms）\n 	wd:窗口编号\n 	ls:返回值可持续性（就是你点击了一个有效选择（就是前面的ct>0）以后，如果ls=1，那么菜单会返回值后继续运行，否则他会返回值后退出）\n 	wt:是否启动线程（如果wt=1那么你要等这个菜单把值返回了，退出了，你的程序才能继续运行；如果wt=0，那么你的程序可以继续运行，而他会作为另外一个线程启动）\n 	\n 	★Step3.\n 	了解了主程序用法之后，介绍几个变量：\n 	1.Enabled(bool)		这个变量在选择程序运行时会变为true(1),退出时会变为false(0),但是，你可以在它运行时通过在你的主程序里更改Enabled为0来停止他\n 			☆☆☆为了防止乱码，程序末尾一定要记得Enabled=0；否则你会在屏幕上看到一堆字符，而且严重的会导致内存泄漏\n 	2.dqx,dqy(short int)	这两个是指当前光标所在的坐标（然而好像没什么用）\n 	3.ww(string)		这个字符串指的是窗口的排列顺序（由上到下指0~size()-1），不过因为不能引起及时刷新，所以建议只是读取而不要更改\n 	☆4.chv[](int[])	很多同学会疑问：既然是多线程，返回值我怎么获取？（我都为常规获取返回值的步骤感到恶心）不过别担心，我特地把所有返回值存进了这个数组里，既保障了分离运行，又可以可连续传值。\n 			要提取返回值时，chv[0]是总个数（如果它的值是0那么代表没有返回值）,可以用这样的语句:while(chv[0]==0)Sleep(100)或者执行你自己的语句，跳出循环后写一个xxx=chv[chv[0]--(一定要记得--)]便可以了\n 	☆5.ccv(int)		这个变量是指鼠标停留在的文字上的值（就算没有点下去也会取得到值），可以在循环中用if(ccv==...)执行\n 			设计这个变量主要有一个很有用的用途：如果它的值是某个文字的值，那么马上用cw在旁边写一句话（提示用），可以有效迅速地反馈\n 	☆6.tasks_sys[](int[])	因为多线程运行的时候如果你的程序在输出一个什么就会导致光标错位，所以想到了个办法\n 		这里要介绍几个函数：\n 		1.spclr(int wd)（用来显示窗口,wd是编号）\n 		2.wcrr(int wd)（用来删除一个窗口，然后被删除的窗口就会永久消失，除非你重新创建写入）\n 			因为有时候互动需要，可能要显示一个窗口或者删除一个窗口，所以添加了这个数组\n 			如果你要显示一个窗口:tasks_sys[++tasks_sys[0]]=窗口编号\n 			如果你要删除一个窗口:tasks_sys[++tasks_sys[0]]=窗口编号的相反数（就是加个负号）\n 	7.movable_sys[](bool[])	这个程序是可以拖动窗口的（尽管有点慢），如果你想要禁止你的窗口被移动，你可以调用lock(你的窗口编号)或者movable_sys[编号]=1;要解锁的话只需再调用一遍lock(编号)或movable_sys[编号]=0即可\n  8.fsx,fsy	这两个变量是指控制台的字体大小（宽，长；单位像素），可以在属性-字体-大小 查看。因技术有限，没有添加自动校准系统，如果要改需要在程序里改\n 	☆☆接下来的这些变量可以在options.txt修改（提示：options.txt会自动出现，无需理会）\n 	8.ial,iar,iat,iab	这四个变量是指窗口（是控制台，就是整个程序进程的窗口）的左、宽、上、高（注意顺序），如果不想调（懒+1）填四个-1即可\n 	9.Trans			(transparent 透明)，如果Trans=0，那么你将无法看到非焦点（就是在后面的）窗口。但是如果你的电脑严重卡顿，可以将其修改为0。\n 	10.wOldColorAttrs	(Window Old Color Attributes 窗口默认颜色属性)建议不要改，默认7，除非你想看到一个红色、蓝色、绿色为背景的窗口？\n 	11.EoutDelay		话说注释里面有个模式叫闪电字幕，而这个变量就是控制其输出快慢的（越大越慢），单位ms\n 	12.IDDTFP		(并不是缩写，我乱编的 停止注释偏移)当闪电字幕在输出的时候，如果你不想看了怎么办？是不是挪开鼠标？对的，你只需要挪开IDDTFP像素就可以停止了（所以你知道这是干嘛的了吧）\n 	13.WindowVerson		Win10用户注意了！\n 			话说从Win10开始，微软肥肠的贴心，为中国客户的Win10电脑里面的（退格符）一次退两格（为了防止把中文字切成两半）。\n 			但是这就把我的程序搞傻了，闪电字幕全都没掉，至今没找到两全之策。所以只能再加一个参数。如果你是Win10用户请把它改成1\n 	★附.\n 	前面介绍了有个函数叫区域选择器。不过因为这个函数我从V2左右就已经完成了，后来都没改过，本来不打算介绍。不过既然有点用处，也介绍一下。\n 	void cost(int left,int top,int right,int down,int &px,int &py)//area selecting区域选择* \n 	\n 	用法：屏幕会变黑，你需要在上面点上一下，就会显示十字准星，接着程序会返回你选择的坐标。可以用于区域选择\n 	解释：	left,top;right,down:选择的区域（如果超过这两个点那么他就不会显示十字准星）\n 	px，py：这两个变量是用于传回的，不需要有传入值，否则会被覆盖\n 	--由LZ编写 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n②：\n 	要使用一个鼠标控制程序很简单，几乎不需要用到键盘（如果你是编写者也建议你看一下） \n 	首先，你要根据程序提示，等到你看到你的鼠标下有一个'+'时代表你可以用鼠标了（如果编写者自定义了光标则另当别论） \n 	你如果要选择一个选项，你只需要点击那个文字即可。\n 	如果你想知道某个选项的帮助，1.把鼠标在上面停留一会看是否会弹出一个窗口（注释）；\n 	2.看看把鼠标停在上面时会不会在旁边（或者另一个窗口）显示一个什么 \n 	最后：这个程序好不好用其实取决于编写他的人，请遵照程序的提示。\n 	 --由LZ编写 \n 	 \n \n \n \nUpdate:\n \n --本程序(clicking)由linze原创，需要外传请通知作者，感谢配合！\n  \n V0.1/*首版*/\n congratulation!Clicking()函数诞生了，修复横竖不分显示现象，是Lz编的一个允许鼠标移动的C++程序哦！\n V1.0/*2019清明特辑*/\n 添加了中文插件，并确定和记录了初始窗口位置和颜色。\n V1.1\n Lz爆肝允许了窗口移动，修复了大部分BUG包括连点（但是他偷懒了），准备添加注释插件。\n V2.0/*2019清明特辑*/\n 冒着被*的危险，成功添加注释插件！注释功能多样，还具备即时刷新功能，快来探索吧！\n V2.1\n SetConsoleTextAttribute(OPhandle,0x20|0x80)启动！允许五颜六色的标签啦！\n V2.2\n 填充了标签，修复了超界漏洞（Debug程序越来越长了呵呵），还有让那个信息框识字（中文）。。。\n 因为psy建议，添加了防止win10的闪电字幕出现卡字现象的插件，添加了win10稳定模式\n V2.3\n 添加了窗口功能（当场吐血），现在知道xy轴混用的危害了（qwq抓了一星期臭虫）。另外抓了一个自添加注释就隐藏的bug，今天总算把它揪出来了——右移时一次跳两格。还精简了函数变量。。\n 还有一个惊讶地发现，clicking已经快炸内存了……119688kb（116.87890625MB），但是用电脑管家加速后剩396kb（不足1MB），有种扎心感觉\n V2.3开始可以公布了~AWA~，因为楼主的功能已经差不多了（好像也没啥好打了）\n V2.4\n V2.3没有考虑Trans的情况于是发现了一大堆新bug，决定再肝一场。。。配置也多了很多，可以不用改内置就改设置啦\n 决定2.3、2.4因为有bug，所以更改为2.5才公布。接下来还有V2.5版准备添加线程（速度嗖嗖的）\n V2.5\n 成功添加多线程，虽然给操作带来了巨大麻烦和巨多bug（好像每一次都有很多），但是成功为其可游戏操作奠基。添加了拖动取消功能和锁定窗口（不允许拖动）功能。\n 还特地肝了一个教程（lj）出来\n 虽然有些人认为现在图形库那么发达，随便用个java、VC，或者c++装个EGE、Box2D都比他好（其实我也想学），但是怎么说呢，有个能面向大众（懒awa）的鼠标控制程序还是挺有创意的吧。。。\n 如果有时间会将其转换为头文件，将正式公开V2.5[rep].rar\n V2.6\n 进行了小改\n 上次被我妈和刘姐姐测试了一下发现她们一拿到的反应——这个怎么用啊？(...)不过后来发现是因为中年人们使用鼠标习惯了用尖尖对准按钮，我们喜欢整个挪上去，所以进行了一些些改动。另外因为字体需要，爆肝（真的很惨）了一个活动字体变量fsx和fsy(我估计以后不会再添加这些恶心的东西了)，又花了一下午。另外修了一些小bug\n 添加了精简版（其实就是删了几个注释。。。），为了时它体积小一些、使用没那么繁琐（但是改起来就繁琐了）\n 本来8.1已经定稿了，后来想着觉得不对劲，8.18从重庆刚回来就干，总算把校准搞定了（我不会再弄他了。。。恶心。。。）另外完善了冻结窗口做法\n \n V2.6最后完成于2019.8.18\n \n \n \n \n #define 敬请期待! 楼主lz又偷懒了!\n \n";
+const string OptionsForge="[DoNOTModify]Identifier:ClickingVersonsV2.7-By LZ-\n[WindowPosition](left,width,top,heigh)\n4\n-1 -1 -1 -1\n[Trans;wOldColorAttrs;fsx;fsy;FocusVisible]\n5\n1 7 8 16 0\n[EOUT:EoutDelay,IDDTFP]\n2\n7 25\n[WindowVerson](<8:0;>7:1)\n1\n0\n[ProcessName](Format:*.exe)\n-1\nclicking!.exe\n"
+			,Verson="ClickingVersonsV2.7\nCreated by Lz\n"
+			,Licenses=" Version:\n \n ClickingVersonsV2.7\n Created by Lz\n \nLicense:\n \n ----------------------------------------------------------------\n Clicking_System()\n About{\n Create:lz\n Coded:V1.0 to latest:lz\n Debug:V1.0 to latest:lz\n Other license:\n //The first run will be interrupted because of the initialize of 'options.txt'.\n //Run _example() to learn to use or ask the editor.\n //You can edit it as you like,and you'd better tell lz about it.\n //I will be thankful if you discover any bug in it.\n \n PS:并没有装逼，都是自己翻的awa... \n \n --本程序(clicking)由linze原创，需要外传请通知作者，感谢配合！\n 如果你需要将其作为礼物或者仅仅作为交流用途发给别人，你只需注明原作者即可。\n （其实我也只是编来玩，没有谋求利益的意思，这还可以被更多人认可，为什么不呢？）\n 联系作者：qq:1612162886(验证信息注明你是通过程序备注找到的)；洛谷ID：43845（是OIer就来luogu啊）\n }\n \n **完整版**\n Help:[2019.7.19]\n 这个程序就是一个可DIY的拥有鼠标控制功能的程序，你可以通过鼠标来控制程序，告诉他你想干嘛，而不再使用键盘\n 教程稍稍冗(rǒng)长，请见谅！\n \n 接下来是教程：如果你是制作者，请看①；如果你是使用者，请看②。\n \n \n \n \n \n \n \n \n①：\n 	\n 	想要编一个属于自己的鼠标控制程序吗？？赶紧往下看吧！\n 	\n 	本程序包含三个板块：1.菜单写入器；2.菜单执行（选择）器；3.区域选择器。\n 	虽然程序里有很多别的干货，但是出于线程稳定和变量依赖考虑，不建议单独调用。\n 	\n 	☆数据公开：\n 	string Msbl[]={'|','*','#','+','',' ','  ','│','┃','┆','┇','┊','┋','╳','□','■','█','▌','○','●','☆','★','?','?','?'},Msbt[]={'-','*','#','+','',' ','  ','─','━','┄','┅','┈','┉','╳','□','■','█','▄','○','●','☆','★','?','?','?'};\n 	string Wdbdsl[]={'|','*','#','+',' ','!','?',''','.','+'},Wdbdst[]={'-','*','#','+',' ','!','?',''','.','='};\n 	const char Ch0[]='┼',Ch1[]='╋',En0[]='+',En1[]='*',Sp0[]='╬',Sp1[]='#';//光标形式 (1个半角或全角字符)\n 	\n 	//颜色参考 \n 	FOREGROUND_BLUE 0x1 蓝色字\n 	FOREGROUND_GREEN 0x2 绿色字\n 	FOREGROUND_RED 0x4 红色字\n 	FOREGROUND_INTENSITY 0x8（加亮）\n 	BACKGROUND_BLUE 0x10 蓝色背景\n 	BACKGROUND_GREEN 0x20 绿色背景\n 	BACKGROUND_RED 0x40 红色背景\n 	BACKGROUND_INTENSITY 0x80（加亮） \n 	\n 	\n 	★★★从这里开始就是如何编一个鼠标控制程序的过程了，跟着看下去包你看懂\n 	★Step1.\n 	1.void cwd(int wd,int wdbds,string wdtp,int cwl,int cwt,int cwr,int cwb)//window writing system窗口创建系统\n 	2.void cw(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,int cmdl,int cmmd,int cmbds,int cl)//menu writing system菜单写入系统*\n 	\n 	\n 	用法：cwd用于创建窗口，cw用于写入文字用于执行的菜单（也就是在屏幕上会显示的东西）\n 	☆注意要先创建才能写入\n 	解释:1:	wd：你的窗口编号（如果你只有一个窗口，你就写个1或者随便编个数）\n 	wdbds:你的窗口边框形式（可以在上面的Wdbdsl和Wdbdst选一对，他们是一一对应的，填写他们是数组中的第几个）\n 	wdtp:你的窗口标题（不用担心，程序已经帮你自动居中了，不过要注意不能超过窗口宽度）\n 	cwl:你的窗口左坐标（你的窗口显示出来时，左边框的坐标）\n 	cwt:你的窗口上坐标（全都同上）\n 	cwr:右坐标（全都同上）\n 	cwb:下坐标（全都同上）\n 	2:	wd:你的窗口编号（你创建的窗口的编号）\n 	x,y:文字的起始点坐标（是绝对坐标而不是相对窗口位置坐标）\n 	s:你的文字内容\n 	ct:文字值（就是你点击他的时候程序会返回一个什么值，如果想要他不返回（就是点它也没反应）就填0，不要填负数，因为负数是保留值）\n 	cm:它的注释，就是你的鼠标停留在上面时会弹出一个小窗口显示着（如果不要就填''，然后接下来cml,cmt,cmdl,cmmd,cmbds都可以填0）\n 	cml,cmt:注释的位置（绝对坐标），如果懒可以两个都填-1，程序会自动帮你分配\n 	cmdl:你的鼠标停留在上面过多少时间才显示注释（单位ms）\n 	cmmd:注释样式（0：默认；1:3D，2:闪电字幕（可以自己试试看））\n 	cmbds:注释边框模式（可以从Msbl和Msbt里面选一对，和窗口边框样式规则一样）\n 	cl:注释颜色（填写的时候可以填FOREGROUND_BLUE...也可以填0x1...，如果要混色的话在两个属性之间加个'|'）\n 	★Step2.\n 	1.void ent(int dl/*LEAST 50!*/,int wd,int ls,int wt)//menu choosing system starter菜单选择系统启动程序* \n 	\n 	用法：ent用于启动窗口选择主程序\n 	解释:1:dl:刷新间隔时间（就是这个程序多久反应一次（。。。），单位ms，建议不小于50ms）\n 	wd:窗口编号\n 	ls:返回值可持续性（就是你点击了一个有效选择（就是前面的ct>0）以后，如果ls=1，那么菜单会返回值后继续运行，否则他会返回值后退出）\n 	wt:是否启动线程（如果wt=1那么你要等这个菜单把值返回了，退出了，你的程序才能继续运行；如果wt=0，那么你的程序可以继续运行，而他会作为另外一个线程启动）\n 	\n 	★Step3.\n 	了解了主程序用法之后，介绍几个变量：\n 	1.Enabled(bool)		这个变量在选择程序运行时会变为true(1),退出时会变为false(0),但是，你可以在它运行时通过在你的主程序里更改Enabled为0来停止他\n 			☆☆☆为了防止乱码，程序末尾一定要记得Enabled=0；否则你会在屏幕上看到一堆字符，而且严重的会导致内存泄漏\n 	2.dqx,dqy(short int)	这两个是指当前光标所在的坐标（然而好像没什么用）\n 	3.ww(string)		这个字符串指的是窗口的排列顺序（由上到下指0~size()-1），不过因为不能引起及时刷新，所以建议只是读取而不要更改\n 	☆4.chv[](int[])	很多同学会疑问：既然是多线程，返回值我怎么获取？（我都为常规获取返回值的步骤感到恶心）不过别担心，我特地把所有返回值存进了这个数组里，既保障了分离运行，又可以可连续传值。\n 			要提取返回值时，chv[0]是总个数（如果它的值是0那么代表没有返回值）,可以用这样的语句:while(chv[0]==0)Sleep(100)或者执行你自己的语句，跳出循环后写一个xxx=chv[chv[0]--(一定要记得--)]便可以了\n 	☆5.ccv(int)		这个变量是指鼠标停留在的文字上的值（就算没有点下去也会取得到值），可以在循环中用if(ccv==...)执行\n 			设计这个变量主要有一个很有用的用途：如果它的值是某个文字的值，那么马上用cw在旁边写一句话（提示用），可以有效迅速地反馈\n 	☆6.tasks_sys[](int[])	因为多线程运行的时候如果你的程序在输出一个什么就会导致光标错位，所以想到了个办法\n 		这里要介绍几个函数：\n 		1.spclr(int wd)（用来显示窗口,wd是编号）\n 		2.wcrr(int wd)（用来删除一个窗口，然后被删除的窗口就会永久消失，除非你重新创建写入）\n 			因为有时候互动需要，可能要显示一个窗口或者删除一个窗口，所以添加了这个数组\n 			如果你要显示一个窗口:tasks_sys[++tasks_sys[0]]=窗口编号\n 			如果你要删除一个窗口:tasks_sys[++tasks_sys[0]]=窗口编号的相反数（就是加个负号）\n 	7.movable_sys[](bool[])	这个程序是可以拖动窗口的（尽管有点慢），如果你想要禁止你的窗口被移动，你可以调用lock(你的窗口编号)或者movable_sys[编号]=1;要解锁的话只需再调用一遍lock(编号)或movable_sys[编号]=0即可\n  8.fsx,fsy	这两个变量是指控制台的字体大小（宽，长；单位像素），可以在属性-字体-大小 查看。因技术有限，没有添加自动校准系统，如果要改需要在程序里改\n 	☆☆接下来的这些变量可以在options.txt修改（提示：options.txt会自动出现，无需理会）\n 	8.ial,iar,iat,iab	这四个变量是指窗口（是控制台，就是整个程序进程的窗口）的左、宽、上、高（注意顺序），如果不想调（懒+1）填四个-1即可\n 	9.Trans			(transparent 透明)，如果Trans=0，那么你将无法看到非焦点（就是在后面的）窗口。但是如果你的电脑严重卡顿，可以将其修改为0。\n 	10.wOldColorAttrs	(Window Old Color Attributes 窗口默认颜色属性)建议不要改，默认7，除非你想看到一个红色、蓝色、绿色为背景的窗口？\n 	11.EoutDelay		话说注释里面有个模式叫闪电字幕，而这个变量就是控制其输出快慢的（越大越慢），单位ms\n 	12.IDDTFP		(并不是缩写，我乱编的 停止注释偏移)当闪电字幕在输出的时候，如果你不想看了怎么办？是不是挪开鼠标？对的，你只需要挪开IDDTFP像素就可以停止了（所以你知道这是干嘛的了吧）\n 	13.WindowVerson		Win10用户注意了！\n 			话说从Win10开始，微软肥肠的贴心，为中国客户的Win10电脑里面的（退格符）一次退两格（为了防止把中文字切成两半）。\n 			但是这就把我的程序搞傻了，闪电字幕全都没掉，至今没找到两全之策。所以只能再加一个参数。如果你是Win10用户请把它改成1\n 	★附.\n 	前面介绍了有个函数叫区域选择器。不过因为这个函数我从V2左右就已经完成了，后来都没改过，本来不打算介绍。不过既然有点用处，也介绍一下。\n 	void cost(int left,int top,int right,int down,int &px,int &py)//area selecting区域选择* \n 	\n 	用法：屏幕会变黑，你需要在上面点上一下，就会显示十字准星，接着程序会返回你选择的坐标。可以用于区域选择\n 	解释：	left,top;right,down:选择的区域（如果超过这两个点那么他就不会显示十字准星）\n 	px，py：这两个变量是用于传回的，不需要有传入值，否则会被覆盖\n 	--由LZ编写 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n②：\n 	要使用一个鼠标控制程序很简单，几乎不需要用到键盘（如果你是编写者也建议你看一下） \n 	首先，你要根据程序提示，等到你看到你的鼠标下有一个'+'时代表你可以用鼠标了（如果编写者自定义了光标则另当别论） \n 	你如果要选择一个选项，你只需要点击那个文字即可。\n 	如果你想知道某个选项的帮助，1.把鼠标在上面停留一会看是否会弹出一个窗口（注释）；\n 	2.看看把鼠标停在上面时会不会在旁边（或者另一个窗口）显示一个什么 \n 	最后：这个程序好不好用其实取决于编写他的人，请遵照程序的提示。\n 	 --由LZ编写 \n 	 \n \n \n \nUpdate:\n \n --本程序(clicking)由linze原创，需要外传请通知作者，感谢配合！\n  \n V0.1/*首版*/\n congratulation!Clicking()函数诞生了，修复横竖不分显示现象，是Lz编的一个允许鼠标移动的C++程序哦！\n V1.0/*2019清明特辑*/\n 添加了中文插件，并确定和记录了初始窗口位置和颜色。\n V1.1\n Lz爆肝允许了窗口移动，修复了大部分BUG包括连点（但是他偷懒了），准备添加注释插件。\n V2.0/*2019清明特辑*/\n 冒着被*的危险，成功添加注释插件！注释功能多样，还具备即时刷新功能，快来探索吧！\n V2.1\n SetConsoleTextAttribute(OPhandle,0x20|0x80)启动！允许五颜六色的标签啦！\n V2.2\n 填充了标签，修复了超界漏洞（Debug程序越来越长了呵呵），还有让那个信息框识字（中文）。。。\n 因为psy建议，添加了防止win10的闪电字幕出现卡字现象的插件，添加了win10稳定模式\n V2.3\n 添加了窗口功能（当场吐血），现在知道xy轴混用的危害了（qwq抓了一星期臭虫）。另外抓了一个自添加注释就隐藏的bug，今天总算把它揪出来了——右移时一次跳两格。还精简了函数变量。。\n 还有一个惊讶地发现，clicking已经快炸内存了……119688kb（116.87890625MB），但是用电脑管家加速后剩396kb（不足1MB），有种扎心感觉\n V2.3开始可以公布了~AWA~，因为楼主的功能已经差不多了（好像也没啥好打了）\n V2.4\n V2.3没有考虑Trans的情况于是发现了一大堆新bug，决定再肝一场。。。配置也多了很多，可以不用改内置就改设置啦\n 决定2.3、2.4因为有bug，所以更改为2.5才公布。接下来还有V2.5版准备添加线程（速度嗖嗖的）\n V2.5\n 成功添加多线程，虽然给操作带来了巨大麻烦和巨多bug（好像每一次都有很多），但是成功为其可游戏操作奠基。添加了拖动取消功能和锁定窗口（不允许拖动）功能。\n 还特地肝了一个教程（lj）出来\n 虽然有些人认为现在图形库那么发达，随便用个java、VC，或者c++装个EGE、Box2D都比他好（其实我也想学），但是怎么说呢，有个能面向大众（懒awa）的鼠标控制程序还是挺有创意的吧。。。\n 如果有时间会将其转换为头文件，将正式公开V2.5[rep].rar\n V2.6\n 进行了小改\n 上次被我妈和刘姐姐测试了一下发现她们一拿到的反应——这个怎么用啊？(...)不过后来发现是因为中年人们使用鼠标习惯了用尖尖对准按钮，我们喜欢整个挪上去，所以进行了一些些改动。另外因为字体需要，爆肝（真的很惨）了一个活动字体变量fsx和fsy(我估计以后不会再添加这些恶心的东西了)，又花了一下午。另外修了一些小bug\n 添加了精简版（其实就是删了几个注释。。。），为了时它体积小一些、使用没那么繁琐（但是改起来就繁琐了）\n 本来8.1已经定稿了，后来想着觉得不对劲，8.18从重庆刚回来就干，总算把校准搞定了（我不会再弄他了。。。恶心。。。）另外完善了冻结窗口做法\n \n V2.6最后完成于2019.8.18\n \n \n \n \n #define 敬请期待! 楼主lz又偷懒了!\n \n";
+const string fileName="options.txt";
 const int Ath[15]={67,79,68,69,68,32,66,89,58,76,105,110,90,101,46};
-
-int Options[525][135],Optionstot,Optionstringtot,WinVer,Enabled;//输入数据，总数，Windows版本，线程是否启动，返回数据
-string Optionstring[105];
+//空间声明 
+struct CWCN{int dl,wd,ls;}tcwcn;/*线程传递数据 NEEDED*/ 
+int Options[525][135],Optionstot,Optionstringtot;//设置板块
+string Optionstring[105];/*options.txt<-VerVerify NEEDED*/ 
+char CTitle[1005];//程序窗口标题 
+string ww="";//窗口顺序
 int mxl,mxh;/*msgbox() NEEDED*/
-string ww=""/*当前窗口顺序*/;
-char cc;//调试getch()用 
+int Enabled;//线程是否启动
+char cc;//全局getch() 
+//API SYMBOL
+HWND hwnd=GetForegroundWindow();//主窗口句柄 
+HWND Chwnd=GetConsoleWindow();//控制台句柄 
+HANDLE OPhandle = GetStdHandle(STD_OUTPUT_HANDLE);//输出句柄 
+CONSOLE_SCREEN_BUFFER_INFO csbi;//窗口缓冲区信息 
+RECT rect;//窗口位置 
+LONG wOldLong=GetWindowLong(hwnd, GWL_STYLE);//窗口样式，用于隐藏标题 
+CONSOLE_CURSOR_INFO CursorInfo;//光标信息，用于隐藏光标 
+COORD buffersize={80,255};//缓冲区大小 
+
 
 //Function declare
 int INTSc(int linenum, int number);
-bool Form_load();
-bool VerVerify();
 bool Pr(char* fileName, int linenum,string ot);
 void gotoxy(int x,int y);
+bool Form_load();
+bool VerVerify();
 
 
-//API SYMBOL
-const HWND hwnd=GetForegroundWindow();
-const HANDLE OPhandle = GetStdHandle(STD_OUTPUT_HANDLE);
-RECT rect;
-LONG wOldLong=GetWindowLong(hwnd, GWL_STYLE);
-CONSOLE_CURSOR_INFO CursorInfo;
+//PRELOAD 请勿调换顺序！ 
+bool _VerVerify=VerVerify();//版本确认&设置读取 
+//常量 
+const int EoutDelay=INTSc(3,1),IDDTFP=INTSc(3,2),FV=INTSc(2,5),//闪电字幕延时(!>5) 注释终止偏移  窗口累积最大个数
+		  WDD=15,//窗口数量 
+		  WDLMT=205,//窗口大小（长边） 
+		  Trans=INTSc(2,1),wOldColorAttrs=INTSc(2,2),//非焦点窗口可见性  默认窗口文字颜色 
+		  WinVer=INTSc(4,1),//系统版本（用于修复Win10中文\b的双倍回格） 
+		  fsx=INTSc(2,3),fsy=INTSc(2,4);
+//主系统 
+short int 
+/*基础*/			cz_sys[WDD][WDLMT][WDLMT],cl_sys[WDD][WDLMT][WDLMT],
+/*注释系统*/		cml_sys[WDD][WDLMT][WDLMT],cmt_sys[WDD][WDLMT][WDLMT],cmmd_sys[WDD][WDLMT][WDLMT],cmdl_sys[WDD][WDLMT][WDLMT],cmbds_sys[WDD][WDLMT][WDLMT],
+/*由主线程加入任务*/tasks_sys[WDD*3],
+/*当前位置是否更新*/crif_sys[WDLMT][WDLMT],
+/*该窗口是否可移动*/movable_sys[WDD],
+/*窗口系统基础*/	wdl_sys[WDD],wdt_sys[WDD],wdr_sys[WDD],wdb_sys[WDD],
+/*返回值储存*/		chv[WDLMT*WDLMT],
+/*预读鼠标下文字*/	ccv,
+/*筛去空格*/		ccvn,
+/*当前光标位置*/	dqx,dqy,
+/*鼠标像素位置*/	ial=INTSc(1,1),iar=INTSc(1,2),iat=INTSc(1,3),iab=INTSc(1,4),
+/*边框宽度标题宽度*/BROAD=8,TOPBROAD=30;
+string 
+/*字符库*/	c_sys[WDD][WDLMT][WDLMT],
+/*注释库*/	cm_sys[WDD][WDLMT][WDLMT],
+/*窗口标题*/wdtp_sys[WDD];
+//4.8EDITMARK
+
+bool _Form_load=Form_load();//全局预加载 
 
 
-bool _VerVerify=VerVerify();
-const int EoutDelay=INTSc(3,1),IDDTFP=INTSc(3,2),WDD=15,WDLMT=205,Trans=INTSc(2,1),wOldColorAttrs=INTSc(2,2);//闪电字幕延时(!>5) 注释终止偏移  窗口累积最大个数 窗口数组大小  非焦点窗口可见性  默认窗口文字颜色 
-
-short int cz_sys[WDD][WDLMT][WDLMT],cml_sys[WDD][WDLMT][WDLMT],cmt_sys[WDD][WDLMT][WDLMT],cmmd_sys[WDD][WDLMT][WDLMT],cmdl_sys[WDD][WDLMT][WDLMT],cmbds_sys[WDD][WDLMT][WDLMT],cl_sys[WDD][WDLMT][WDLMT],tasks_sys[WDD*3],crif_sys[WDLMT][WDLMT],movable_sys[WDD];
-short int wdl_sys[WDD],wdt_sys[WDD],wdr_sys[WDD],wdb_sys[WDD],chv[WDLMT*WDLMT],ccv,ccvn,dqx,dqy;
-string c_sys[WDD][WDLMT][WDLMT],cm_sys[WDD][WDLMT][WDLMT],wdtp_sys[WDD];
-int ial=INTSc(1,1),iar=INTSc(1,2),iat=INTSc(1,3),iab=INTSc(1,4),BROAD=8,TOPBROAD=30,fsx=INTSc(2,3),fsy=INTSc(2,4);
-char CTitle[1005];
-//int wl=ial/fsx,wr=iar/fsx,wt=iat/fsy,wb=iab/fsy;
-const int lm=sqrt(sizeof(c_sys)/8/WDD)-5;
-bool _Form_load=Form_load();
-
-
-
-//LOADING AREA-------------------------------------
 
 inline int INTSc(int linenum, int number)
 {
+	if (_VerVerify)
 	return Options[linenum][number];//From the Options[][];
-/*
-	ifstream in(fileName);
-	if(!NoUnicode)
-	{
-		ifstream CHKN(fileName);
-		wchar_t chkn;
-		CHKN.read((char *)(&chkn), 2);
-		if(chkn==0xFFFE||chkn==0xFEFF){cout<<"UNC!";return -1;}
-	}
+	
+	
+	ifstream in(fileName.c_str());
 	int ans;string data;
-	for(int i=1;i<linenum;i++)getline(in,data);
-	for(int i=1;i<=number;i++)in>>ans;
+	for (int i=1;i<linenum&&in.peek()!=EOF;i++)getline(in,data);
+	for (int i=1;i<=number&&in.peek()!=EOF;i++)in>>ans;
 	in.close();
 	return ans;
-*/
 }
 inline bool Pr(char* fileName, int linenum,string ot)
 {
-	if(fileName=="*A")
+	if (fileName=="*A")
 	{
-		ofstream out("options.txt",ios::out);
+		ofstream out ("options.txt",ios::out);
 		out<<OptionsForge;
 		return out.is_open();
 	}
 	
-	ifstream in(fileName,ios::in);
+	ifstream in(fileName);
 	char data[511][128];int cnt=1;
-	while(in.peek()!=EOF)
+	while (in.peek()!=EOF)
 	{
-		in.getline(data[cnt],127);
+		in.getline (data[cnt],127);
 		cnt++;
 	}
 	in.close();
-	ofstream ou(fileName,ios::out);
-	for(int i=0;i<ot.size();i++)
+	ofstream out (fileName,ios::out);
+	for (int i=0;i<ot.size();i++)
 	data[linenum][i]=ot[i];
 	data[linenum][ot.size()]='\0';
-	for(int i=1;i<=cnt;i++)
-	ou<<data[i];
-	ou.close();
+	for (int i=1;i<=cnt;i++)
+	out<<data[i];
+	out.close();
 	return true;
 }
-/*UnicodeScanner (Already disabled)
-inline int UINTSc(char* fileName, int linenum, int number)
-{
-	ifstream in(fileName);
-	int ans;string anss;
-	wchar_t wch;
-	in.read((char *)(&wch), 2);
-	for(int i=0;i<linenum-1;)//Line positioning
-	{
-		in.read((char *)(&wch), 2);
-		if (wch == 0x000D)
-		{
-			in.read((char *)(&wch), 2);
-			i++;
-		}
-	}
-	for(int i=0;i<number-1;)//Space positioning
-	{
-		in.read((char *)(&wch), 2);
-		if ((char)wch == ' ')
-		{
-			i++;
-		}
-	}
-	for(int i=0;;)//Number positioning
-	{
-		in.read((char *)(&wch), 2);
-		if ((char)wch == ' ')
-		{
-			break;
-		}
-		else
-		{
-			ans*=10;
-			ans+=((char)wch)-48;
-		}
-	}
-	in.close();
-	return ans;
-}
-*/
-
 inline string HEXR(int k) //dec->hex
 {
 	string tmp="",ans="";
-    while(k)
+    while (k)
     {
     	tmp+=k%16<10?k%16+'0':k%16-10+'a';
         k/=16;
     }
-    for(int i=tmp.size()-1;i>=0;i--)
+    for (int i=tmp.size()-1;i>=0;i--)
     ans+=tmp[i];
     return ans;
 }
@@ -236,6 +218,8 @@ inline string StCh(int k)//转换数字为字符串
 }
 void FontSizer()	//调整字体大小（仅完整版包含） 
 {
+	//在options里面更改fsx和fsy可以改变，但是窗口会重新弹出，而且不是很稳定，不是特别需要就算了吧... 
+	//本来是当心坠物需要临时编的 
 	Pr((char*)"tmp.bat",1,"@echo off\nreg QUERY HKCU\\Console /v FontSize >que.txt");
 	system("tmp.bat");
 	ifstream in("que.txt",ios::in);
@@ -276,19 +260,19 @@ void FontSizer()	//调整字体大小（仅完整版包含）
 
 bool VerVerify()
 {
-	//Verson Verify
 	int Ln=2;
+	int ans,n;
+	char anss[64],ccc;
 	system("attrib -r -a options.txt");
 	ifstream in("options.txt");
-	int ans;char anss[64];
+	
+	//Verson Verify&Options Creating
 	in.getline(anss,64);
-	if(anss!=OptionsForge.substr(0,50))
+	if (anss!=OptionsForge.substr(0,50))
 	{
 		TD();
-		printf("The Options(options.txt) have not be initialize or it is broken!\a\n程序设置未初始化\n你需要重新启动程序来正常运行\n");
-		TDCyan();
-		printf("If you first get the progress,don't be afraid.Just RESTART.\n如果该提示重复出现，请联系Lz\n");
-		Rst:;
+		puts ("The Options(options.txt) have not be initialize or it is broken!\a\n程序设置未初始化");
+		Rst:;	//Reset Mark 
 		TRed();BDYellow();
 		cout<<"Please RESTART LATER\n请稍候重启该程序！\n";
 		BGreen();TDPink();
@@ -296,21 +280,21 @@ bool VerVerify()
 		if(!Pr((char*)"*A",0,""))
 		{
 			TDRed();
-			MessageBox(hwnd,"E.1:初始化错误","Process Erruption",MB_OK);
-			cout<<"Initialize faild\a\t[Any key to continue]\nPlease contact the author\n请重新获取";
+			if (MessageBox(Chwnd,"E1:初始化错误","Process Erruption",MB_RETRYCANCEL)==IDRETRY)
+			goto Rst;
+			cout<<"Initialize faild\a\t[Any key to continue]\n请联系lz询问原因";
 			char cc=getch();
 			in.close();
 			exit(0);
-			return 0;
 		}
 		TDGreen();
 		cout<<"Initialize succeed\t[Any key to continue]\n[任意键继续]\t";
 		char cc=getch();
 		in.close();
 		exit(0);
-		return 0;
 	}
-	int n;char ccc;
+	
+	//Read Options.txt
 	while(in.peek()!=EOF)
 	{
 		Optionstot++;
@@ -333,10 +317,10 @@ bool VerVerify()
 }
 bool Form_load()
 {
-	gotoxy(0,0);DD();
-//	system("chcp 936");//For the computer without the correct codepage 
+	DD();
+//	system("chcp 936");//有些电脑的codepage不对，所以显示不了中文，但是改过一次以后都不用了 
 	GetConsoleCursorInfo(OPhandle, &CursorInfo);//获取控制台光标信息
-	for(int w=0;w<WDD;w++)
+	for(int w=0;w<WDD;w++)//预处理背景 
 	for(int i=0;i<WDLMT;i++)
 	for(int j=0;j<WDLMT;j++)
 	{
@@ -344,19 +328,17 @@ bool Form_load()
 		c_sys[w][i][j]=" ";
 	}
 	
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	
 	GetConsoleScreenBufferInfo(OPhandle,&csbi);
-	COORD size={255,255};
-	SetConsoleScreenBufferSize(OPhandle,size);
-	WinVer=INTSc(4,1);
+	SetConsoleScreenBufferSize(OPhandle,buffersize);
 	GetWindowRect(hwnd,&rect);
 	if(ial==-1) ial=rect.left;
 	if(iar==-1) iar=rect.right;
 	if(iat==-1) iat=rect.top;
 	if(iab==-1) iab=rect.bottom;
-	ChWp(ial,iat,iar-ial,iab-iat);
-	GetWindowText(hwnd, CTitle, 1000);
-	FontSizer();
+	ChWp(ial,iat,iar-ial,iab-iat);//假如options中的窗口位置不是-1，那么移动窗口到指定位置 
+	GetWindowText(hwnd, CTitle, 1000);//获取窗口标题 
+//	FontSizer();//调整字体大小，可禁用 
 	system("cls");
 	return 1;
 }
@@ -370,105 +352,114 @@ inline void gotoxy(int x,int y)//cursor position setting光标位置设置
 
 void eout(string s,int sx,int sy)//Thank YYC for this code--lighting subtitles!闪电字幕 
 {
-  int i=0,m=0,p=EoutDelay;
-  char sds;sx++;
-  gotoxy(sx,sy);POINT pt;bool TKmoved;
-  TKmoved=KEY_DOWN(MOUSE_MOVED);GetCursorPos(&pt);
-  int nwpx=pt.x,nwpy=pt.y;
-  while(i<s.size()&&!(max(abs(pt.x-nwpx),abs(pt.y-nwpy))>IDDTFP||KEY_DOWN(MOUSE_MOVED)!=TKmoved))
-   {
-       if (s[i]==Endnp)
-        {
-          if (s[i-1]>0)
-           cout<<' ';
-           sy++;
-           gotoxy(sx,sy);
-        }
-       if (s[i]!=Endnp)
-        {
-          cout<<'|';
-          if (!kbhit())
-           Sleep(p);
-          cout<<"\b┃";
-          if (!kbhit())
-           Sleep(p);
-          if(WinVer)cout<<"\b ▊";
-          else cout<<"\b\b ▊";
-          if (!kbhit())
-           Sleep(p);
-          if (kbhit() && i%3==0)
-           sds=getch();
-          if (s[i]<0)
-           {
-             cout<<"\b\b\b"<<s[i]<<s[i+1];
-             i++;
-           }
-          else
-           cout<<"\b\b\b"<<s[i];
-        }
-     i++;
-     if (!kbhit())
-      Sleep(p);
-  Sleep(p);GetCursorPos(&pt);
-   }
-   cout<<" \b";
-   return;
+	int i=0,m=0,p=EoutDelay;//调速 
+	POINT pt;//这个用于检测鼠标是否已经离开了一定范围（临时中断）
+	bool TKmoved;//这个用于检测鼠标是否点击（也要临时中断） 
+	char sds;
+	sx++;//sx，sy这两个参数是为了配合msgbox的指定位置输出 ,但是sx有1单位偏移 
+	gotoxy(sx,sy);
+	TKmoved=KEY_DOWN(MOUSE_MOVED);
+	GetCursorPos(&pt);
+	int nwpx=pt.x,nwpy=pt.y;
+	while(i<s.size() && !( max(abs(pt.x-nwpx),abs(pt.y-nwpy))>IDDTFP || KEY_DOWN (MOUSE_MOVED)!=TKmoved))
+	{
+		if (s[i]==Endnp)
+		{
+			if (s[i-1]>0)
+			cout<<' ';
+			sy++;
+			gotoxy(sx,sy);
+		}
+		if (s[i]!=Endnp)
+		{
+			cout<<'|';
+			if (!kbhit())Sleep(p);
+			cout<<"\b┃";
+			if (!kbhit())Sleep(p);
+			if (WinVer)cout<<"\b ▊";
+			else cout<<"\b\b ▊";
+			if (!kbhit())Sleep(p);
+			if (kbhit() && i%3==0)sds=getch();
+			if (s[i]<0)
+			{
+				cout<<"\b\b\b"<<s[i]<<s[i+1];
+				i++;
+			}
+			else
+			cout<<"\b\b\b"<<s[i];
+		}
+		i++;
+		if (!kbhit())Sleep(p);
+		Sleep(p);
+		GetCursorPos(&pt);
+	}
+	cout<<" \b";
+	return;
 }
 void cost(int left,int top,int right,int down,int &px,int &py)//area selecting区域选择* 
 {
-	Sleep(10);
+	//这是clicking的最早期版本，原来用于选择一个范围，作为窗口的大小，只是暂时不需要了 
+	POINT pt;int o=0;
 	system("mode con cols=175 lines=50");
 	ChWp(0,0,1600,900);
-	POINT pt;int o=0;
 	while(!o)
 	{
 		while(KEY_DOWN(MOUSE_MOVED))
 		{
 			system("cls");GetCursorPos(&pt);
-			if(pt.x/fsx<left||pt.y/fsy<top||pt.x/fsx>right||pt.y/fsy>down)continue;
-			px=pt.x/fsx;py=pt.y/fsy;gotoxy(pt.x/fsx-2,pt.y/fsy-2);
-			cout<<Sp0;gotoxy(pt.x/fsx-2,pt.y/fsy-1);
-			cout<<pt.x/fsx<<"*"<<pt.y/fsy;o=1;Sleep(50);
+			if (pt.x/fsx<left || pt.y/fsy<top || pt.x/fsx>right || pt.y/fsy>down)continue;
+			px=pt.x/fsx,py=pt.y/fsy;
+			gotoxy (pt.x/fsx-2,pt.y/fsy-2);
+			cout<<Sp0;
+			gotoxy(pt.x/fsx-2,pt.y/fsy-1);
+			cout<<pt.x/fsx<<"*"<<pt.y/fsy;
+			o=1;Sleep(50);
 			gotoxy(pt.x/fsx-2,pt.y/fsy-2);cout<<"  ";
 			gotoxy(pt.x/fsx-2,pt.y/fsy-1);cout<<"        ";
 		}
 	}
-	system("cls");cout<<"select area:"<<px<<"*"<<py<<endl;
-	Sleep(1000);ChWp(rect.left,rect.top,rect.right-rect.left,rect.bottom-rect.top);
+	system("cls");cout<<"select area:"<<px<<"*"<<py<<endl;//px,py是选择的范围 
+	Sleep(1000);
+	ChWp(rect.left,rect.top,rect.right-rect.left,rect.bottom-rect.top);
 	return;
 }
 void clr(int sx,int sy,int ex,int ey,int wd)
 //explain:from(sx,sy)to(ex,ey)
 {
-	int bs;WORD TMPCL=0;
-	for(int i=sx;i<=ex;i++)
+	int bs;
+	string tmp;
+	for (int i=sx;i<=ex;i++)
 	{
 		gotoxy(sy,i);
-		for(int j=sy;j<=ey;j++)
+		for (int j=sy;j<=ey;j++)
 		{
 			bs=0;
-			for(int ii=0;ii<ww.size();ii++)
-			if(Trans&&j>=wdl_sys[ww[ii]-'0']&&j<=wdr_sys[ww[ii]-'0']&&i>=wdt_sys[ww[ii]-'0']&&i<=wdb_sys[ww[ii]-'0'])
+			if (Trans)
+			for (int ii=0;ii<ww.size();ii++)
+			if (j>=wdl_sys[ww[ii]-'0'] && j<=wdr_sys[ww[ii]-'0'] && i>=wdt_sys[ww[ii]-'0'] && i<=wdb_sys[ww[ii]-'0'])//判断当前位置属于窗口
+			//wd 焦点窗口，bs当前位置窗口 
 			{
-				bs=ww[ii]-'0';break;
+				bs=ww[ii]-'0';
+				break;
 			}
-			if(bs==0)bs=wd;
-			if(cz_sys[bs][i][j]!=-1)
+			if (bs==0)bs=wd;
+			if (cz_sys[bs][i][j]!=-1)//这是个全角字符 
 			{
-				SetConsoleTextAttribute(OPhandle,cl_sys[bs][i][j]);
-				printf("%s",c_sys[bs][i][j].c_str());
-				if(c_sys[bs][i][j].size()==2)j++;
+				SetConsoleTextAttribute (OPhandle,cl_sys[bs][i][j]);
+				printf ("%s",c_sys[bs][i][j].c_str());
+				if (c_sys[bs][i][j].size()==2)j++;
 			}
 			else
 			{
-				SetConsoleTextAttribute(OPhandle,cl_sys[bs][i][j-1]);
-				printf("\b%s",c_sys[bs][i][j-1].c_str());
+				SetConsoleTextAttribute (OPhandle,cl_sys[bs][i][j-1]);
+				printf ("\b%s",c_sys[bs][i][j-1].c_str());
 			}
 		}
 	}
 	gotoxy(0,0);
 	return;
 }
+//4.10EDITMARK
 void wcrr(int k)
 {
 	for(int i=0;i<WDLMT;i++)
@@ -816,6 +807,10 @@ void* chw(void* cwcn)//menu choosing system菜单选择系统*
 					
 			if(cz_sys[wd][(pt.y-iat)/fsy][(pt.x-ial)/fsx]>0)
 			{
+				gotoxy(dqx,dqy);
+				if(c_sys[bs][dqy][dqx].size()>1)
+				cout<<Ch1;
+				else cout<<En1;
 				while(KEY_DOWN(MOUSE_MOVED))Sleep(dl);
 				clr(cml_sys[wd][dqy][dqx],cmt_sys[wd][dqy][dqx],cml_sys[wd][dqy][dqx]+mxh,cmt_sys[wd][dqy][dqx]+mxl,wd);
 				gotoxy(dqx,dqy);
@@ -931,18 +926,27 @@ void* chw(void* cwcn)//menu choosing system菜单选择系统*
 			{
 				SetConsoleTextAttribute(OPhandle,(WORD)cl_sys[bs][dqy][dqx]);
 				gotoxy(dqx,dqy);
-				if(c_sys[bs][dqy][dqx].size()>1)
-				cout<<Ch1;
-				else cout<<En1;
+				{
+					if(c_sys[bs][dqy][dqx].size()>1)
+					cout<<Ch1;
+					else cout<<En1;
+				}
 			}
 		}
 		else
 		{
 			SetConsoleTextAttribute(OPhandle,(WORD)cl_sys[bs][dqy][dqx]);
 			gotoxy(dqx,dqy);
-			if(c_sys[bs][dqy][dqx].size()>1)
-			cout<<Ch0;
-			else cout<<En0;
+			if(FV==0)
+			{
+				cout<<c_sys[bs][dqy][dqx];
+			}
+			else
+			{
+				if(c_sys[bs][dqy][dqx].size()>1)
+				cout<<Ch0;
+				else cout<<En0;
+			}
 		}
 		if(cz_sys[bs][dqy][dqx]>0)ccv=cz_sys[bs][dqy][dqx];		//有效值
 		if(cz_sys[bs][dqy][dqx]!=-1)ccvn=cz_sys[bs][dqy][dqx];	//即时值
@@ -999,7 +1003,7 @@ void _example()
 // cout<<"select player area:\n(click it!)";cost(10,10,75,45,a,b);system("cls");
 cwd(1,0,"EXAMPLE",0,0,33,20);
 cwd(3,2,"提示",35,0,55,20);
-system("mode con cols=80 lines=25");
+//system("mode con cols=80 lines=25");//Warn 
  cw(1,1,1,"-------------菜单-------------",0,"看我干嘛awa}我只是一个标题...",-1,-1,1000,1,3,0x2|0x8);
  cw(1,3,15,"开始play",1,"点此来开始游戏}等等，楼主还没放游戏呢qwq",-1,-1,0,1,0,0x4|0x1|0x8|0x80|0x20);
  cw(1,6,15,"退出exit",2,"单击退出",-1,-1,0,0,0,wOldColorAttrs);
@@ -1068,7 +1072,11 @@ system("mode con cols=80 lines=25");
  
 }
 int main()
-{
+{ 
+//检测滚轮动作 
+//当鼠标移出窗口外时挂起进程 
+//	_example();
+//	return 0;
 	cout<<"这是样例程序！\n(当前字体)"<<fsx<<" "<<fsy<<endl;
 	cout<<"获得更多帮助请按 H \n观看实例请按 E \n";
 	char cc=getch();
