@@ -5,7 +5,7 @@
 #include<conio.h>
 //#include <process.h>
 using namespace std;
-
+int rf=0,tot;
 
 extern "C"
 {
@@ -39,9 +39,9 @@ int n;
 system("cls");
 	system("mode con cols=30 lines=5");
 	printf("在若干秒后提醒我并停止：(输入-1则不提醒) ");
-	if (fold[2][0]=='-') n=-1;
-	else if (fold[2]!="") n=cd (fold[2]),printf("%d",n);
-	else scanf("%d",&n);
+	if (fold[++rf][0]=='-') n=-1;
+	else if (fold[rf]!="") n=cd (fold[rf]),printf("%d",n);
+	else scanf("%d",&n),rf--;
 	
 	while(n)
 	{
@@ -68,7 +68,6 @@ void lr()
     OPhandle = GetStdHandle(STD_OUTPUT_HANDLE);
     if(!GetConsoleScreenBufferInfo(OPhandle, &bufInfo))
         return;
-
     scroll.Left = 0;
     scroll.Top = bufInfo.dwCursorPosition.Y;
     scroll.Right = bufInfo.dwSize.X;
@@ -88,14 +87,14 @@ void timer()
 int s=0,tt=0,tp[1005],tpms[1005],tans=0,i,o=0;
 system("cls");
 int start=0,end=0,line=3;
+HANDLE OPHANDLE=GetStdHandle(STD_OUTPUT_HANDLE);
 	system("mode con cols=50 lines=25");
 	printf("准备就绪\n任意键开始，开始后任意键计次，ESC停止\n");
 	char cc;
-	if(fold[2]!="start_now")cc=getch();
+	if(fold[++rf]!="start_now")cc=getch(),rf--;
 	start=clock();
 	cout<<"\a\n";
 	end=clock();
-	HANDLE OPHANDLE=GetStdHandle(STD_OUTPUT_HANDLE);
 	for(i=1;!o;i++)
 	{
 		tt=0;
@@ -195,19 +194,19 @@ string st[1005];
 int cnt=0,o=0;
 system("cls");
 	cout<<"请输入执行命令\nEOF结束\n";
-	int rf=1,UNAC=0;
+	int UNAC=0;
 	while(fold[++rf]!="EOF"&&fold[rf]!="")
 	{
 		cout<<fold[rf]<<endl;
 		st[++cnt]=fold[rf];
+		if (st[cnt]=="/unac"||st[cnt]=="-unac"||st[cnt]==".unac"||st[cnt]=="unac"||st[cnt]=="UNAC") puts("UNAC=1"),UNAC=1;
 	}
-	if(fold[rf]=="EOF")cnt++;
-	if(rf==2)
+	
+	if(fold[rf]!="EOF")
 	while(st[cnt]!="EOF")
 	{
 		getline(cin,st[++cnt]);
 		if (st[cnt]=="/unac"||st[cnt]=="-unac"||st[cnt]==".unac"||st[cnt]=="unac"||st[cnt]=="UNAC") puts("UNAC=1"),UNAC=1;
-		
 	}
 	int _getpid( void );
 	time_t t = time(0);
@@ -217,11 +216,11 @@ system("cls");
 	int h,m,s;
 	cout<<"目标启动时间(hh:mm:ss)?\nWarning:只限当天内,至少2min\n";
 	if(fold[++rf]!="")h=cd (fold[rf]);
-	else printf("h参数读取错误\n"),o=1;
+	else rf--,o=1;
 	if(fold[++rf]!="")m=cd (fold[rf]);
-	else printf("m参数读取错误\n"),o=1;
+	else rf--,o=1;
 	if(fold[++rf]!="")s=cd (fold[rf]);
-	else printf("s参数读取错误\n"),o=1;
+	else rf--,o=1;
 	if(!o) printf("%d:%d:%d",h,m,s),Sleep(1000);
 	if (o)scanf("%d:%d:%d",&h,&m,&s);
 	if(((h-((tmp[11]-'0')*10+tmp[12]-'0'))*3600+(m-((tmp[14]-'0')*10+tmp[15]-'0'))*60+(s-((tmp[17]-'0')*10+tmp[18]-'0')))*1000<0)
@@ -235,9 +234,8 @@ system("cls");
 		}
 		else
 		{
-			Sleep(500);
 			printf("Exit when command exists\n");
-			Sleep(100);
+			Sleep(500);
 			exit(1);
 		}
 	}
@@ -310,19 +308,18 @@ void ep()
 int k,kl,p,o;
 char cc;
 bool tl;
-int rf=1;
 system("mode con cols=40 lines=8");
 	cout<<"自动休息提醒器\n输入你想自动休息的间隔时间：(分钟)";
 	o=0;
-	if (fold[++rf]!="")k=cd (fold[rf]),o=1,cout<<k<<endl;
-	else printf("\n未检测到参数\n");
+	if (fold[++rf]!="")k=cd (fold[rf]),o=1,cout<<k<<endl;else rf--;
+//	else printf("\n未检测到参数\n");
 	if(!o)scanf("%d",&k);k=max(1,k);
 //	while(k<3){printf("输入不合法!\n");scanf("%d",&k);}
 	
 	cout<<"输入你想休息的时间：(分钟)";
 	o=0;
-	if (fold[++rf]!="")kl=cd (fold[rf]),o=1,cout<<kl<<endl;
-	else printf("\n未检测到参数\n");
+	if (fold[++rf]!="")kl=cd (fold[rf]),o=1,cout<<kl<<endl;else rf--;
+//	else printf("\n未检测到参数\n");
 	if(!o)scanf("%d",&kl);
 	
 	o=0;
@@ -331,14 +328,14 @@ system("mode con cols=40 lines=8");
 	{
 		if (fold[rf][0]=='-')p=-1,o=1,cout<<p<<endl;
 		else p=cd (fold[rf]),o=1,cout<<p<<endl;
-	}
-	else printf("\n未检测到参数\n");
+	}else rf--;
+//	else printf("\n未检测到参数\n");
 	if(!o) scanf("%d",&p);
 	
 	o=0;
 	cout<<"我怎么提醒你呢？(1锁定电脑\\0不动作)";
-	if (fold[++rf]!="")tl=cd (fold[rf]),o=1,cout<<tl<<endl;
-	else printf("\n未检测到参数\n");
+	if (fold[++rf]!="")tl=cd (fold[rf]),o=1,cout<<tl<<endl;else rf--;
+//	else printf("\n未检测到参数\n");
 	if(!o) cin>>tl;
 	cout<<"任意键开始!\n";
 	
@@ -351,6 +348,7 @@ system("mode con cols=40 lines=8");
 	system("cls");
 	while(p!=0)
 	{
+		A:;
 		printf("开始吧！\a\a\a\n");
 		p--;
 		for(int i=k*60;i>0;i--)
@@ -359,8 +357,8 @@ system("mode con cols=40 lines=8");
 			{
 //				眼保健操(4min 以内)
 				printf("\a");
-				MessageBox(GetForegroundWindow(),"要加油啊蒟蒻",&tmp[0],MB_OK);
-				MessageBox(GetForegroundWindow(),"休息时间\n记得先进入下一节课哦",&tmp[0],MB_OK);
+				/*MessageBox(GetForegroundWindow(),"要加油啊蒟蒻",&tmp[0],MB_OK);*/
+				MessageBox(GetForegroundWindow(),"休息时间",&tmp[0],MB_OK);/*\n记得先进入下一节课哦*/
 				system("start .\\眼保健操.mp4") ;
 //				system(".\\混合版眼保健操.mp4") ;
 			}
@@ -381,38 +379,48 @@ system("mode con cols=40 lines=8");
 					printf("暂停中...\n离下一次休息还有%d分钟...\n",i/60+(i%60>0));
 					system("pause");
 					system("cls");
-					printf("开始工作吧！\n");
+					printf("开始吧！\n");
 				}
 			}
 		}
 		Sleep(max(kl*60*1000,0));
 		system("cls");
 	}
-	printf("\a工作结束！\n");
-	MessageBox(GetForegroundWindow(),"工作结束",&tmp[0],MB_OK);
+	printf("\a结束！\n");
+	if(MessageBox(GetForegroundWindow(),"计时结束了",&tmp[0],MB_RETRYCANCEL)==4)
+	{
+		puts("重新启动中");
+		p++;
+		goto A;
+	}
 	if(rf<5)getch();
 	return;
 }
+//#pragma comment( linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"" ) 
+
 int main(int argc,char* argv[])
 {
 char cc=27;
-int fun;
-	if(argc>1)
+int fun;//cout<<argv[++rf]<<endl;system("pause");
+	cout<<argc<<endl;
+	if(argc>rf&&argv[++rf]!=0&&(string)argv[rf]=="hide") ShowWindow(GetForegroundWindow(), 0); 
+	if(argc>rf)
 	{
-		puts("参数提示：timer_task.exe [1\\2\\3\\4] [argument1:item;item...] [argument2:...] [start_now]");
-		string f=argv[1];
+		puts("参数提示：timer_task.exe [hide] [1\\2\\3\\4] [argument1:item;item...] [argument2:...] [start_now]");
+		string f=argv[++rf];
 		if(f[0]<'1'||f[0]>'4')
 		{
 			puts("invalid command!");
 			system("pause");
 		}
 		else fun=f[0];
-		printf("argument 1:%s\n",argv[1]);
-		for(int i=2;i<argc;i++)
+//		printf("argument 1:%s\n",argv[1]);
+		for(int i=0;i<argc;i++)
 		{
-			printf("argument %d:%s\n",i,argv[i]);
+//			printf("argument %d:%s\n",i,argv[i]);
 			fold[i]=argv[i];
 		}
+		tot=argc;
 		switch(fun)
 		{
 			case '1':
@@ -428,7 +436,7 @@ int fun;
 				ep();
 			break;
 			case '#':
-				puts("命令行参数：timer_task.exe [1\\2\\3\\4] [argument1:item;item...] [argument2:...] [start_now]");
+				puts("命令行参数：timer_task.exe [hide] [1\\2\\3\\4] [argument1:item;item...] [argument2:...] [start_now]");
 			break;
 			default:
 				return 0;
