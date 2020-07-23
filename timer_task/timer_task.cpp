@@ -402,8 +402,8 @@ int main(int argc,char* argv[])
 {
 char cc=27;
 int fun;//cout<<argv[++rf]<<endl;system("pause");
-	cout<<argc<<endl;
-	if(argc>rf&&argv[++rf]!=0&&(string)argv[rf]=="hide") ShowWindow(GetForegroundWindow(), 0); 
+//	cout<<argc<<endl;
+	if(argc>rf&&argv[++rf]!=""&&(string)argv[rf]=="hide") ShowWindow(GetForegroundWindow(), 0);  else rf--;
 	if(argc>rf)
 	{
 		puts("参数提示：timer_task.exe [hide] [1\\2\\3\\4] [argument1:item;item...] [argument2:...] [start_now]");
