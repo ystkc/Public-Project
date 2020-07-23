@@ -22,8 +22,8 @@ PS:²¢Ã»ÓĞ×°±Æ£¬¶¼ÊÇ×Ô¼º·­µÄawa...
 
 
 #include<cstdio>
-bool NXYD() {puts("³õ´Î¼ûÃæ£¬ÄÍĞÄÒ»µã");}
-bool CCJM=NXYD();
+//bool NXYD() {puts("Ö÷³ÌĞòÕıÔÚÈ«ËÙ¼ÓÔØ...");}
+//bool CCJM=NXYD();
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -89,11 +89,12 @@ string Msbl[]={"|","*","#","+",""," ","  ","©¦","©§","©ª","©«","©®","©¯","¨w","¡
 string Wdbdsl[]={"|","*","#","+"," ","!","?","'",".","+"}
 	  ,Wdbdst[]={"-","*","#","+"," ","!","?","'",".","="};
 const char Ch0[]="©à",Ch1[]="©ï",En0[]="+",En1[]="*",Sp0[]="¨p",Sp1[]="#";//¹â±êĞÎÊ½ (1¸ö°ë½Ç»òÈ«½Ç×Ö·û)
-const string OptionsForge="[DoNOTModify]Identifier:ClickingVersonsV2.7-By LZ-\n[WindowPosition](left,width,top,heigh)\n4\n-1 -1 -1 -1\n[Trans;wOldColorAttrs;fsx;fsy;FocusVisible]\n5\n1 7 8 16 0\n[EOUT:EoutDelay,IDDTFP]\n2\n7 25\n[WindowVerson](<8:0;>7:1)\n1\n0\n[ProcessName](Format:*.exe)\n-1\nclicking!.exe\n"
+const string OptionsForge="[DoNOTModify]Identifier:ClickingVersonsV2.7-By LZ-\n[WindowPosition](left,width,top,heigh)\n4\n-1 -1 -1 -1\n[Trans;wOldColorAttrs;fsx;fsy;FocusVisible]\n5\n1 7 8 16 0\n[EOUT:EoutDelay,IDDTFP]\n2\n7 25\n[WindowVerson](<8:0;>7:1)\n1\n0\n[ProcessName](Format:*.exe)\n-1\nclicking!.exe\n[FontSize](Format:a1 b1 a2 b2...)\n0\n"
 			,Verson="ClickingVersonsV2.7\nCreated by Lz\n"
 			,Licenses=" Version:\n \n ClickingVersonsV2.7\n Created by Lz\n \nLicense:\n \n ----------------------------------------------------------------\n Clicking_System()\n About{\n Create:lz\n Coded:V1.0 to latest:lz\n Debug:V1.0 to latest:lz\n Other license:\n //The first run will be interrupted because of the initialize of 'options.txt'.\n //Run _example() to learn to use or ask the editor.\n //You can edit it as you like,and you'd better tell lz about it.\n //I will be thankful if you discover any bug in it.\n \n PS:²¢Ã»ÓĞ×°±Æ£¬¶¼ÊÇ×Ô¼º·­µÄawa... \n \n --±¾³ÌĞò(clicking)ÓÉlinzeÔ­´´£¬ĞèÒªÍâ´«ÇëÍ¨Öª×÷Õß£¬¸ĞĞ»ÅäºÏ£¡\n Èç¹ûÄãĞèÒª½«Æä×÷ÎªÀñÎï»òÕß½ö½ö×÷Îª½»Á÷ÓÃÍ¾·¢¸ø±ğÈË£¬ÄãÖ»Ğè×¢Ã÷Ô­×÷Õß¼´¿É¡£\n £¨ÆäÊµÎÒÒ²Ö»ÊÇ±àÀ´Íæ£¬Ã»ÓĞÄ±ÇóÀûÒæµÄÒâË¼£¬Õâ»¹¿ÉÒÔ±»¸ü¶àÈËÈÏ¿É£¬ÎªÊ²Ã´²»ÄØ£¿£©\n ÁªÏµ×÷Õß£ºqq:1612162886(ÑéÖ¤ĞÅÏ¢×¢Ã÷ÄãÊÇÍ¨¹ı³ÌĞò±¸×¢ÕÒµ½µÄ)£»Âå¹ÈID£º43845£¨ÊÇOIer¾ÍÀ´luogu°¡£©\n }\n \n **ÍêÕû°æ**\n Help:[2019.7.19]\n Õâ¸ö³ÌĞò¾ÍÊÇÒ»¸ö¿ÉDIYµÄÓµÓĞÊó±ê¿ØÖÆ¹¦ÄÜµÄ³ÌĞò£¬Äã¿ÉÒÔÍ¨¹ıÊó±êÀ´¿ØÖÆ³ÌĞò£¬¸æËßËûÄãÏë¸ÉÂï£¬¶ø²»ÔÙÊ¹ÓÃ¼üÅÌ\n ½Ì³ÌÉÔÉÔÈß(r¨¯ng)³¤£¬Çë¼ûÁÂ£¡\n \n ½ÓÏÂÀ´ÊÇ½Ì³Ì£ºÈç¹ûÄãÊÇÖÆ×÷Õß£¬Çë¿´¢Ù£»Èç¹ûÄãÊÇÊ¹ÓÃÕß£¬Çë¿´¢Ú¡£\n \n \n \n \n \n \n \n \n¢Ù£º\n 	\n 	ÏëÒª±àÒ»¸öÊôÓÚ×Ô¼ºµÄÊó±ê¿ØÖÆ³ÌĞòÂğ£¿£¿¸Ï½ôÍùÏÂ¿´°É£¡\n 	\n 	±¾³ÌĞò°üº¬Èı¸ö°å¿é£º1.²Ëµ¥Ğ´ÈëÆ÷£»2.²Ëµ¥Ö´ĞĞ£¨Ñ¡Ôñ£©Æ÷£»3.ÇøÓòÑ¡ÔñÆ÷¡£\n 	ËäÈ»³ÌĞòÀïÓĞºÜ¶à±ğµÄ¸É»õ£¬µ«ÊÇ³öÓÚÏß³ÌÎÈ¶¨ºÍ±äÁ¿ÒÀÀµ¿¼ÂÇ£¬²»½¨Òéµ¥¶Àµ÷ÓÃ¡£\n 	\n 	¡îÊı¾İ¹«¿ª£º\n 	string Msbl[]={'|','*','#','+','',' ','  ','©¦','©§','©ª','©«','©®','©¯','¨w','¡õ','¡ö','¨€','¨„','¡ğ','¡ñ','¡î','¡ï','?','?','?'},Msbt[]={'-','*','#','+','',' ','  ','©¤','©¥','©¨','©©','©¬','©­','¨w','¡õ','¡ö','¨€','¨{','¡ğ','¡ñ','¡î','¡ï','?','?','?'};\n 	string Wdbdsl[]={'|','*','#','+',' ','!','?',''','.','+'},Wdbdst[]={'-','*','#','+',' ','!','?',''','.','='};\n 	const char Ch0[]='©à',Ch1[]='©ï',En0[]='+',En1[]='*',Sp0[]='¨p',Sp1[]='#';//¹â±êĞÎÊ½ (1¸ö°ë½Ç»òÈ«½Ç×Ö·û)\n 	\n 	//ÑÕÉ«²Î¿¼ \n 	FOREGROUND_BLUE 0x1 À¶É«×Ö\n 	FOREGROUND_GREEN 0x2 ÂÌÉ«×Ö\n 	FOREGROUND_RED 0x4 ºìÉ«×Ö\n 	FOREGROUND_INTENSITY 0x8£¨¼ÓÁÁ£©\n 	BACKGROUND_BLUE 0x10 À¶É«±³¾°\n 	BACKGROUND_GREEN 0x20 ÂÌÉ«±³¾°\n 	BACKGROUND_RED 0x40 ºìÉ«±³¾°\n 	BACKGROUND_INTENSITY 0x80£¨¼ÓÁÁ£© \n 	\n 	\n 	¡ï¡ï¡ï´ÓÕâÀï¿ªÊ¼¾ÍÊÇÈçºÎ±àÒ»¸öÊó±ê¿ØÖÆ³ÌĞòµÄ¹ı³ÌÁË£¬¸ú×Å¿´ÏÂÈ¥°üÄã¿´¶®\n 	¡ïStep1.\n 	1.void cwd(int wd,int wdbds,string wdtp,int cwl,int cwt,int cwr,int cwb)//window writing system´°¿Ú´´½¨ÏµÍ³\n 	2.void cw(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,int cmdl,int cmmd,int cmbds,int cl)//menu writing system²Ëµ¥Ğ´ÈëÏµÍ³*\n 	\n 	\n 	ÓÃ·¨£ºcwdÓÃÓÚ´´½¨´°¿Ú£¬cwÓÃÓÚĞ´ÈëÎÄ×ÖÓÃÓÚÖ´ĞĞµÄ²Ëµ¥£¨Ò²¾ÍÊÇÔÚÆÁÄ»ÉÏ»áÏÔÊ¾µÄ¶«Î÷£©\n 	¡î×¢ÒâÒªÏÈ´´½¨²ÅÄÜĞ´Èë\n 	½âÊÍ:1:	wd£ºÄãµÄ´°¿Ú±àºÅ£¨Èç¹ûÄãÖ»ÓĞÒ»¸ö´°¿Ú£¬Äã¾ÍĞ´¸ö1»òÕßËæ±ã±à¸öÊı£©\n 	wdbds:ÄãµÄ´°¿Ú±ß¿òĞÎÊ½£¨¿ÉÒÔÔÚÉÏÃæµÄWdbdslºÍWdbdstÑ¡Ò»¶Ô£¬ËûÃÇÊÇÒ»Ò»¶ÔÓ¦µÄ£¬ÌîĞ´ËûÃÇÊÇÊı×éÖĞµÄµÚ¼¸¸ö£©\n 	wdtp:ÄãµÄ´°¿Ú±êÌâ£¨²»ÓÃµ£ĞÄ£¬³ÌĞòÒÑ¾­°ïÄã×Ô¶¯¾ÓÖĞÁË£¬²»¹ıÒª×¢Òâ²»ÄÜ³¬¹ı´°¿Ú¿í¶È£©\n 	cwl:ÄãµÄ´°¿Ú×ó×ø±ê£¨ÄãµÄ´°¿ÚÏÔÊ¾³öÀ´Ê±£¬×ó±ß¿òµÄ×ø±ê£©\n 	cwt:ÄãµÄ´°¿ÚÉÏ×ø±ê£¨È«¶¼Í¬ÉÏ£©\n 	cwr:ÓÒ×ø±ê£¨È«¶¼Í¬ÉÏ£©\n 	cwb:ÏÂ×ø±ê£¨È«¶¼Í¬ÉÏ£©\n 	2:	wd:ÄãµÄ´°¿Ú±àºÅ£¨Äã´´½¨µÄ´°¿ÚµÄ±àºÅ£©\n 	x,y:ÎÄ×ÖµÄÆğÊ¼µã×ø±ê£¨ÊÇ¾ø¶Ô×ø±ê¶ø²»ÊÇÏà¶Ô´°¿ÚÎ»ÖÃ×ø±ê£©\n 	s:ÄãµÄÎÄ×ÖÄÚÈİ\n 	ct:ÎÄ×ÖÖµ£¨¾ÍÊÇÄãµã»÷ËûµÄÊ±ºò³ÌĞò»á·µ»ØÒ»¸öÊ²Ã´Öµ£¬Èç¹ûÏëÒªËû²»·µ»Ø£¨¾ÍÊÇµãËüÒ²Ã»·´Ó¦£©¾ÍÌî0£¬²»ÒªÌî¸ºÊı£¬ÒòÎª¸ºÊıÊÇ±£ÁôÖµ£©\n 	cm:ËüµÄ×¢ÊÍ£¬¾ÍÊÇÄãµÄÊó±êÍ£ÁôÔÚÉÏÃæÊ±»áµ¯³öÒ»¸öĞ¡´°¿ÚÏÔÊ¾×Å£¨Èç¹û²»Òª¾ÍÌî''£¬È»ºó½ÓÏÂÀ´cml,cmt,cmdl,cmmd,cmbds¶¼¿ÉÒÔÌî0£©\n 	cml,cmt:×¢ÊÍµÄÎ»ÖÃ£¨¾ø¶Ô×ø±ê£©£¬Èç¹ûÀÁ¿ÉÒÔÁ½¸ö¶¼Ìî-1£¬³ÌĞò»á×Ô¶¯°ïÄã·ÖÅä\n 	cmdl:ÄãµÄÊó±êÍ£ÁôÔÚÉÏÃæ¹ı¶àÉÙÊ±¼ä²ÅÏÔÊ¾×¢ÊÍ£¨µ¥Î»ms£©\n 	cmmd:×¢ÊÍÑùÊ½£¨0£ºÄ¬ÈÏ£»1:3D£¬2:ÉÁµç×ÖÄ»£¨¿ÉÒÔ×Ô¼ºÊÔÊÔ¿´£©£©\n 	cmbds:×¢ÊÍ±ß¿òÄ£Ê½£¨¿ÉÒÔ´ÓMsblºÍMsbtÀïÃæÑ¡Ò»¶Ô£¬ºÍ´°¿Ú±ß¿òÑùÊ½¹æÔòÒ»Ñù£©\n 	cl:×¢ÊÍÑÕÉ«£¨ÌîĞ´µÄÊ±ºò¿ÉÒÔÌîFOREGROUND_BLUE...Ò²¿ÉÒÔÌî0x1...£¬Èç¹ûÒª»ìÉ«µÄ»°ÔÚÁ½¸öÊôĞÔÖ®¼ä¼Ó¸ö'|'£©\n 	¡ïStep2.\n 	1.void ent(int dl/*LEAST 50!*/,int wd,int ls,int wt)//menu choosing system starter²Ëµ¥Ñ¡ÔñÏµÍ³Æô¶¯³ÌĞò* \n 	\n 	ÓÃ·¨£ºentÓÃÓÚÆô¶¯´°¿ÚÑ¡ÔñÖ÷³ÌĞò\n 	½âÊÍ:1:dl:Ë¢ĞÂ¼ä¸ôÊ±¼ä£¨¾ÍÊÇÕâ¸ö³ÌĞò¶à¾Ã·´Ó¦Ò»´Î£¨¡£¡£¡££©£¬µ¥Î»ms£¬½¨Òé²»Ğ¡ÓÚ50ms£©\n 	wd:´°¿Ú±àºÅ\n 	ls:·µ»ØÖµ¿É³ÖĞøĞÔ£¨¾ÍÊÇÄãµã»÷ÁËÒ»¸öÓĞĞ§Ñ¡Ôñ£¨¾ÍÊÇÇ°ÃæµÄct>0£©ÒÔºó£¬Èç¹ûls=1£¬ÄÇÃ´²Ëµ¥»á·µ»ØÖµºó¼ÌĞøÔËĞĞ£¬·ñÔòËû»á·µ»ØÖµºóÍË³ö£©\n 	wt:ÊÇ·ñÆô¶¯Ïß³Ì£¨Èç¹ûwt=1ÄÇÃ´ÄãÒªµÈÕâ¸ö²Ëµ¥°ÑÖµ·µ»ØÁË£¬ÍË³öÁË£¬ÄãµÄ³ÌĞò²ÅÄÜ¼ÌĞøÔËĞĞ£»Èç¹ûwt=0£¬ÄÇÃ´ÄãµÄ³ÌĞò¿ÉÒÔ¼ÌĞøÔËĞĞ£¬¶øËû»á×÷ÎªÁíÍâÒ»¸öÏß³ÌÆô¶¯£©\n 	\n 	¡ïStep3.\n 	ÁË½âÁËÖ÷³ÌĞòÓÃ·¨Ö®ºó£¬½éÉÜ¼¸¸ö±äÁ¿£º\n 	1.Enabled(bool)		Õâ¸ö±äÁ¿ÔÚÑ¡Ôñ³ÌĞòÔËĞĞÊ±»á±äÎªtrue(1),ÍË³öÊ±»á±äÎªfalse(0),µ«ÊÇ£¬Äã¿ÉÒÔÔÚËüÔËĞĞÊ±Í¨¹ıÔÚÄãµÄÖ÷³ÌĞòÀï¸ü¸ÄEnabledÎª0À´Í£Ö¹Ëû\n 			¡î¡î¡îÎªÁË·ÀÖ¹ÂÒÂë£¬³ÌĞòÄ©Î²Ò»¶¨Òª¼ÇµÃEnabled=0£»·ñÔòÄã»áÔÚÆÁÄ»ÉÏ¿´µ½Ò»¶Ñ×Ö·û£¬¶øÇÒÑÏÖØµÄ»áµ¼ÖÂÄÚ´æĞ¹Â©\n 	2.dqx,dqy(short int)	ÕâÁ½¸öÊÇÖ¸µ±Ç°¹â±êËùÔÚµÄ×ø±ê£¨È»¶øºÃÏñÃ»Ê²Ã´ÓÃ£©\n 	3.ww(string)		Õâ¸ö×Ö·û´®Ö¸µÄÊÇ´°¿ÚµÄÅÅÁĞË³Ğò£¨ÓÉÉÏµ½ÏÂÖ¸0~size()-1£©£¬²»¹ıÒòÎª²»ÄÜÒıÆğ¼°Ê±Ë¢ĞÂ£¬ËùÒÔ½¨ÒéÖ»ÊÇ¶ÁÈ¡¶ø²»Òª¸ü¸Ä\n 	¡î4.chv[](int[])	ºÜ¶àÍ¬Ñ§»áÒÉÎÊ£º¼ÈÈ»ÊÇ¶àÏß³Ì£¬·µ»ØÖµÎÒÔõÃ´»ñÈ¡£¿£¨ÎÒ¶¼Îª³£¹æ»ñÈ¡·µ»ØÖµµÄ²½Öè¸Ğµ½¶ñĞÄ£©²»¹ı±ğµ£ĞÄ£¬ÎÒÌØµØ°ÑËùÓĞ·µ»ØÖµ´æ½øÁËÕâ¸öÊı×éÀï£¬¼È±£ÕÏÁË·ÖÀëÔËĞĞ£¬ÓÖ¿ÉÒÔ¿ÉÁ¬Ğø´«Öµ¡£\n 			ÒªÌáÈ¡·µ»ØÖµÊ±£¬chv[0]ÊÇ×Ü¸öÊı£¨Èç¹ûËüµÄÖµÊÇ0ÄÇÃ´´ú±íÃ»ÓĞ·µ»ØÖµ£©,¿ÉÒÔÓÃÕâÑùµÄÓï¾ä:while(chv[0]==0)Sleep(100)»òÕßÖ´ĞĞÄã×Ô¼ºµÄÓï¾ä£¬Ìø³öÑ­»·ºóĞ´Ò»¸öxxx=chv[chv[0]--(Ò»¶¨Òª¼ÇµÃ--)]±ã¿ÉÒÔÁË\n 	¡î5.ccv(int)		Õâ¸ö±äÁ¿ÊÇÖ¸Êó±êÍ£ÁôÔÚµÄÎÄ×ÖÉÏµÄÖµ£¨¾ÍËãÃ»ÓĞµãÏÂÈ¥Ò²»áÈ¡µÃµ½Öµ£©£¬¿ÉÒÔÔÚÑ­»·ÖĞÓÃif(ccv==...)Ö´ĞĞ\n 			Éè¼ÆÕâ¸ö±äÁ¿Ö÷ÒªÓĞÒ»¸öºÜÓĞÓÃµÄÓÃÍ¾£ºÈç¹ûËüµÄÖµÊÇÄ³¸öÎÄ×ÖµÄÖµ£¬ÄÇÃ´ÂíÉÏÓÃcwÔÚÅÔ±ßĞ´Ò»¾ä»°£¨ÌáÊ¾ÓÃ£©£¬¿ÉÒÔÓĞĞ§Ñ¸ËÙµØ·´À¡\n 	¡î6.tasks_sys[](int[])	ÒòÎª¶àÏß³ÌÔËĞĞµÄÊ±ºòÈç¹ûÄãµÄ³ÌĞòÔÚÊä³öÒ»¸öÊ²Ã´¾Í»áµ¼ÖÂ¹â±ê´íÎ»£¬ËùÒÔÏëµ½ÁË¸ö°ì·¨\n 		ÕâÀïÒª½éÉÜ¼¸¸öº¯Êı£º\n 		1.spclr(int wd)£¨ÓÃÀ´ÏÔÊ¾´°¿Ú,wdÊÇ±àºÅ£©\n 		2.wcrr(int wd)£¨ÓÃÀ´É¾³ıÒ»¸ö´°¿Ú£¬È»ºó±»É¾³ıµÄ´°¿Ú¾Í»áÓÀ¾ÃÏûÊ§£¬³ı·ÇÄãÖØĞÂ´´½¨Ğ´Èë£©\n 			ÒòÎªÓĞÊ±ºò»¥¶¯ĞèÒª£¬¿ÉÄÜÒªÏÔÊ¾Ò»¸ö´°¿Ú»òÕßÉ¾³ıÒ»¸ö´°¿Ú£¬ËùÒÔÌí¼ÓÁËÕâ¸öÊı×é\n 			Èç¹ûÄãÒªÏÔÊ¾Ò»¸ö´°¿Ú:tasks_sys[++tasks_sys[0]]=´°¿Ú±àºÅ\n 			Èç¹ûÄãÒªÉ¾³ıÒ»¸ö´°¿Ú:tasks_sys[++tasks_sys[0]]=´°¿Ú±àºÅµÄÏà·´Êı£¨¾ÍÊÇ¼Ó¸ö¸ººÅ£©\n 	7.movable_sys[](bool[])	Õâ¸ö³ÌĞòÊÇ¿ÉÒÔÍÏ¶¯´°¿ÚµÄ£¨¾¡¹ÜÓĞµãÂı£©£¬Èç¹ûÄãÏëÒª½ûÖ¹ÄãµÄ´°¿Ú±»ÒÆ¶¯£¬Äã¿ÉÒÔµ÷ÓÃlock(ÄãµÄ´°¿Ú±àºÅ)»òÕßmovable_sys[±àºÅ]=1;Òª½âËøµÄ»°Ö»ĞèÔÙµ÷ÓÃÒ»±élock(±àºÅ)»òmovable_sys[±àºÅ]=0¼´¿É\n  8.fsx,fsy	ÕâÁ½¸ö±äÁ¿ÊÇÖ¸¿ØÖÆÌ¨µÄ×ÖÌå´óĞ¡£¨¿í£¬³¤£»µ¥Î»ÏñËØ£©£¬¿ÉÒÔÔÚÊôĞÔ-×ÖÌå-´óĞ¡ ²é¿´¡£Òò¼¼ÊõÓĞÏŞ£¬Ã»ÓĞÌí¼Ó×Ô¶¯Ğ£×¼ÏµÍ³£¬Èç¹ûÒª¸ÄĞèÒªÔÚ³ÌĞòÀï¸Ä\n 	¡î¡î½ÓÏÂÀ´µÄÕâĞ©±äÁ¿¿ÉÒÔÔÚoptions.txtĞŞ¸Ä£¨ÌáÊ¾£ºoptions.txt»á×Ô¶¯³öÏÖ£¬ÎŞĞèÀí»á£©\n 	8.ial,iar,iat,iab	ÕâËÄ¸ö±äÁ¿ÊÇÖ¸´°¿Ú£¨ÊÇ¿ØÖÆÌ¨£¬¾ÍÊÇÕû¸ö³ÌĞò½ø³ÌµÄ´°¿Ú£©µÄ×ó¡¢¿í¡¢ÉÏ¡¢¸ß£¨×¢ÒâË³Ğò£©£¬Èç¹û²»Ïëµ÷£¨ÀÁ+1£©ÌîËÄ¸ö-1¼´¿É\n 	9.Trans			(transparent Í¸Ã÷)£¬Èç¹ûTrans=0£¬ÄÇÃ´Äã½«ÎŞ·¨¿´µ½·Ç½¹µã£¨¾ÍÊÇÔÚºóÃæµÄ£©´°¿Ú¡£µ«ÊÇÈç¹ûÄãµÄµçÄÔÑÏÖØ¿¨¶Ù£¬¿ÉÒÔ½«ÆäĞŞ¸ÄÎª0¡£\n 	10.wOldColorAttrs	(Window Old Color Attributes ´°¿ÚÄ¬ÈÏÑÕÉ«ÊôĞÔ)½¨Òé²»Òª¸Ä£¬Ä¬ÈÏ7£¬³ı·ÇÄãÏë¿´µ½Ò»¸öºìÉ«¡¢À¶É«¡¢ÂÌÉ«Îª±³¾°µÄ´°¿Ú£¿\n 	11.EoutDelay		»°Ëµ×¢ÊÍÀïÃæÓĞ¸öÄ£Ê½½ĞÉÁµç×ÖÄ»£¬¶øÕâ¸ö±äÁ¿¾ÍÊÇ¿ØÖÆÆäÊä³ö¿ìÂıµÄ£¨Ô½´óÔ½Âı£©£¬µ¥Î»ms\n 	12.IDDTFP		(²¢²»ÊÇËõĞ´£¬ÎÒÂÒ±àµÄ Í£Ö¹×¢ÊÍÆ«ÒÆ)µ±ÉÁµç×ÖÄ»ÔÚÊä³öµÄÊ±ºò£¬Èç¹ûÄã²»Ïë¿´ÁËÔõÃ´°ì£¿ÊÇ²»ÊÇÅ²¿ªÊó±ê£¿¶ÔµÄ£¬ÄãÖ»ĞèÒªÅ²¿ªIDDTFPÏñËØ¾Í¿ÉÒÔÍ£Ö¹ÁË£¨ËùÒÔÄãÖªµÀÕâÊÇ¸ÉÂïµÄÁË°É£©\n 	13.WindowVerson		Win10ÓÃ»§×¢ÒâÁË£¡\n 			»°Ëµ´ÓWin10¿ªÊ¼£¬Î¢Èí·Ê³¦µÄÌùĞÄ£¬ÎªÖĞ¹ú¿Í»§µÄWin10µçÄÔÀïÃæµÄ£¨ÍË¸ñ·û£©Ò»´ÎÍËÁ½¸ñ£¨ÎªÁË·ÀÖ¹°ÑÖĞÎÄ×ÖÇĞ³ÉÁ½°ë£©¡£\n 			µ«ÊÇÕâ¾Í°ÑÎÒµÄ³ÌĞò¸ãÉµÁË£¬ÉÁµç×ÖÄ»È«¶¼Ã»µô£¬ÖÁ½ñÃ»ÕÒµ½Á½È«Ö®²ß¡£ËùÒÔÖ»ÄÜÔÙ¼ÓÒ»¸ö²ÎÊı¡£Èç¹ûÄãÊÇWin10ÓÃ»§Çë°ÑËü¸Ä³É1\n 	¡ï¸½.\n 	Ç°Ãæ½éÉÜÁËÓĞ¸öº¯Êı½ĞÇøÓòÑ¡ÔñÆ÷¡£²»¹ıÒòÎªÕâ¸öº¯ÊıÎÒ´ÓV2×óÓÒ¾ÍÒÑ¾­Íê³ÉÁË£¬ºóÀ´¶¼Ã»¸Ä¹ı£¬±¾À´²»´òËã½éÉÜ¡£²»¹ı¼ÈÈ»ÓĞµãÓÃ´¦£¬Ò²½éÉÜÒ»ÏÂ¡£\n 	void cost(int left,int top,int right,int down,int &px,int &py)//area selectingÇøÓòÑ¡Ôñ* \n 	\n 	ÓÃ·¨£ºÆÁÄ»»á±äºÚ£¬ÄãĞèÒªÔÚÉÏÃæµãÉÏÒ»ÏÂ£¬¾Í»áÏÔÊ¾Ê®×Ö×¼ĞÇ£¬½Ó×Å³ÌĞò»á·µ»ØÄãÑ¡ÔñµÄ×ø±ê¡£¿ÉÒÔÓÃÓÚÇøÓòÑ¡Ôñ\n 	½âÊÍ£º	left,top;right,down:Ñ¡ÔñµÄÇøÓò£¨Èç¹û³¬¹ıÕâÁ½¸öµãÄÇÃ´Ëû¾Í²»»áÏÔÊ¾Ê®×Ö×¼ĞÇ£©\n 	px£¬py£ºÕâÁ½¸ö±äÁ¿ÊÇÓÃÓÚ´«»ØµÄ£¬²»ĞèÒªÓĞ´«ÈëÖµ£¬·ñÔò»á±»¸²¸Ç\n 	--ÓÉLZ±àĞ´ \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n¢Ú£º\n 	ÒªÊ¹ÓÃÒ»¸öÊó±ê¿ØÖÆ³ÌĞòºÜ¼òµ¥£¬¼¸ºõ²»ĞèÒªÓÃµ½¼üÅÌ£¨Èç¹ûÄãÊÇ±àĞ´ÕßÒ²½¨ÒéÄã¿´Ò»ÏÂ£© \n 	Ê×ÏÈ£¬ÄãÒª¸ù¾İ³ÌĞòÌáÊ¾£¬µÈµ½Äã¿´µ½ÄãµÄÊó±êÏÂÓĞÒ»¸ö'+'Ê±´ú±íÄã¿ÉÒÔÓÃÊó±êÁË£¨Èç¹û±àĞ´Õß×Ô¶¨ÒåÁË¹â±êÔòÁíµ±±ğÂÛ£© \n 	ÄãÈç¹ûÒªÑ¡ÔñÒ»¸öÑ¡Ïî£¬ÄãÖ»ĞèÒªµã»÷ÄÇ¸öÎÄ×Ö¼´¿É¡£\n 	Èç¹ûÄãÏëÖªµÀÄ³¸öÑ¡ÏîµÄ°ïÖú£¬1.°ÑÊó±êÔÚÉÏÃæÍ£ÁôÒ»»á¿´ÊÇ·ñ»áµ¯³öÒ»¸ö´°¿Ú£¨×¢ÊÍ£©£»\n 	2.¿´¿´°ÑÊó±êÍ£ÔÚÉÏÃæÊ±»á²»»áÔÚÅÔ±ß£¨»òÕßÁíÒ»¸ö´°¿Ú£©ÏÔÊ¾Ò»¸öÊ²Ã´ \n 	×îºó£ºÕâ¸ö³ÌĞòºÃ²»ºÃÓÃÆäÊµÈ¡¾öÓÚ±àĞ´ËûµÄÈË£¬Çë×ñÕÕ³ÌĞòµÄÌáÊ¾¡£\n 	 --ÓÉLZ±àĞ´ \n 	 \n \n \n \nUpdate:\n \n --±¾³ÌĞò(clicking)ÓÉlinzeÔ­´´£¬ĞèÒªÍâ´«ÇëÍ¨Öª×÷Õß£¬¸ĞĞ»ÅäºÏ£¡\n  \n V0.1/*Ê×°æ*/\n congratulation!Clicking()º¯Êıµ®ÉúÁË£¬ĞŞ¸´ºáÊú²»·ÖÏÔÊ¾ÏÖÏó£¬ÊÇLz±àµÄÒ»¸öÔÊĞíÊó±êÒÆ¶¯µÄC++³ÌĞòÅ¶£¡\n V1.0/*2019ÇåÃ÷ÌØ¼­*/\n Ìí¼ÓÁËÖĞÎÄ²å¼ş£¬²¢È·¶¨ºÍ¼ÇÂ¼ÁË³õÊ¼´°¿ÚÎ»ÖÃºÍÑÕÉ«¡£\n V1.1\n Lz±¬¸ÎÔÊĞíÁË´°¿ÚÒÆ¶¯£¬ĞŞ¸´ÁË´ó²¿·ÖBUG°üÀ¨Á¬µã£¨µ«ÊÇËûÍµÀÁÁË£©£¬×¼±¸Ìí¼Ó×¢ÊÍ²å¼ş¡£\n V2.0/*2019ÇåÃ÷ÌØ¼­*/\n Ã°×Å±»*µÄÎ£ÏÕ£¬³É¹¦Ìí¼Ó×¢ÊÍ²å¼ş£¡×¢ÊÍ¹¦ÄÜ¶àÑù£¬»¹¾ß±¸¼´Ê±Ë¢ĞÂ¹¦ÄÜ£¬¿ìÀ´Ì½Ë÷°É£¡\n V2.1\n SetConsoleTextAttribute(OPhandle,0x20|0x80)Æô¶¯£¡ÔÊĞíÎåÑÕÁùÉ«µÄ±êÇ©À²£¡\n V2.2\n Ìî³äÁË±êÇ©£¬ĞŞ¸´ÁË³¬½çÂ©¶´£¨Debug³ÌĞòÔ½À´Ô½³¤ÁËºÇºÇ£©£¬»¹ÓĞÈÃÄÇ¸öĞÅÏ¢¿òÊ¶×Ö£¨ÖĞÎÄ£©¡£¡£¡£\n ÒòÎªpsy½¨Òé£¬Ìí¼ÓÁË·ÀÖ¹win10µÄÉÁµç×ÖÄ»³öÏÖ¿¨×ÖÏÖÏóµÄ²å¼ş£¬Ìí¼ÓÁËwin10ÎÈ¶¨Ä£Ê½\n V2.3\n Ìí¼ÓÁË´°¿Ú¹¦ÄÜ£¨µ±³¡ÍÂÑª£©£¬ÏÖÔÚÖªµÀxyÖá»ìÓÃµÄÎ£º¦ÁË£¨qwq×¥ÁËÒ»ĞÇÆÚ³ô³æ£©¡£ÁíÍâ×¥ÁËÒ»¸ö×ÔÌí¼Ó×¢ÊÍ¾ÍÒş²ØµÄbug£¬½ñÌì×ÜËã°ÑËü¾¾³öÀ´ÁË¡ª¡ªÓÒÒÆÊ±Ò»´ÎÌøÁ½¸ñ¡£»¹¾«¼òÁËº¯Êı±äÁ¿¡£¡£\n »¹ÓĞÒ»¸ö¾ªÑÈµØ·¢ÏÖ£¬clickingÒÑ¾­¿ìÕ¨ÄÚ´æÁË¡­¡­119688kb£¨116.87890625MB£©£¬µ«ÊÇÓÃµçÄÔ¹Ü¼Ò¼ÓËÙºóÊ£396kb£¨²»×ã1MB£©£¬ÓĞÖÖÔúĞÄ¸Ğ¾õ\n V2.3¿ªÊ¼¿ÉÒÔ¹«²¼ÁË~AWA~£¬ÒòÎªÂ¥Ö÷µÄ¹¦ÄÜÒÑ¾­²î²»¶àÁË£¨ºÃÏñÒ²Ã»É¶ºÃ´òÁË£©\n V2.4\n V2.3Ã»ÓĞ¿¼ÂÇTransµÄÇé¿öÓÚÊÇ·¢ÏÖÁËÒ»´ó¶ÑĞÂbug£¬¾ö¶¨ÔÙ¸ÎÒ»³¡¡£¡£¡£ÅäÖÃÒ²¶àÁËºÜ¶à£¬¿ÉÒÔ²»ÓÃ¸ÄÄÚÖÃ¾Í¸ÄÉèÖÃÀ²\n ¾ö¶¨2.3¡¢2.4ÒòÎªÓĞbug£¬ËùÒÔ¸ü¸ÄÎª2.5²Å¹«²¼¡£½ÓÏÂÀ´»¹ÓĞV2.5°æ×¼±¸Ìí¼ÓÏß³Ì£¨ËÙ¶Èà²à²µÄ£©\n V2.5\n ³É¹¦Ìí¼Ó¶àÏß³Ì£¬ËäÈ»¸ø²Ù×÷´øÀ´ÁË¾Ş´óÂé·³ºÍ¾Ş¶àbug£¨ºÃÏñÃ¿Ò»´Î¶¼ÓĞºÜ¶à£©£¬µ«ÊÇ³É¹¦ÎªÆä¿ÉÓÎÏ·²Ù×÷µì»ù¡£Ìí¼ÓÁËÍÏ¶¯È¡Ïû¹¦ÄÜºÍËø¶¨´°¿Ú£¨²»ÔÊĞíÍÏ¶¯£©¹¦ÄÜ¡£\n »¹ÌØµØ¸ÎÁËÒ»¸ö½Ì³Ì£¨lj£©³öÀ´\n ËäÈ»ÓĞĞ©ÈËÈÏÎªÏÖÔÚÍ¼ĞÎ¿âÄÇÃ´·¢´ï£¬Ëæ±ãÓÃ¸öjava¡¢VC£¬»òÕßc++×°¸öEGE¡¢Box2D¶¼±ÈËûºÃ£¨ÆäÊµÎÒÒ²ÏëÑ§£©£¬µ«ÊÇÔõÃ´ËµÄØ£¬ÓĞ¸öÄÜÃæÏò´óÖÚ£¨ÀÁawa£©µÄÊó±ê¿ØÖÆ³ÌĞò»¹ÊÇÍ¦ÓĞ´´ÒâµÄ°É¡£¡£¡£\n Èç¹ûÓĞÊ±¼ä»á½«Æä×ª»»ÎªÍ·ÎÄ¼ş£¬½«ÕıÊ½¹«¿ªV2.5[rep].rar\n V2.6\n ½øĞĞÁËĞ¡¸Ä\n ÉÏ´Î±»ÎÒÂèºÍÁõ½ã½ã²âÊÔÁËÒ»ÏÂ·¢ÏÖËıÃÇÒ»ÄÃµ½µÄ·´Ó¦¡ª¡ªÕâ¸öÔõÃ´ÓÃ°¡£¿(...)²»¹ıºóÀ´·¢ÏÖÊÇÒòÎªÖĞÄêÈËÃÇÊ¹ÓÃÊó±êÏ°¹ßÁËÓÃ¼â¼â¶Ô×¼°´Å¥£¬ÎÒÃÇÏ²»¶Õû¸öÅ²ÉÏÈ¥£¬ËùÒÔ½øĞĞÁËÒ»Ğ©Ğ©¸Ä¶¯¡£ÁíÍâÒòÎª×ÖÌåĞèÒª£¬±¬¸Î£¨ÕæµÄºÜ²Ò£©ÁËÒ»¸ö»î¶¯×ÖÌå±äÁ¿fsxºÍfsy(ÎÒ¹À¼ÆÒÔºó²»»áÔÙÌí¼ÓÕâĞ©¶ñĞÄµÄ¶«Î÷ÁË)£¬ÓÖ»¨ÁËÒ»ÏÂÎç¡£ÁíÍâĞŞÁËÒ»Ğ©Ğ¡bug\n Ìí¼ÓÁË¾«¼ò°æ£¨ÆäÊµ¾ÍÊÇÉ¾ÁË¼¸¸ö×¢ÊÍ¡£¡£¡££©£¬ÎªÁËÊ±ËüÌå»ıĞ¡Ò»Ğ©¡¢Ê¹ÓÃÃ»ÄÇÃ´·±Ëö£¨µ«ÊÇ¸ÄÆğÀ´¾Í·±ËöÁË£©\n ±¾À´8.1ÒÑ¾­¶¨¸åÁË£¬ºóÀ´Ïë×Å¾õµÃ²»¶Ô¾¢£¬8.18´ÓÖØÇì¸Õ»ØÀ´¾Í¸É£¬×ÜËã°ÑĞ£×¼¸ã¶¨ÁË£¨ÎÒ²»»áÔÙÅªËûÁË¡£¡£¡£¶ñĞÄ¡£¡£¡££©ÁíÍâÍêÉÆÁË¶³½á´°¿Ú×ö·¨\n \n V2.6×îºóÍê³ÉÓÚ2019.8.18\n \n \n \n \n #define ¾´ÇëÆÚ´ı! Â¥Ö÷lzÓÖÍµÀÁÁË!\n \n";
-const string fileName="options.txt";
 const int Ath[15]={67,79,68,69,68,32,66,89,58,76,105,110,90,101,46};
+COORD fontsize[55];
+const char* fileName="options.txt";
 //¿Õ¼äÉùÃ÷ 
 struct CWCN{int dl,wd,ls;}tcwcn;/*Ïß³Ì´«µİÊı¾İ NEEDED*/ 
 int Options[525][135],Optionstot,Optionstringtot;//ÉèÖÃ°å¿é
@@ -123,14 +124,15 @@ bool VerVerify();
 
 
 //PRELOAD ÇëÎğµ÷»»Ë³Ğò£¡ 
-bool _VerVerify=VerVerify();//°æ±¾È·ÈÏ&ÉèÖÃ¶ÁÈ¡ 
+bool _VerVerify=VerVerify();//Êı¾İ¼ì²éºÍ¶ÁÈ¡ 
 //³£Á¿ 
 const int EoutDelay=INTSc(3,1),IDDTFP=INTSc(3,2),FV=INTSc(2,5),//ÉÁµç×ÖÄ»ÑÓÊ±(!>5) ×¢ÊÍÖÕÖ¹Æ«ÒÆ  ´°¿ÚÀÛ»ı×î´ó¸öÊı
 		  WDD=15,//´°¿ÚÊıÁ¿ 
 		  WDLMT=205,//´°¿Ú´óĞ¡£¨³¤±ß£© 
 		  Trans=INTSc(2,1),wOldColorAttrs=INTSc(2,2),//·Ç½¹µã´°¿Ú¿É¼ûĞÔ  Ä¬ÈÏ´°¿ÚÎÄ×ÖÑÕÉ« 
 		  WinVer=INTSc(4,1),//ÏµÍ³°æ±¾£¨ÓÃÓÚĞŞ¸´Win10ÖĞÎÄ\bµÄË«±¶»Ø¸ñ£© 
-		  fsx=INTSc(2,3),fsy=INTSc(2,4);
+		  fsx=INTSc(2,3),fsy=INTSc(2,4),//×ÖÌå´óĞ¡ ¿í*³¤pixel
+		  bvisible=INTSc(2,5);
 //Ö÷ÏµÍ³ 
 short int 
 /*»ù´¡*/			cz_sys[WDD][WDLMT][WDLMT],cl_sys[WDD][WDLMT][WDLMT],
@@ -149,39 +151,38 @@ string
 /*×Ö·û¿â*/	c_sys[WDD][WDLMT][WDLMT],
 /*×¢ÊÍ¿â*/	cm_sys[WDD][WDLMT][WDLMT],
 /*´°¿Ú±êÌâ*/wdtp_sys[WDD];
-//4.8EDITMARK
 
 bool _Form_load=Form_load();//È«¾ÖÔ¤¼ÓÔØ 
 
 
-
-inline int INTSc(int linenum, int number)
+//basic plugins»ù´¡²å¼ş 
+inline int INTSc(int linenum, int number)//ÎÄ¼ş¶Á 
 {
 	if (_VerVerify)
 	return Options[linenum][number];//From the Options[][];
 	
 	
-	ifstream in(fileName.c_str());
+	ifstream in(fileName);
 	int ans;string data;
 	for (int i=1;i<linenum&&in.peek()!=EOF;i++)getline(in,data);
 	for (int i=1;i<=number&&in.peek()!=EOF;i++)in>>ans;
 	in.close();
 	return ans;
 }
-inline bool Pr(char* fileName, int linenum,string ot)
+inline bool Pr(char* fileName, int linenum,string ot)//ÎÄ¼şĞ´ 
 {
 	if (fileName=="*A")
 	{
-		ofstream out ("options.txt",ios::out);
+		ofstream out (::fileName,ios::out);
 		out<<OptionsForge;
 		return out.is_open();
 	}
 	
 	ifstream in(fileName);
-	char data[511][128];int cnt=1;
+	char data[511][256];int cnt=1;
 	while (in.peek()!=EOF)
 	{
-		in.getline (data[cnt],127);
+		in.getline (data[cnt],255);
 		cnt++;
 	}
 	in.close();
@@ -206,7 +207,7 @@ inline string HEXR(int k) //dec->hex
     ans+=tmp[i];
     return ans;
 }
-inline string StCh(int k)//×ª»»Êı×ÖÎª×Ö·û´® 
+inline string StCh(int k)//int->string
 {
 	string ans="";
 	while(k)
@@ -216,19 +217,93 @@ inline string StCh(int k)//×ª»»Êı×ÖÎª×Ö·û´®
 	}
 	return ans;
 }
-void FontSizer()	//µ÷Õû×ÖÌå´óĞ¡£¨½öÍêÕû°æ°üº¬£© 
+
+//advanced plugins¸ß¼¶²å¼ş 
+inline void gotoxy(int x,int y)//cursor position setting¹â±êÎ»ÖÃÉèÖÃ 
 {
-	//ÔÚoptionsÀïÃæ¸ü¸ÄfsxºÍfsy¿ÉÒÔ¸Ä±ä£¬µ«ÊÇ´°¿Ú»áÖØĞÂµ¯³ö£¬¶øÇÒ²»ÊÇºÜÎÈ¶¨£¬²»ÊÇÌØ±ğĞèÒª¾ÍËãÁË°É... 
+	SetConsoleCursorPosition(OPhandle,(COORD){x,y});
+}
+void lr()//fast cls¹âËÙÇåÆÁ 
+{
+    SMALL_RECT scroll;
+    COORD newCursorPointer;
+    CHAR_INFO ciFill;
+
+    OPhandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    if(!GetConsoleScreenBufferInfo(OPhandle, &csbi))
+        return;
+    scroll.Left = 0;
+    scroll.Top = csbi.dwCursorPosition.Y;
+    scroll.Right = csbi.dwSize.X;
+    scroll.Bottom = csbi.dwCursorPosition.Y;
+    newCursorPointer.X = 0;
+    newCursorPointer.Y = -csbi.dwSize.Y;
+    ciFill.Char.UnicodeChar = L' ';
+    ciFill.Attributes = csbi.wAttributes;
+    ScrollConsoleScreenBufferW(OPhandle, &scroll, NULL, newCursorPointer, &ciFill);
+    newCursorPointer.X = 0;
+	newCursorPointer.Y = csbi.dwCursorPosition.Y;
+    SetConsoleCursorPosition(OPhandle, newCursorPointer);
+    return;
+}
+struct CONSOLE_FONT
+{
+ DWORD index; 
+ COORD dim;
+ };
+void FontSizer()	//adjust font sizeµ÷Õû×ÖÌå´óĞ¡
+{/*
+		HMODULE hKernel32 = GetModuleHandle("kernel32");
+		typedef BOOL (WINAPI *PROCSETCONSOLEFONT)(HANDLE, DWORD);
+		PROCSETCONSOLEFONT SetConsoleFont = (PROCSETCONSOLEFONT)GetProcAddress(hKernel32,"SetConsoleFont");
+	if (Options[6][0]==0)
+	{
+		puts("--FontSizer¼ì²âµ½×ÖÌåĞÅÏ¢Î´Ìí¼Ó");
+		//»ñÈ¡ÏµÍ³µÄ×ÖÌå´óĞ¡ 
+		typedef BOOL (WINAPI *PROCGETCONSOLEFONTINFO)(HANDLE,BOOL,DWORD,CONSOLE_FONT*);
+		typedef COORD (WINAPI *PROCGETCONSOLEFONTSIZE)(HANDLE,DWORD);
+		typedef DWORD (WINAPI *PROCGETNUMBEROFCONSOLEFONTS)();
+		typedef BOOL (WINAPI *PROCGETCURRENTCONSOLEFONT)(HANDLE,BOOL,CONSOLE_FONT*);
+		
+		PROCGETCONSOLEFONTINFO GetConsoleFontInfo = (PROCGETCONSOLEFONTINFO)GetProcAddress(hKernel32,"GetConsoleFontInfo");
+		PROCGETCONSOLEFONTSIZE GConsoleFontSize = (PROCGETCONSOLEFONTSIZE)GetProcAddress(hKernel32,"GetConsoleFontSize");
+		PROCGETNUMBEROFCONSOLEFONTS GetNumberOfConsoleFonts = (PROCGETNUMBEROFCONSOLEFONTS)GetProcAddress(hKernel32,"GetNumberOfConsoleFonts");
+		PROCGETCURRENTCONSOLEFONT GCurrentConsoleFont = (PROCGETCURRENTCONSOLEFONT)GetProcAddress(hKernel32,"GetCurrentConsoleFont");
+		int nNumFont;
+		
+		nNumFont = GetNumberOfConsoleFonts();
+		printf("±¾ÏµÍ³ÓĞ%dÖÖ×ÖÌå´óĞ¡\n",nNumFont);
+		CONSOLE_FONT *pFonts = new CONSOLE_FONT[nNumFont];
+		GetConsoleFontInfo(OPhandle, 0, nNumFont, pFonts);
+		for(int i=0;i<nNumFont;i++)
+		{
+	//		SetConsoleFont(OPhandle, pFonts[i].index);
+			printf("%d\t%d;%d,%d\n",i,pFonts[i].index,pFonts[i].dim.X,pFonts[i].dim.Y);
+		}
+		system("pause");
+		return;
+	}
+	
+//	SetConsoleFont(OPhandle,);
+	system("pause");
+	return;*/
+	//ÒÔÏÂÊÇ¾É°æ±¾(µ±ĞÄ×¹Îï°æ) 
+	//ÔÚoptionsÀïÃæ¸ü¸ÄfsxºÍfsy¿ÉÒÔ¸Ä±ä£¬µ«ÊÇÒªÖØĞÂÆô¶¯£¬²»ÊÇÌØ±ğĞèÒª¾ÍËãÁË°É... 
 	//±¾À´ÊÇµ±ĞÄ×¹ÎïĞèÒªÁÙÊ±±àµÄ 
-	Pr((char*)"tmp.bat",1,"@echo off\nreg QUERY HKCU\\Console /v FontSize >que.txt");
-	system("tmp.bat");
-	ifstream in("que.txt",ios::in);
+	
+//	Pr((char*)"a.bat",1,"@echo off\nreg QUERY HKCU\\Console /v FontSize >tmp.txt");
+//	system("a.bat");
+//	system("del a.bat");
+
+	system("reg QUERY HKCU\\Console /v FontSize >tmp.txt");
+	fstream in("tmp.txt",ios::in);
 	char tmp[155];
 	string data,tmps;
 	int o=0;
-	while(in.peek()!=EOF)
+	while(!in.eof())
 	{
 		in.getline(tmp,128);
+//		cout<<'a'<<tmp<<endl;
 		data=tmp;
 		if(data.find(HEXR(fsy*65536+fsx))!=string::npos)
 		{
@@ -237,46 +312,40 @@ void FontSizer()	//µ÷Õû×ÖÌå´óĞ¡£¨½öÍêÕû°æ°üº¬£©
 		}
 	}
 	in.close();
+	system("del tmp.txt");
 	if(o==0)
 	{
-		cout<<"ÇëÔÊĞíĞŞ¸Ä×¢²á±í£¬ÕâÊÇÎªÁËÊ¹×ÖÌåÊÊºÏ±¾³ÌĞòÉèÖÃ\nÈçÒª¸ü¸Ä£¬Çë¸ü¸Äoptions.txtÖĞµÄfsxºÍfsy\n";
+		puts("\nÇëÔÊĞíĞŞ¸Ä×¢²á±í£¬ÕâÊÇÎªÁËÊ¹×ÖÌåÊÊºÏ±¾³ÌĞòÉèÖÃ\nÈçÒª¸ü¸Ä£¬Çë¸ü¸Äoptions.txtÖĞµÄfsxºÍfsy");
 		tmps="reg ADD HKCU\\Console /v FontSize /t REG_DWORD /f /d "+StCh(fsy*65536+fsx);
 		system(tmps.c_str());
-//		Pr((char*)"a.bat",1,"reg QUERY HKCU\\Console /v FontSize >que.txt");
-		DD();
 		tmps="if not exist \".\\"+Optionstring[1]+"\" echo Çë²»Òª¸Ä¶¯exeµÄÃû×Ö£¡Çë½«Æä¸Ä»Ø£º"+Optionstring[1]+"£¬·ñÔòÎŞ·¨Æô¶¯";
-		system(tmps.c_str());
-		tmps="start "+Optionstring[1];
-		system("del tmp.bat");
-		system("del que.txt");
-		system(tmps.c_str());
+		system(tmps.c_str());//¾¯¸æ 
+		tmps="start \""+Optionstring[1]+"\" \""+Optionstring[1]+"\"";
+		system(tmps.c_str());//ÖØÆô 
 		exit(0);
 	}
-	system("del tmp.bat");
-	system("del que.txt");
 	system("reg ADD HKCU\\Console /v FontSize /t REG_DWORD /f /d 0x00100008");
 	return;
 }
-
-bool VerVerify()
+bool VerVerify()//ÉèÖÃ¼ì²é¶ÁÈ¡ 
 {
 	int Ln=2;
-	int ans,n;
+	int ans;
 	char anss[64],ccc;
+	puts ("Version Verify\nÇëÔÊĞí¶ÁĞ´¡¢Åú´¦ÀíºÍ×¢²á²Ù×÷");
+	puts ("ËùÓĞ²Ù×÷¾­¶à·½²âÊÔ£¬¿ÉÒÔĞÅÈÎ~\n");
+	//Verson Verify&Options Creating
 	system("attrib -r -a options.txt");
 	ifstream in("options.txt");
-	
-	//Verson Verify&Options Creating
 	in.getline(anss,64);
+	in.close();
 	if (anss!=OptionsForge.substr(0,50))
 	{
-		TD();
 		puts ("The Options(options.txt) have not be initialize or it is broken!\a\n³ÌĞòÉèÖÃÎ´³õÊ¼»¯");
-		Rst:;	//Reset Mark 
 		TRed();BDYellow();
 		cout<<"Please RESTART LATER\nÇëÉÔºòÖØÆô¸Ã³ÌĞò£¡\n";
-		BGreen();TDPink();
 		cout<<"\nVERSON:"<<Verson<<"\nReWriting...\n";
+		Rst:;	//Reset Mark 
 		if(!Pr((char*)"*A",0,""))
 		{
 			TDRed();
@@ -284,23 +353,25 @@ bool VerVerify()
 			goto Rst;
 			cout<<"Initialize faild\a\t[Any key to continue]\nÇëÁªÏµlzÑ¯ÎÊÔ­Òò";
 			char cc=getch();
-			in.close();
 			exit(0);
 		}
 		TDGreen();
-		cout<<"Initialize succeed\t[Any key to continue]\n[ÈÎÒâ¼ü¼ÌĞø]\t";
-		char cc=getch();
-		in.close();
-		exit(0);
+		cout<<"Initialize succeed\t[Any key to continue]\n[ÈÎÒâ¼ü¼ÌĞø]\t\n\n";
+//		char cc=getch();
+//		in.close();
+		SetConsoleTextAttribute(OPhandle, 0x1|0x2|0x4);
+//		exit(0);
 	}
 	
 	//Read Options.txt
+	in.open("options.txt",ios::in);
+	in.getline(anss,64);
 	while(in.peek()!=EOF)
 	{
 		Optionstot++;
 		in.getline(anss,128);
-		in>>n;
-		if(n==-1)
+		in>>Options[Optionstot][0];
+		if(Options[Optionstot][0]==-1)
 		{
 			in.getline(anss,128);
 			in.getline(anss,128);
@@ -308,7 +379,7 @@ bool VerVerify()
 		}
 		else
 		{
-			for(int i=1;i<=n;i++)
+			for(int i=1;i<=Options[Optionstot][0];i++)
 			in>>Options[Optionstot][i];
 		}
 		in>>ccc;
@@ -317,9 +388,39 @@ bool VerVerify()
 }
 bool Form_load()
 {
-	DD();
-//	system("chcp 936");//ÓĞĞ©µçÄÔµÄcodepage²»¶Ô£¬ËùÒÔÏÔÊ¾²»ÁËÖĞÎÄ£¬µ«ÊÇ¸Ä¹ıÒ»´ÎÒÔºó¶¼²»ÓÃÁË 
+	puts("Process Preload");
+	//APIÀà 
+	//ÓĞĞ©µçÄÔµÄcodepage²»¶Ô£¬ËùÒÔÏÔÊ¾²»ÁËÖĞÎÄ£¬µ«ÊÇ¸Ä¹ıÒ»´ÎÒÔºó¶¼²»ÓÃÁË 
+	puts("--Codepage");
+//	system("chcp 936");
+	puts("--Buffer Size");
+	SetConsoleScreenBufferSize(OPhandle,buffersize);
+	puts("--Screen Position");
+	GetWindowRect(hwnd,&rect);
+	if(ial==-1) ial=rect.left;
+	if(iar==-1) iar=rect.right;
+	if(iat==-1) iat=rect.top;
+	if(iab==-1) iab=rect.bottom;
+	ChWp(ial,iat,iar-ial,iab-iat);//¼ÙÈçoptionsÖĞµÄ´°¿ÚÎ»ÖÃ²»ÊÇ-1£¬ÄÇÃ´ÒÆ¶¯´°¿Úµ½Ö¸¶¨Î»ÖÃ 
+	FontSizer();//µ÷Õû×ÖÌå´óĞ¡£¬¿É½ûÓÃ 
+	//ÒÆ³ı ¿ìËÙ±à¼­ ²åÈë Ä£Ê½
+	puts("--Insertion Mode");
+	DWORD mode;
+	GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mode);
+	mode &= ~ENABLE_QUICK_EDIT_MODE;
+	mode &= ~ENABLE_INSERT_MODE;
+	mode &= ~ENABLE_MOUSE_INPUT;
+	SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), mode);
+	puts("--Cursor Info");
 	GetConsoleCursorInfo(OPhandle, &CursorInfo);//»ñÈ¡¿ØÖÆÌ¨¹â±êĞÅÏ¢
+	CursorInfo.bVisible=bvisible;
+	SetConsoleCursorInfo(OPhandle, &CursorInfo);
+	puts("--Buffer Info");
+	GetConsoleScreenBufferInfo(OPhandle,&csbi);//»ñÈ¡»º³åĞÅÏ¢ 
+	puts("--Window Title");
+	GetWindowText(hwnd, CTitle, 1000);//»ñÈ¡´°¿Ú±êÌâ 
+	puts("APIÀàÍê³É");
+	//CLICKINGÀà 
 	for(int w=0;w<WDD;w++)//Ô¤´¦Àí±³¾° 
 	for(int i=0;i<WDLMT;i++)
 	for(int j=0;j<WDLMT;j++)
@@ -327,28 +428,13 @@ bool Form_load()
 		cl_sys[w][i][j]=wOldColorAttrs;
 		c_sys[w][i][j]=" ";
 	}
-	
-	
-	GetConsoleScreenBufferInfo(OPhandle,&csbi);
-	SetConsoleScreenBufferSize(OPhandle,buffersize);
-	GetWindowRect(hwnd,&rect);
-	if(ial==-1) ial=rect.left;
-	if(iar==-1) iar=rect.right;
-	if(iat==-1) iat=rect.top;
-	if(iab==-1) iab=rect.bottom;
-	ChWp(ial,iat,iar-ial,iab-iat);//¼ÙÈçoptionsÖĞµÄ´°¿ÚÎ»ÖÃ²»ÊÇ-1£¬ÄÇÃ´ÒÆ¶¯´°¿Úµ½Ö¸¶¨Î»ÖÃ 
-	GetWindowText(hwnd, CTitle, 1000);//»ñÈ¡´°¿Ú±êÌâ 
-//	FontSizer();//µ÷Õû×ÖÌå´óĞ¡£¬¿É½ûÓÃ 
+	puts("CÀàÍê³É\n");
 	system("cls");
 	return 1;
 }
-inline void gotoxy(int x,int y)//cursor position setting¹â±êÎ»ÖÃÉèÖÃ 
-{
-	SetConsoleCursorPosition(OPhandle,(COORD){x,y});
-}
 
 //INITIALIZE COMPLETED----------------------------------------------------------------
-
+//7.23EditMArk
 
 void eout(string s,int sx,int sy)//Thank YYC for this code--lighting subtitles!ÉÁµç×ÖÄ» 
 {
@@ -1071,7 +1157,7 @@ cwd(3,2,"ÌáÊ¾",35,0,55,20);
  system("cls");
  
 }
-int main()
+int main(int argc,char* argv[])
 { 
 //¼ì²â¹öÂÖ¶¯×÷ 
 //µ±Êó±êÒÆ³ö´°¿ÚÍâÊ±¹ÒÆğ½ø³Ì 
