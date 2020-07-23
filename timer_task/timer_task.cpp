@@ -359,7 +359,7 @@ system("mode con cols=40 lines=8");
 				printf("\a");
 				/*MessageBox(GetForegroundWindow(),"要加油啊蒟蒻",&tmp[0],MB_OK);*/
 				MessageBox(GetForegroundWindow(),"休息时间",&tmp[0],MB_OK);/*\n记得先进入下一节课哦*/
-				system("start \"F:\\Dotoro's private document\\程序\\#DEV-C++\\timer_task\\眼保健操.mp4\"") ;
+				system("start \"\" \"F:\\Dotoro's private document\\程序\\#DEV-C++\\timer_task\\眼保健操.mp4\"") ;
 //				system(".\\混合版眼保健操.mp4") ;
 			}
 			if(i==25)
