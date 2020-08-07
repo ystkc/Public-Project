@@ -151,6 +151,7 @@ short int
 /*预读鼠标下文字*/	CCurrentValidValue,
 /*筛去空格*/		CCurrentValue,
 /*当前光标位置*/	CCurrentY,CCurrentX,
+/*当前窗口*/		CCurrentWD,
 /*鼠标像素位置*/	CConsoleLeft=INTSc(1,1),CConsoleRight=INTSc(1,2),CConsoleTop=INTSc(1,3),CConsoleBottom=INTSc(1,4),
 /*边框宽度标题宽度*/CConsoleBoard=8,CConsoleTopBoard=30;
 short int tCValue_sys[WDLMT][WDLMT],tCCommentLeft_sys[WDLMT][WDLMT],tCCommentTop_sys[WDLMT][WDLMT],tCCommentMode_sys[WDLMT][WDLMT],tCCommentDelay_sys[WDLMT][WDLMT],tCCommentBoard_sys[WDLMT][WDLMT],tCColor_sys[WDLMT][WDLMT];
@@ -1049,8 +1050,11 @@ void CSpeedRefresh(int Count,...)//快速刷新，只刷新被更新的窗口位置 ，原来的spcl
 				if (CIfRefresh_sys[bs][i][j])
 				{
 					if (CMessageXHeight&&CMessageXLine//触发了comment 
-					&&i>=CCommentTop_sys[bs][CCurrentX][CCurrentY]&&i<=CCommentTop_sys[bs][CCurrentX][CCurrentY]+CMessageXHeight
-					&&j>=CCommentLeft_sys[bs][CCurrentX][CCurrentY]&&j<=CCommentLeft_sys[bs][CCurrentX][CCurrentY]+CMessageXLine)
+					&&i>=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]
+					&&i<=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight
+					
+					&&j>=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]
+					&&j<=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine)
 					continue;//假如刷新在msgbox范围内就会造成搞笑的效果 
 	//				gotoxy(23,0);
 	//				cout<<i<<" "<<j;
@@ -1230,17 +1234,18 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 //cwcn来自主线程的传递 
 {
 	CWCN* TempCWCN=(CWCN*)cwcn;
-	int wd=TempCWCN->wd,dl=TempCWCN->dl,ls=TempCWCN->ls;//wd焦点窗口，dl刷新频率，ls是否持续运行 
+	int dl=TempCWCN->dl,ls=TempCWCN->ls;//CCurrentWD焦点窗口，dl刷新频率，ls是否持续运行 
+	CCurrentWD=TempCWCN->wd;
 	//为了提高运行效率，请设置dl在50到200之间 
 	if(Trans==0)
 	{
 		lr();
-		CSpeedRefresh(1,wd);
+		CSpeedRefresh(1,CCurrentWD);
 	}
 	else CAllRefresh();
 	
  	POINT pt;
-	int l=0,t=0,r=0,b=0,cpst=0,cmdl=0,tCCurrentY,tCCurrentX,bs=wd;
+	int l=0,t=0,r=0,b=0,cpst=0,cmdl=0,tCCurrentY,tCCurrentX,bs=CCurrentWD;
 	bool TKmoved=0;//是否改变鼠标操作 
 	CCurrentY=CCurrentX=1;
 	dl=max(30,dl);
@@ -1262,24 +1267,24 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 			}
 			CSpeedRefresh(0);
 		}
-		while(pt.y<CConsoleTop||pt.y>CConsoleBottom-CFontSizeY*4||pt.x<CConsoleLeft||pt.x>CConsoleRight-CFontSizeX*4);
+		while(pt.y<CConsoleTop||pt.y>CConsoleBottom-(CFontSizeY<<2)||pt.x<CConsoleLeft||pt.x>CConsoleRight-(CFontSizeX<<2));
 		//BUGS
 		
 		pt.x-=CConsoleLeft;
 		pt.y-=CConsoleTop;
-		gotoxy(23,0);
+//		gotoxy(23,0);
 //		cout<<pt.x/CFontSizeX<<" "<<pt.y/CFontSizeY<<endl<<CCurrentY<<" "<<CCurrentX<<"   ";
 		cmdl=CMessageXHeight=CMessageXLine=0;
 		while((pt.x)/CFontSizeX==CCurrentY
 		&&(pt.y)/CFontSizeY==CCurrentX
 		&&!KEY_DOWN(MOUSE_MOVED))//鼠标按下时不允许出现注释 
 		{
-			if(CComment_sys[wd][CCurrentX][CCurrentY]!=""//存在注释 
-			&&cmdl==CCommentDelay_sys[wd][CCurrentX][CCurrentY]/dl)//到达注释时间 
+			if(CComment_sys[CCurrentWD][CCurrentX][CCurrentY]!=""//存在注释 
+			&&cmdl==CCommentDelay_sys[CCurrentWD][CCurrentX][CCurrentY]/dl)//到达注释时间 
 			{
-				Sleep(CCommentDelay_sys[wd][CCurrentX][CCurrentY]%dl);//等够cmdl中的ms数 
-				cpst=CCommentDelay_sys[wd][CCurrentX][CCurrentY]%dl;//后面补回 
-				msgbox(bs,CCommentTop_sys[wd][CCurrentX][CCurrentY],CCommentLeft_sys[wd][CCurrentX][CCurrentY],CColor_sys[wd][CCurrentX][CCurrentY],CComment_sys[wd][CCurrentX][CCurrentY],CCommentMode_sys[wd][CCurrentX][CCurrentY],CCommentBoard_sys[wd][CCurrentX][CCurrentY]);
+				Sleep(CCommentDelay_sys[CCurrentWD][CCurrentX][CCurrentY]%dl);//等够cmdl中的ms数 
+				cpst=CCommentDelay_sys[CCurrentWD][CCurrentX][CCurrentY]%dl;//后面补回 
+				msgbox(bs,CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY],CColor_sys[CCurrentWD][CCurrentX][CCurrentY],CComment_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentMode_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentBoard_sys[CCurrentWD][CCurrentX][CCurrentY]);
 			}
 			GetCursorPos(&pt);
 			pt.x-=CConsoleLeft;
@@ -1288,30 +1293,30 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 			CSpeedRefresh(0);
 			cmdl++;
 		}
-		if(cmdl*dl>=CCommentDelay_sys[wd][CCurrentX][CCurrentY]//确认触发了comment 
-		&&CComment_sys[wd][CCurrentX][CCurrentY]!="")
-		CAreaRefresh(CCommentLeft_sys[wd][CCurrentX][CCurrentY],CCommentTop_sys[wd][CCurrentX][CCurrentY],CCommentLeft_sys[wd][CCurrentX][CCurrentY]+CMessageXHeight,CCommentTop_sys[wd][CCurrentX][CCurrentY]+CMessageXLine);//清除注释
+		if(cmdl*dl>=CCommentDelay_sys[CCurrentWD][CCurrentX][CCurrentY]//确认触发了comment 
+		&&CComment_sys[CCurrentWD][CCurrentX][CCurrentY]!="")
+		CAreaRefresh(CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight,CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine);//清除注释
 		cmdl=CMessageXHeight=CMessageXLine=0;
 		
 		//填坑part
-		if (CValue_sys[wd][CCurrentX][CCurrentY]==-1)//实在没办法，中文真的不好改 
+		if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)//实在没办法，中文真的不好改 
 		{
-			SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[wd][CCurrentX][CCurrentY-1]);
+			SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]);
 			gotoxy(CCurrentX,CCurrentY-1);
-			cout<<CChar_sys[wd][CCurrentX][CCurrentY-1];
+			cout<<CChar_sys[CCurrentWD][CCurrentX][CCurrentY-1];
 		}
 		else
 		{
-			SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[wd][CCurrentX][CCurrentY]);
+			SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY]);
 			gotoxy(CCurrentX,CCurrentY);
-			cout<<CChar_sys[wd][CCurrentX][CCurrentY];
+			cout<<CChar_sys[CCurrentWD][CCurrentX][CCurrentY];
 		}
 		
 		//输出part
 		CCurrentY=(pt.x)/CFontSizeX;//储存当前位置坐标，为了和下一刻对比 
 		CCurrentX=(pt.y)/CFontSizeY;
 		bs=0;
-		if(Trans)//bs当前焦点窗口，wd默认焦点窗口 
+		if(Trans)//bs当前焦点窗口，CCurrentWD默认焦点窗口 
 		{
 			for(int i=0;i<CWindowOrder.size();i++)
 			if(CCurrentY>=CWindowLeft_sys[CWindowOrder[i]-'0']&&CCurrentY<=CWindowRight_sys[CWindowOrder[i]-'0']&&CCurrentX>=CWindowTop_sys[CWindowOrder[i]-'0']&&CCurrentX<=CWindowBottom_sys[CWindowOrder[i]-'0'])
@@ -1319,57 +1324,72 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 				bs=CWindowOrder[i]-'0';break;
 			}
 		}
-		if(bs==0)bs=wd;
+		if(bs==0)bs=CCurrentWD;
 		//如果切换了窗口 
-		if(bs!=wd)
+		if(bs!=CCurrentWD)
 		{
-			wd=bs;
-			CShowWindow(wd);
-			CSpeedRefresh(1,wd);
+			CCurrentWD=bs;
+			CShowWindow(CCurrentWD);
+			CSpeedRefresh(1,CCurrentWD);
 		}
 		if(KEY_DOWN(MOUSE_MOVED))
 		{
 			//输出光标 
-			if (CValue_sys[wd][CCurrentX][CCurrentY]==-1)//实在没办法，中文真的不好改 
+			if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)//实在没办法，中文真的不好改 
 			{
-				SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[wd][CCurrentX][CCurrentY-1]);
+				SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]);
 				gotoxy(CCurrentX,CCurrentY-1);
 				{
-					if(CChar_sys[wd][CCurrentX][CCurrentY-1].size()>1)
+					if(CChar_sys[CCurrentWD][CCurrentX][CCurrentY-1].size()>1)
 					cout<<Ch1;
 					else cout<<En1;
 				}
 			}
-			SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[wd][CCurrentX][CCurrentY]);
-			gotoxy(CCurrentX,CCurrentY);
+			else
 			{
-				if(CChar_sys[wd][CCurrentX][CCurrentY].size()>1)
-				cout<<Ch1;
-				else cout<<En1;
+				SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY]);
+				gotoxy(CCurrentX,CCurrentY);
+				{
+					if(CChar_sys[CCurrentWD][CCurrentX][CCurrentY].size()>1)
+					cout<<Ch1;
+					else cout<<En1;
+				}
 			}
 			
-			if(CValue_sys[wd][CCurrentX][CCurrentY]>0)//点击了、选择了按钮 
+			if(CValue_sys[CCurrentWD][CCurrentX][CCurrentY]>0//点击了、选择了按钮 
+			||CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1]>0)//全角字符的后半块 
 			{
 				while(KEY_DOWN(MOUSE_MOVED))Sleep(dl);//等待鼠标弹起 
-				gotoxy(CCurrentX,CCurrentY);//输出回那个字符 
-				cout<<CChar_sys[wd][CCurrentX][CCurrentY];
-//				CAreaRefresh(CCommentLeft_sys[wd][CCurrentX][CCurrentY],CCommentTop_sys[wd][CCurrentX][CCurrentY],CCommentLeft_sys[wd][CCurrentX][CCurrentY]+CMessageXLine,CCommentTop_sys[wd][CCurrentX][CCurrentY]+CMessageXHeight);//清除注释 
+				if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)//全角字符的后半块 
+				{
+					gotoxy(CCurrentX,CCurrentY-1);//输出回那个字符 
+					cout<<CChar_sys[CCurrentWD][CCurrentX][CCurrentY-1];
+				}
+				else
+				{
+					gotoxy(CCurrentX,CCurrentY);//输出回那个字符 
+					cout<<CChar_sys[CCurrentWD][CCurrentX][CCurrentY];
+				}
 				
 				GetCursorPos(&pt);//这个地方为了探测点击以后有无移开鼠标（取消操作） 
 				pt.x-=CConsoleLeft;
 				pt.y-=CConsoleTop;
-				if(CValue_sys[wd][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-1)pt.x-=CFontSizeX;//如果这是全角字符的后半块，那么转移 
-				if(CValue_sys[wd][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]<=0)continue;
+				if(CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-1)pt.x-=CFontSizeX;//如果这是全角字符的后半块，那么转移 
+				if(CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]<=0)continue;
 				
-				CChoseValue[++CChoseValue[0]]=CValue_sys[wd][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX];//将值储存到CChoseValue中 
+				CChoseValue[++CChoseValue[0]]=CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX];//将值储存到CChoseValue中 
 				if(!ls){OptionsDeep();CEnabled=0;lr();return NULL;}//ls是否持续返回值 
 			}
 			
-			if(CValue_sys[wd][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-2&&CMovable_sys[wd]==0)//移动窗口(点击了边框)，CMovable_sys可否移动 
+			if(CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-2&&CMovable_sys[CCurrentWD]==0)//移动窗口(点击了边框)，CMovable_sys可否移动 
 			{
+				tCCurrentX=tCCurrentY=1;
 				while(KEY_DOWN(MOUSE_MOVED))//跟踪想要移去的地方 
 				{
 					GetCursorPos(&pt);
+					if (pt.y<CConsoleTop||pt.y>CConsoleBottom-(CFontSizeY<<2)//超出边框 
+					||pt.x<CConsoleLeft||pt.x>CConsoleRight-(CFontSizeX<<2))
+					break;
 					pt.x-=CConsoleLeft;
 					pt.y-=CConsoleTop;
 					tCCurrentY=max(pt.x/CFontSizeX,(long)0);
@@ -1378,44 +1398,50 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 					cout<<Sp1;
 					Sleep(dl);
 				}
-				for(int i=CWindowTop_sys[wd];i<=CWindowBottom_sys[wd];i++)
-				for(int j=CWindowLeft_sys[wd];j<=CWindowRight_sys[wd];j++)//搬家 
+				for(int i=CWindowTop_sys[CCurrentWD];i<=CWindowBottom_sys[CCurrentWD];i++)
+				for(int j=CWindowLeft_sys[CCurrentWD];j<=CWindowRight_sys[CCurrentWD];j++)//搬家 
 				{
-					tCChar_sys[i][j]=CChar_sys[wd][i][j];
-					tCValue_sys[i][j]=CValue_sys[wd][i][j];
-					tCComment_sys[i][j]=CComment_sys[wd][i][j];
-					tCCommentTop_sys[i][j]=CCommentTop_sys[wd][i][j];
-					tCCommentLeft_sys[i][j]=CCommentLeft_sys[wd][i][j];
-					tCCommentDelay_sys[i][j]=CCommentDelay_sys[wd][i][j];
-					tCCommentMode_sys[i][j]=CCommentMode_sys[wd][i][j];
-					tCCommentBoard_sys[i][j]=CCommentBoard_sys[wd][i][j];
-					tCColor_sys[i][j]=CColor_sys[wd][i][j];
+					tCChar_sys[i][j]=CChar_sys[CCurrentWD][i][j];
+					tCValue_sys[i][j]=CValue_sys[CCurrentWD][i][j];
+					tCComment_sys[i][j]=CComment_sys[CCurrentWD][i][j];
+					tCCommentTop_sys[i][j]=CCommentTop_sys[CCurrentWD][i][j];
+					tCCommentLeft_sys[i][j]=CCommentLeft_sys[CCurrentWD][i][j];
+					tCCommentDelay_sys[i][j]=CCommentDelay_sys[CCurrentWD][i][j];
+					tCCommentMode_sys[i][j]=CCommentMode_sys[CCurrentWD][i][j];
+					tCCommentBoard_sys[i][j]=CCommentBoard_sys[CCurrentWD][i][j];
+					tCColor_sys[i][j]=CColor_sys[CCurrentWD][i][j];
 				}
-//				int pl=CWindowLeft_sys[wd],pt=CWindowTop_sys[wd];
+//				int pl=CWindowLeft_sys[CCurrentWD],pt=CWindowTop_sys[CCurrentWD];
 				int tmpy=tCCurrentY-CCurrentY,tmpx=tCCurrentX-CCurrentX;
-//				if(CWindowLeft_sys[wd]< -tmpy)tmpy= 0-CWindowLeft_sys[wd];
-//				if(CWindowTop_sys[wd]< -tmpx)tmpx= 0-CWindowTop_sys[wd];
-				
-				CHideWindow(wd);
-				CWindowLeft_sys[wd]=max(0,CWindowLeft_sys[wd]+tmpy);
-				CWindowTop_sys[wd]=max(0,CWindowTop_sys[wd]+tmpx);
-				CWindowRight_sys[wd]=max(0,CWindowRight_sys[wd]+tmpy);
-				CWindowBottom_sys[wd]=max(0,CWindowBottom_sys[wd]+tmpx);
-				for(int i=CWindowTop_sys[wd];i<=CWindowBottom_sys[wd];i++)
-				for(int j=CWindowLeft_sys[wd];j<=CWindowRight_sys[wd];j++)
+				if(CWindowLeft_sys[CCurrentWD]< -tmpy)tmpy= 0-CWindowLeft_sys[CCurrentWD];//超出左边框 
+				if(CWindowTop_sys[CCurrentWD]< -tmpx)tmpx= 0-CWindowTop_sys[CCurrentWD];//超出上边框 
+				if(CWindowRight_sys[CCurrentWD]+tmpy>(CConsoleRight-CConsoleLeft-(CConsoleBoard<<1))/CFontSizeX-2)//超出右边框 
+				tmpy=(CConsoleRight-CConsoleLeft-(CConsoleBoard<<1))/CFontSizeX-2-CWindowRight_sys[CCurrentWD];
+				if(CWindowBottom_sys[CCurrentWD]+tmpx>(CConsoleBottom-CConsoleTop-CConsoleTopBoard-CConsoleBoard)/CFontSizeY)//超出下边框 
+				tmpx=(CConsoleBottom-CConsoleTop-CConsoleTopBoard-CConsoleBoard)/CFontSizeY-CWindowBottom_sys[CCurrentWD];
+				 
+				CHideWindow(CCurrentWD);
+				CDeleteWindow(CCurrentWD);
+				CWindowLeft_sys[CCurrentWD]=max(0,CWindowLeft_sys[CCurrentWD]+tmpy);
+				CWindowTop_sys[CCurrentWD]=max(0,CWindowTop_sys[CCurrentWD]+tmpx);
+				CWindowRight_sys[CCurrentWD]=max(0,CWindowRight_sys[CCurrentWD]+tmpy);
+				CWindowBottom_sys[CCurrentWD]=max(0,CWindowBottom_sys[CCurrentWD]+tmpx);
+				for(int i=CWindowTop_sys[CCurrentWD];i<=CWindowBottom_sys[CCurrentWD];i++)
+				for(int j=CWindowLeft_sys[CCurrentWD];j<=CWindowRight_sys[CCurrentWD];j++)
 				{
-					CChar_sys[wd][i][j]=tCChar_sys[i-tmpx][j-tmpy];
-					CValue_sys[wd][i][j]=tCValue_sys[i-tmpx][j-tmpy];
-					CComment_sys[wd][i][j]=tCComment_sys[i-tmpx][j-tmpy];
-					CCommentTop_sys[wd][i][j]=tCCommentTop_sys[i-tmpx][j-tmpy]+tmpy;
-					CCommentLeft_sys[wd][i][j]=tCCommentLeft_sys[i-tmpx][j-tmpy]+tmpx;
-					CCommentDelay_sys[wd][i][j]=tCCommentDelay_sys[i-tmpx][j-tmpy];
-					CCommentMode_sys[wd][i][j]=tCCommentMode_sys[i-tmpx][j-tmpy];
-					CCommentBoard_sys[wd][i][j]=tCCommentBoard_sys[i-tmpx][j-tmpy];
-					CColor_sys[wd][i][j]=tCColor_sys[i-tmpx][j-tmpy];
+					CChar_sys[CCurrentWD][i][j]=tCChar_sys[i-tmpx][j-tmpy];
+					CValue_sys[CCurrentWD][i][j]=tCValue_sys[i-tmpx][j-tmpy];
+					CComment_sys[CCurrentWD][i][j]=tCComment_sys[i-tmpx][j-tmpy];
+					CCommentTop_sys[CCurrentWD][i][j]=tCCommentTop_sys[i-tmpx][j-tmpy]+tmpy;
+					CCommentLeft_sys[CCurrentWD][i][j]=tCCommentLeft_sys[i-tmpx][j-tmpy]+tmpx;
+					CCommentDelay_sys[CCurrentWD][i][j]=tCCommentDelay_sys[i-tmpx][j-tmpy];
+					CCommentMode_sys[CCurrentWD][i][j]=tCCommentMode_sys[i-tmpx][j-tmpy];
+					CCommentBoard_sys[CCurrentWD][i][j]=tCCommentBoard_sys[i-tmpx][j-tmpy];
+					CColor_sys[CCurrentWD][i][j]=tCColor_sys[i-tmpx][j-tmpy];
 				}
-				CShowWindow(wd);
-				CSpeedRefresh(1,wd);//输出回来 
+				CShowWindow(CCurrentWD);
+				CSpeedRefresh(1,CCurrentWD);//输出回来 
+				CAllRefresh();//清除轨迹 
 			}
 			/*if(CValue_sys[bs][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-3)
 			{
@@ -1424,7 +1450,7 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 				if(CWindowOrder[i]-'0'==bs){CWindowOrder.erase(i,1);break;}//cout<<CWindowOrder;char cc=getch();
 				OptionsDeep();system("cls");
 				for(int i=0;i<CWindowOrder.size();i++)spclr(CWindowOrder[i]-'0');
-				bs=wd=CWindowOrder[0];
+				bs=CCurrentWD=CWindowOrder[0];
 			}
 			if(CValue_sys[bs][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-4)
 			{
@@ -1487,6 +1513,8 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 //				Sleep(205);
 //				if(kbhit()&&getch()=='c')spclr(CWindowOrder[0]-'0');
 	}
+	OptionsDeep();
+	lr();
 	return NULL;
 }
 void CStartWindow(int delay/*LEAST 50!*/,int window,int to_be_continued,int to_waiting)//menu choosing system starter菜单选择系统启动程序* 
@@ -1534,13 +1562,13 @@ CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
 	 	{
 	 		CWriteWindow(3,5,36,"这是样例程序，}所以没有游戏}可以自己写鸭！",0,"",0,0,0,0,0,0x2|0x8);
 	 		while(CCurrentValidValue==1&&!CChoseValue[0])Sleep(50);
-	 		CWriteWindow(3,5,36,"              }            }              ",0,"",0,0,0,0,0,0);
+	 		CWriteWindow(3,5,36,"              }            }              ",0,"",0,0,0,0,0,wOldColorAttrs);
 		 }
 		if(CCurrentValidValue==6)
 	 	{
 	 		CWriteWindow(3,5,36,"且慢，请三思}关掉的话}没有提示了哦...",0,"",0,0,0,0,0,0x4|0x8);
 	 		while(CCurrentValidValue==6&&!CChoseValue[0])Sleep(50);
-	 		CWriteWindow(3,5,36,"            }        }               ",0,"",0,0,0,0,0,0);
+	 		CWriteWindow(3,5,36,"            }        }               ",0,"",0,0,0,0,0,wOldColorAttrs);
 		 }
 		 if(CCurrentValidValue==4)
 		 {
@@ -1553,7 +1581,7 @@ CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
 		 {
 		 	CWriteWindow(3,5,36,"可惜，}这只能在程序里更改",0,"没什么好看的",-1,-1,0,0,1,0x1|0x8|0x20|0x80);
 	 		while(CCurrentValidValue==15&&!CChoseValue[0])Sleep(50);
-	 		CWriteWindow(3,5,36,"      }                  ",0,"",0,0,0,0,0,0);
+	 		CWriteWindow(3,5,36,"      }                  ",0,"",0,0,0,0,0,wOldColorAttrs);
 		 }
 	 }
  	ans=CChoseValue[CChoseValue[0]];CChoseValue[0]--;
