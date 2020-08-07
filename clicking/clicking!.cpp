@@ -73,8 +73,8 @@ BACKGROUND_INTENSITY 0x80
 #define CW_USEDEFAULT       ((int)0x80000000)
 #define OptionsDeep() (SetConsoleTextAttribute(COutputHandle, wOldColorAttrs==0?7:wOldColorAttrs))
 #define HightLight() (SetConsoleTextAttribute(COutputHandle, 0x1|0x4|0x8|0x20|0x40|0x80))
-#define HideCursor() {CCursorInfo.bVisible = false;SetConsoleCCursorInfo(COutputHandle, &CCursorInfo);}
-#define ShowCursor() {CCursorInfo.bVisible = true;SetConsoleCCursorInfo(COutputHandle, &CCursorInfo);}
+#define HideCursor() {CCursorInfo.bVisible = false;SetConsoleCursorInfo(COutputHandle, &CCursorInfo);}
+#define ShowCursor() {CCursorInfo.bVisible = true;SetConsoleCursorInfo(COutputHandle, &CCursorInfo);}
 #define ChangeWindowPosition( Px, Py, Cx, Cy) (MoveWindow(CMainHwnd,Px,Py,Cx,Cy,TRUE))
 #define SetWindowPosition( Px, Py) (SetWindowPos(CMainHwnd, HWND_NOTOPMOST, Px, Py, 0, 0,SWP_NOSIZE))
 #define Oscillate() {RECT nowr;GetWindowRect(CMainHwnd,&nowr);SetWindowPosition(CWindowRect.left,CWindowRect.top+1);SetWindowPosition(CWindowRect.left,CWindowRect.top);ChangeWindowPosition(CWindowRect.left,CWindowRect.top+50,CWindowRect.right-CWindowRect.left,CWindowRect.bottom-CWindowRect.top-50);ChangeWindowPosition(CWindowRect.left,CWindowRect.top,CWindowRect.right-CWindowRect.left,CWindowRect.bottom-CWindowRect.top);}
@@ -152,6 +152,7 @@ short int
 /*筛去空格*/		CCurrentValue,
 /*当前光标位置*/	CCurrentY,CCurrentX,
 /*当前窗口*/		CCurrentWD,
+/*按钮变色系统*/	CTempColor,ColoredValue,ColoredPositionX,ColoredPositionY,ColoredColor,
 /*鼠标像素位置*/	CConsoleLeft=INTSc(1,1),CConsoleRight=INTSc(1,2),CConsoleTop=INTSc(1,3),CConsoleBottom=INTSc(1,4),
 /*边框宽度标题宽度*/CConsoleBoard=8,CConsoleTopBoard=30;
 short int tCValue_sys[WDLMT][WDLMT],tCCommentLeft_sys[WDLMT][WDLMT],tCCommentTop_sys[WDLMT][WDLMT],tCCommentMode_sys[WDLMT][WDLMT],tCCommentDelay_sys[WDLMT][WDLMT],tCCommentBoard_sys[WDLMT][WDLMT],tCColor_sys[WDLMT][WDLMT];
@@ -998,6 +999,8 @@ void CHideWindow(int k)//隐藏窗口k
 		break;
 	}
 	CAreaRefresh(CWindowTop_sys[k],CWindowLeft_sys[k],CWindowBottom_sys[k],CWindowRight_sys[k]);
+	if (k==CCurrentWD)
+	CAreaRefresh(CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight,CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine);//清除注释
 	return;
 }
 void CDeleteWindow(int k)//删除窗口k 
@@ -1035,6 +1038,7 @@ void CSpeedRefresh(int Count,...)//快速刷新，只刷新被更新的窗口位置 ，原来的spcl
 		if(CTasks_sys[CTasks_sys[0]]>0)//显示某个窗口 
 		{
 			CShowWindow(CTasks_sys[CTasks_sys[0]]);
+			CSpeedRefresh(1,CTasks_sys[CTasks_sys[0]]);
 		}
 		else 
 		{
@@ -1245,7 +1249,7 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 	else CAllRefresh();
 	
  	POINT pt;
-	int l=0,t=0,r=0,b=0,cpst=0,cmdl=0,tCCurrentY,tCCurrentX,bs=CCurrentWD;
+	int t=0,cpst=0,cmdl=0,tCCurrentY,tCCurrentX,bs=CCurrentWD;
 	bool TKmoved=0;//是否改变鼠标操作 
 	CCurrentY=CCurrentX=1;
 	dl=max(30,dl);
@@ -1332,9 +1336,61 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 			CShowWindow(CCurrentWD);
 			CSpeedRefresh(1,CCurrentWD);
 		}
+		//改变按钮的颜色(鼠标停留)
+		if (!FV&&CValue_sys[CCurrentWD][CCurrentX][CCurrentY]!=0)
+		{
+		gotoxy(23,0);
+		cout<<CColor_sys[CCurrentWD][CCurrentX][CCurrentY];
+			ColoredPositionX=CCurrentX,ColoredPositionY=CCurrentY;//位置的tmp
+			ColoredValue=CValue_sys[CCurrentWD][CCurrentX][CCurrentY];//变色的是哪个按钮 
+			ColoredColor=//原来是啥色 
+			CTempColor=CColor_sys[CCurrentWD][CCurrentX][CCurrentY];//变啥色
+			if (CColor_sys[CCurrentWD][CCurrentX][CCurrentY]&(0x10|0x20|0x40|0x80)==0)//如果没有背景
+			{
+				CTempColor|=0x8| 0x10|0x20|0x40;//深色字体+暗白色背景 
+			}
+			else CTempColor|=0x1|0x2|0x4|0x8| 0x80;//深色字体+深色背景 
+			cout<<"\n"<<ColoredPositionY<<" ";
+			while(ColoredPositionY>0
+			&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
+			CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)
+			&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredColor)
+				ColoredPositionY--;//向左找到最左端 
+			while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
+			CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
+			&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredColor)
+			{
+				CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=CTempColor;
+				CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
+				ColoredPositionY++;//向右染色
+			}cout<<ColoredPositionY;
+		}
 		if(KEY_DOWN(MOUSE_MOVED))
 		{
-			//输出光标 
+			//输出光标 (鼠标点击)
+			if (!FV&&CValue_sys[CCurrentWD][CCurrentX][CCurrentY]!=0)
+			{
+				CTempColor=ColoredColor;
+				if (CColor_sys[CCurrentWD][CCurrentX][CCurrentY]&(0x10|0x20|0x40|0x80)==0)//没有背景 
+				{
+					CTempColor|=0x8| 0x80;//深色字体+深黑色背景 
+				}
+				else CTempColor&=~0x80;//去除深色背景
+				
+				while(ColoredPositionY>0
+				&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredColor)
+					ColoredPositionY--;//向左找到最左端 
+				while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredColor)
+				{
+					CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=CTempColor;
+					CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
+					ColoredPositionY++;//向右染色
+				}
+			}
 			if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)//实在没办法，中文真的不好改 
 			{
 				SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]);
@@ -1359,6 +1415,7 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 			if(CValue_sys[CCurrentWD][CCurrentX][CCurrentY]>0//点击了、选择了按钮 
 			||CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1]>0)//全角字符的后半块 
 			{
+				CSpeedRefresh(0);
 				while(KEY_DOWN(MOUSE_MOVED))Sleep(dl);//等待鼠标弹起 
 				if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)//全角字符的后半块 
 				{
@@ -1411,7 +1468,6 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 					tCCommentBoard_sys[i][j]=CCommentBoard_sys[CCurrentWD][i][j];
 					tCColor_sys[i][j]=CColor_sys[CCurrentWD][i][j];
 				}
-//				int pl=CWindowLeft_sys[CCurrentWD],pt=CWindowTop_sys[CCurrentWD];
 				int tmpy=tCCurrentY-CCurrentY,tmpx=tCCurrentX-CCurrentX;
 				if(CWindowLeft_sys[CCurrentWD]< -tmpy)tmpy= 0-CWindowLeft_sys[CCurrentWD];//超出左边框 
 				if(CWindowTop_sys[CCurrentWD]< -tmpx)tmpx= 0-CWindowTop_sys[CCurrentWD];//超出上边框 
@@ -1440,8 +1496,7 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 					CColor_sys[CCurrentWD][i][j]=tCColor_sys[i-tmpx][j-tmpy];
 				}
 				CShowWindow(CCurrentWD);
-				CSpeedRefresh(1,CCurrentWD);//输出回来 
-				CAllRefresh();//清除轨迹 
+				CAllRefresh();//输出回来 清除轨迹 
 			}
 			/*if(CValue_sys[bs][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-3)
 			{
@@ -1479,8 +1534,6 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 		{
 			if (CValue_sys[bs][CCurrentX][CCurrentY]==-1) 
 			{
-//				gotoxy(CCurrentX,CCurrentY-1);
-//				cout<<CValue_sys[bs][CCurrentX][CCurrentY];cc=getch();
 				SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[bs][CCurrentX][CCurrentY-1]);
 				gotoxy(CCurrentX,CCurrentY-1);
 				if (FV)//如果不点击时光标不可见，那么输出原字符 ,否则输出光标0 
@@ -1537,6 +1590,7 @@ void CStartWindow(int delay/*LEAST 50!*/,int window,int to_be_continued,int to_w
 void _example()
 {
  int a,b,ans;char cc=0;
+ HideCursor();
 // cout<<"select player area:\n(click it!)";cost(10,10,75,45,a,b);system("cls");
 CCreateWindow(1,0,"EXAMPLE",0,0,33,20);CShowWindow(1);
 CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
@@ -1587,7 +1641,7 @@ CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
  	ans=CChoseValue[CChoseValue[0]];CChoseValue[0]--;
  	if(ans==3){
  		CCreateWindow(2,1,"I AM THE 弹窗",10,7,25,15);
- 		CWriteWindow(2,8,11,"关掉",9,"点啊}其实点其他的键也会关掉qwq",-1,-1,0,0,0,wOldColorAttrs);
+ 		CWriteWindow(2,8,11,"关掉",9,"不要点",-1,-1,0,0,0,wOldColorAttrs);
  		CTasks_sys[++CTasks_sys[0]]=2;
  		while(!CChoseValue[0])Sleep(100);
 	 }
@@ -1610,7 +1664,9 @@ CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
  
 }
 int main(int argc,char* argv[])
-{ 
+{
+//AreaRefresh中文补齐 
+//点击中文bug
 //按钮颜色变化 
 //	_example();
 //	return 0;
