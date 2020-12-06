@@ -84,7 +84,8 @@ BACKGROUND_INTENSITY 0x80
 #define lFreeze() {SetWindowLong(CMainHwnd, GWL_STYLE, GetWindowLong(CMainHwnd, GWL_STYLE) & ~WS_CAPTION);CConsoleTopBoard=8;CTempRect=CWindowRect;Oscillate(CTempRect);}
 #define ChineseCheck( k1, k2) ((k1&0x80)&&(k2&0x80))
 
-//#define CLICK_RELEASE//去除一切无关输出 
+#define CLICK_RELEASE//去除一切无关输出 
+#define CLICK_SIMPLE//精简版 
 
 //CSYS NORMAL SYMBOL!--------------------------------
 
@@ -96,15 +97,15 @@ string WindowLeftBoard[]={"|","*","#","+"," ","!","?","'",".","+"}
 	  ,WindowTopBoard[]={"-","*","#","+"," ","!","?","'",".","="};
 char Ch0[]="┼",Ch1[]="╋",En0[]="+",En1[]="*",Sp0[]="╬",Sp1[]="#";//光标形式 (1个半角或全角字符)
 const string Version="ClickingVersionsV2.7\nCreated by Lz\n"
-			,Licence="Licence:\n\nClicking_System()\nAbout{\nCreate:lz\nCoded:V1.0 to latest:lz,yyc\nDebug:V1.0 to latest:lz\nContributor/cooperation:yyc\nOther Attentions:\n//Run _example() to learn to use or ask the editor.\n//You can edit it as you like,but not in commercCConsoleLeft usage.\n//I will be thankful if you discover any bug in it.\n\nPS:并没有装逼，都是自己翻的awa... \n\n--本程序(clicking.cpp;clicking.exe)以及教程(Note.txt，Tutor.txt)由lz原创。\n\n本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。\nThis project is licensed under the Creative Commons Attribution BY - NC - SA 4.0 international license agreement.\nmore information ：https://creativecommons.org/licenses/by-nc-sa/4.0/\n你可以进行改编，演绎，或者作为交流用途分享给他人，但请注明原作者，请勿用于商业用途，感谢配合！\n*本作品指文件夹下的所有cpp,exe和txt文件\n\n（其实我也只是编来玩，没有谋求利益的意思，这还可以被更多人认可，给更多程序员带来便利，为什么不呢？）\n联系作者：qq:1612162886(验证信息注明你是通过程序备注找到的)；洛谷ID：43845（是OIer就来luogu啊）\n}\n";
+			,Licence="Licence:\n\nClicking_System()\nAbout{\nCreate:lz\nCoded:V1.0 to latest:lz,yyc\nDebug:V1.0 to latest:lz\nContributor/cooperation:yyc\nOther Attentions:\n//Run _example() to learn to use or ask the editor.\n//You can edit it as you like,but not in commercial usage.\n//I will be thankful if you discover any bug in it.\n\nPS:并没有装逼，都是自己翻的awa... \n\n--本程序(clicking.cpp;clicking.exe)以及教程(Note.txt，Tutor.txt)由lz原创。\n\n本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。\nThis project is licensed under the Creative Commons Attribution BY - NC - SA 4.0 international license agreement.\nmore information ：https://creativecommons.org/licenses/by-nc-sa/4.0/\n你可以进行改编，演绎，或者作为交流用途分享给他人，但请注明原作者，请勿用于商业用途，感谢配合！\n*本作品指文件夹下的所有cpp,exe和txt文件\n\n（其实我也只是编来玩，没有谋求利益的意思，这还可以被更多人认可，给更多程序员带来便利，为什么不呢？）\n联系作者：qq:1612162886(验证信息注明你是通过程序备注找到的)；洛谷ID：43845（是OIer就来luogu啊）\n}\n";
 const int CAuthority[15]={67,79,68,69,68,32,66,89,58,76,105,110,90,101,46};
+char* COptionsFileName=const_cast<char*>("options.txt");
 #ifndef CLICK_SIMPLE
 const string OptionsForge="[DoNOTModify]Identifier:ClickingVersionsV2.7-By LZ-\n[WindowPosition](left,width,top,heigh)\n4\n-1 -1 -1 -1 \n[Trans;wOldColorAttrs;CFontSizeX;CFontSizeY;FocusVisible]\n5\n1 7 8 16 0 \n[EOUT:EoutDelay,IDDTFP]\n2\n7 25\n[WindowVersion](<=Win7:0;>Win7:1)\n1\n0 \n[ProcessName](Format:*.exe)\n-1\nclicking!.exe\n[FontSize](Format:X1 Y1 X2 Y2...)\n12\n3 5 5 8 6 12 8 16 8 18 10 20\n[FontInfo](Format:x1 y1 x2 y2...)\n12\n2663 517 1600 325 1327 208 2000 426 1000 142 800 125\n[FontIndex](Format:n1 0 n2 0...)\n12\n0 0 2 0 7 0 1 0 13 0 15 0 \n\n\n"
-/*更新信息*/,Note="Version:\n\nClickingVersionsV2.7\nCreated by Lz\n\n----------------------------------------------------------------\n\n\n**完整版**\n\nUpdate:\n \nV0.1/*首版*/\ncongratulation!Clicking()函数诞生了，修复横竖不分显示现象，是Lz编的一个允许鼠标移动的C++程序哦！\nV1.0/*2019清明特辑*/\n添加了中文插件，并确定和记录了初始窗口位置和颜色。\nV1.1\nLz爆肝允许了窗口移动，修复了大部分BUG包括连点（但是他偷懒了），准备添加注释插件。\nV2.0/*2019清明特辑*/\n冒着被*的危险，成功添加注释插件！注释功能多样，还具备即时刷新功能，快来探索吧！\nV2.1\nSetConsoleTextAttribute(COutputHandle,0x20|0x80)启动！允许五颜六色的标签啦！\nV2.2\n填充了标签，修复了超界漏洞（Debug程序越来越长了呵呵），还有让那个信息框识字（中文）。。。\n因为psy建议，添加了防止win10的闪电字幕出现卡字现象的插件，添加了win10稳定模式\nV2.3\n添加了窗口功能（当场吐血），现在知道xy轴混用的危害了（qwq抓了一星期臭虫）。另外抓了一个自添加注释就隐藏的bug，今天总算把它揪出来了——右移时一次跳两格。还精简了函数变量。。\n还有一个惊讶地发现，clicking已经快炸内存了……119688kb（116.87890625MB），但是用电脑管家加速后剩396kb（不足1MB），有种扎心感觉\nV2.3开始可以公布了~AWA~，因为楼主的功能已经差不多了（好像也没啥好打了）\nV2.4\nV2.3没有考虑Trans的情况于是发现了一大堆新bug，决定再肝一场。。。配置也多了很多，可以不用改内置就改设置啦\n决定2.3、2.4因为有bug，所以更改为2.5才公布。接下来还有V2.5版准备添加线程（速度嗖嗖的）\nV2.5\n成功添加多线程，虽然给操作带来了巨大麻烦和巨多bug（好像每一次都有很多），但是成功为其可游戏操作奠基。添加了拖动取消功能和锁定窗口（不允许拖动）功能。\n还特地肝了一个教程（lj）出来\n虽然有些人认为现在图形库那么发达，随便用个java、VC，或者c++装个EGE、Box2D都比他好（其实我也想学），但是怎么说呢，有个能面向大众（懒awa）的鼠标控制程序还是挺有创意的吧。。。\n如果有时间会将其转换为头文件，将正式公开V2.5[rep].rar\nV2.6\n进行了小改\n上次被我妈和刘姐姐测试了一下发现她们一拿到的反应——这个怎么用啊？(...)不过后来发现是因为中年人们使用鼠标习惯了用尖尖对准按钮，我们喜欢整个挪上去，所以进行了一些些改动。另外因为字体需要，爆肝（真的很惨）了一个活动字体变量CFontSizeX和CFontSizeY(我估计以后不会再添加这些恶心的东西了)，又花了一下午。另外修了一些小bug\n添加了精简版（其实就是删了几个注释。。。），为了时它体积小一些、使用没那么繁琐（但是改起来就繁琐了）\n本来8.1已经定稿了，后来想着觉得不对劲，8.18从重庆刚回来就干，总算把校准搞定了（我不会再弄他了。。。恶心。。。）另外完善了冻结窗口做法\nV2.7(UNFINISHED,pre1) \n初三第一次大测后初改 \n对速度进行了改进，（puts的速度实在太令人震惊了） \n而且深受格式之害，决定对整个程序重整（虽然对功能并没有什么改进） \n初三中考后二改\n发现了一个奇怪但是有用的字体函数，爆肝了两天啃了下来，现在clicking可以适应各种电脑字体了\n加了设置系统，打开程序时按住Tab可以进入（因为判断时间很短，建议打开之前先按住Tab）\n另外发现一个bug，我把所有的version（版本）写成了verson（打脸*INF）\nV2.7pre1最后完成于2020.7.27\n\n\n\n\n#define 敬请期待!  lz又偷懒了!\n\n"
+/*更新信息*/,Note="Version:\n\nClickingVersionsV2.7\nCreated by Lz\n\n----------------------------------------------------------------\n\n\n**完整版**\n\nUpdate:\n \nV0.1/*首版*/\ncongratulation!Clicking()函数诞生了，修复横竖不分显示现象，是Lz编的一个允许鼠标移动的C++程序哦！\nV1.0/*2019清明特辑*/\n添加了中文插件，并确定和记录了初始窗口位置和颜色。\nV1.1\nLz爆肝允许了窗口移动，修复了大部分BUG包括连点（但是他偷懒了），准备添加注释插件。\nV2.0/*2019清明特辑*/\n冒着被*的危险，成功添加注释插件！注释功能多样，还具备即时刷新功能，快来探索吧！\nV2.1\nSetConsoleTextAttribute(COutputHandle,0x20|0x80)启动！允许五颜六色的标签啦！\nV2.2\n填充了标签，修复了超界漏洞（Debug程序越来越长了呵呵），还有让那个信息框识字（中文）。。。\n因为psy建议，添加了防止win10的闪电字幕出现卡字现象的插件，添加了win10稳定模式\nV2.3\n添加了窗口功能（当场吐血），现在知道xy轴混用的危害了（qwq抓了一星期臭虫）。另外抓了一个自添加注释就隐藏的bug，今天总算把它揪出来了——右移时一次跳两格。还精简了函数变量。。\n还有一个惊讶地发现，clicking已经快炸内存了……119688kb（116.87890625MB），但是用电脑管家加速后剩396kb（不足1MB），有种扎心感觉\nV2.3开始可以公布了~AWA~，因为楼主的功能已经差不多了（好像也没啥好打了）\nV2.4\nV2.3没有考虑Trans的情况于是发现了一大堆新bug，决定再肝一场。。。配置也多了很多，可以不用改内置就改设置啦\n决定2.3、2.4因为有bug，所以更改为2.5才公布。接下来还有V2.5版准备添加线程（速度嗖嗖的）\nV2.5\n成功添加多线程，虽然给操作带来了巨大麻烦和巨多bug（好像每一次都有很多），但是成功为其可游戏操作奠基。添加了拖动取消功能和锁定窗口（不允许拖动）功能。\n还特地肝了一个教程（lj）出来\n虽然有些人认为现在图形库那么发达，随便用个java、VC，或者c++装个EGE、Box2D都比他好（其实我也想学），但是怎么说呢，有个能面向大众（懒awa）的鼠标控制程序还是挺有创意的吧。。。\n如果有时间会将其转换为头文件，将正式公开V2.5[rep].rar\nV2.6\n进行了小改\n上次被我妈和刘姐姐测试了一下发现她们一拿到的反应——这个怎么用啊？(...)不过后来发现是因为中年人们使用鼠标习惯了用尖尖对准按钮，我们喜欢整个挪上去，所以进行了一些些改动。另外因为字体需要，爆肝（真的很惨）了一个活动字体变量CFontSizeX和CFontSizeY(我估计以后不会再添加这些恶心的东西了)，又花了一下午。另外修了一些小bug\n添加了精简版（其实就是删了几个注释。。。），为了时它体积小一些、使用没那么繁琐（但是改起来就繁琐了）\n本来8.1已经定稿了，后来想着觉得不对劲，8.18从重庆刚回来就干，总算把校准搞定了（我不会再弄他了。。。恶心。。。）另外完善了冻结窗口做法\nV2.7(UNFINISHED,pre1) \n初三第一次大测后初改 \n对速度进行了改进，（puts的速度实在太令人震惊了） \n而且深受格式之害，决定对整个程序重整（虽然对功能并没有什么改进） \n初三中考后二改\n发现了一个奇怪但是有用的字体函数，爆肝了两天啃了下来，现在clicking可以适应各种电脑字体了\n加了设置系统，打开程序时按住Tab可以进入（因为判断时间很短，建议打开之前先按住Tab）\n另外发现一个bug，我把所有的version（版本）写成了verson（打脸*INF）\nV2.7pre1最后完成于2020.12.06\n\n\n\n\n#define 敬请期待!  lz又偷懒了!\n\n"
 			,Tutor="Help:[2019.7.19]注意:这个教程将只适用于clickingV2.7pre1，V2.7正式版将有较大改动\n这个程序就是一个可DIY的拥有鼠标控制功能的程序，你可以通过鼠标来控制程序，告诉他你想干嘛，而不再使用键盘\n教程稍稍冗(rǒng)长，请见谅！\n\n接下来是教程：如果你是制作者，请看①；如果你是使用者，请看②。\n\n\n\n\n\n\n\n\n①：\n	\n	想要编一个属于自己的鼠标控制程序吗？？赶紧往下看吧！\n	\n	本程序包含三个板块：1.菜单写入器；2.菜单执行（选择）器；3.区域选择器。\n	虽然程序里有很多别的干货，但是出于线程稳定和变量依赖考虑，不建议单独调用。\n	\n	☆数据公开：\n	string MessageboxLeftBoard[]={'|','*','#','+','',' ','  ','│','┃','┆','┇','┊','┋','╳','□','■','█','▌','○','●','☆','★','?','?','?'},MessageboxTopBoard[]={'-','*','#','+','',' ','  ','─','━','┄','┅','┈','┉','╳','□','■','█','▄','○','●','☆','★','?','?','?'};\n	string WindowLeftBoard[]={'|','*','#','+',' ','!','?',''','.','+'},WindowTopBoard[]={'-','*','#','+',' ','!','?',''','.','='};\n	const char Ch0[]='┼',Ch1[]='╋',En0[]='+',En1[]='*',Sp0[]='╬',Sp1[]='#';//光标形式 (1个半角或全角字符)\n	\n	//颜色参考 \n	FOREGROUND_BLUE 0x1 蓝色字\n	FOREGROUND_GREEN 0x2 绿色字\n	FOREGROUND_RED 0x4 红色字\n	FOREGROUND_INTENSITY 0x8（加亮）\n	BACKGROUND_BLUE 0x10 蓝色背景\n	BACKGROUND_GREEN 0x20 绿色背景\n	BACKGROUND_RED 0x40 红色背景\n	BACKGROUND_INTENSITY 0x80（加亮） \n	\n	\n	★★★从这里开始就是如何编一个鼠标控制程序的过程了，跟着看下去包你看懂\n	★Step1.\n	1.void cwd(int wd,int wdbds,string wdtp,int cwl,int cwt,int cwr,int cwb)//window writing system窗口创建系统\n	2.void cw(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,int cmdl,int cmmd,int cmbds,int cl)//menu writing system菜单写入系统*\n	\n	\n	用法：cwd用于创建窗口，cw用于写入文字用于执行的菜单（也就是在屏幕上会显示的东西）\n	☆注意要先创建才能写入\n	解释:1:	wd：你的窗口编号（如果你只有一个窗口，你就写个1或者随便编个数）\n	wdbds:你的窗口边框形式（可以在上面的WindowLeftBoard和WindowTopBoard选一对，他们是一一对应的，填写他们是数组中的第几个）\n	wdtp:你的窗口标题（不用担心，程序已经帮你自动居中了，不过要注意不能超过窗口宽度）\n	cwl:你的窗口左坐标（你的窗口显示出来时，左边框的坐标）\n	cwt:你的窗口上坐标（全都同上）\n	cwr:右坐标（全都同上）\n	cwb:下坐标（全都同上）\n	2:	wd:你的窗口编号（你创建的窗口的编号）\n	x,y:文字的起始点坐标（是绝对坐标而不是相对窗口位置坐标）\n	s:你的文字内容\n	ct:文字值（就是你点击他的时候程序会返回一个什么值，如果想要他不返回（就是点它也没反应）就填0，不要填负数，因为负数是保留值）\n	cm:它的注释，就是你的鼠标停留在上面时会弹出一个小窗口显示着（如果不要就填''，然后接下来cml,cmt,cmdl,cmmd,cmbds都可以填0）\n	cml,cmt:注释的位置（绝对坐标），如果懒可以两个都填-1，程序会自动帮你分配\n	cmdl:你的鼠标停留在上面过多少时间才显示注释（单位ms）\n	cmmd:注释样式（0：默认；1:3D，2:闪电字幕（可以自己试试看））\n	cmbds:注释边框模式（可以从MessageboxLeftBoard和MessageboxTopBoard里面选一对，和窗口边框样式规则一样）\n	cl:注释颜色（填写的时候可以填FOREGROUND_BLUE...也可以填0x1...，如果要混色的话在两个属性之间加个'|'）\n	★Step2.\n	1.void ent(int dl/*LEAST 50!*/,int wd,int ls,int wt)//menu choosing system starter菜单选择系统启动程序* \n	\n	用法：ent用于启动窗口选择主程序\n	解释:1:dl:刷新间隔时间（就是这个程序多久反应一次（。。。），单位ms，建议不小于50ms）\n	wd:窗口编号\n	ls:返回值可持续性（就是你点击了一个有效选择（就是前面的ct>0）以后，如果ls=1，那么菜单会返回值后继续运行，否则他会返回值后退出）\n	wt:是否启动线程（如果wt=1那么你要等这个菜单把值返回了，退出了，你的程序才能继续运行；如果wt=0，那么你的程序可以继续运行，而他会作为另外一个线程启动）\n	\n	★Step3.\n	了解了主程序用法之后，介绍几个变量：\n	1.CEnabled(bool)		这个变量在选择程序运行时会变为true(1),退出时会变为false(0),但是，你可以在它运行时通过在你的主程序里更改CEnabled为0来停止他\n			☆☆☆为了防止乱码，程序末尾一定要记得CEnabled=0；否则你会在屏幕上看到一堆字符，而且严重的会导致内存泄漏\n	2.CCurrentY,CCurrentX(short int)	这两个是指当前光标所在的坐标（然而好像没什么用）\n	3.CWindowOrder(string)		这个字符串指的是窗口的排列顺序（由上到下指0~size()-1），不过因为不能引起及时刷新，所以建议只是读取而不要更改\n	☆4.CChoseValue[](int[])	很多同学会疑问：既然是多线程，返回值我怎么获取？（我都为常规获取返回值的步骤感到恶心）不过别担心，我特地把所有返回值存进了这个数组里，既保障了分离运行，又可以可连续传值。\n			要提取返回值时，CChoseValue[0]是总个数（如果它的值是0那么代表没有返回值）,可以用这样的语句:while(CChoseValue[0]==0)Sleep(100)或者执行你自己的语句，跳出循环后写一个xxx=CChoseValue[CChoseValue[0]--(一定要记得--)]便可以了\n	☆5.CCurrentValidValue(int)		这个变量是指鼠标停留在的文字上的值（就算没有点下去也会取得到值），可以在循环中用if(CCurrentValidValue==...)执行\n			设计这个变量主要有一个很有用的用途：如果它的值是某个文字的值，那么马上用cw在旁边写一句话（提示用），可以有效迅速地反馈\n	☆6.CTasks_sys[](int[])	因为多线程运行的时候如果你的程序在输出一个什么就会导致光标错位，所以想到了个办法\n		这里要介绍几个函数：\n		1.spclr(int wd)（用来显示窗口,wd是编号）\n		2.wcrr(int wd)（用来删除一个窗口，然后被删除的窗口就会永久消失，除非你重新创建写入）\n			因为有时候互动需要，可能要显示一个窗口或者删除一个窗口，所以添加了这个数组\n			如果你要显示一个窗口:CTasks_sys[++CTasks_sys[0]]=窗口编号\n			如果你要删除一个窗口:CTasks_sys[++CTasks_sys[0]]=窗口编号的相反数（就是加个负号）\n	7.CMovable_sys[](bool[])	这个程序是可以拖动窗口的（尽管有点慢），如果你想要禁止你的窗口被移动，你可以调用lock(你的窗口编号)或者CMovable_sys[编号]=1;要解锁的话只需再调用一遍lock(编号)或CMovable_sys[编号]=0即可\n 8.CFontSizeX,CFontSizeY	这两个变量是指控制台的字体大小（宽，长；单位像素），可以在属性-字体-大小 查看。因技术有限，没有添加自动校准系统，如果要改需要在程序里改\n	☆☆接下来的这些变量可以在options.txt修改（提示：options.txt会自动出现，无需理会）\n	8.CConsoleLeft,CConsoleRight,CConsoleTop,CConsoleBottom	这四个变量是指窗口（是控制台，就是整个程序进程的窗口）的左、宽、上、高（注意顺序），如果不想调（懒+1）填四个-1即可\n	9.Trans			(transparent 透明)，如果Trans=0，那么你将无法看到非焦点（就是在后面的）窗口。但是如果你的电脑严重卡顿，可以将其修改为0。\n	10.wOldColorAttrs	(Window Old Color Attributes 窗口默认颜色属性)建议不要改，默认7，除非你想看到一个红色、蓝色、绿色为背景的窗口？\n	11.EoutDelay		话说注释里面有个模式叫闪电字幕，而这个变量就是控制其输出快慢的（越大越慢），单位ms\n	12.IDDTFP		(并不是缩写，我乱编的 停止注释偏移)当闪电字幕在输出的时候，如果你不想看了怎么办？是不是挪开鼠标？对的，你只需要挪开IDDTFP像素就可以停止了（所以你知道这是干嘛的了吧）\n	13.WindowVerson		Win10用户注意了！\n			话说从Win10开始，微软肥肠的贴心，为中国客户的Win10电脑里面的（退格符）一次退两格（为了防止把中文字切成两半）。\n			但是这就把我的程序搞傻了，闪电字幕全都没掉，至今没找到两全之策。所以只能再加一个参数。如果你是Win10用户请把它改成1\n	★附.\n	前面介绍了有个函数叫区域选择器。不过因为这个函数我从V2左右就已经完成了，后来都没改过，本来不打算介绍。不过既然有点用处，也介绍一下。\n	void cost(int left,int top,int right,int down,int &px,int &py)//area selecting区域选择* \n	\n	用法：屏幕会变黑，你需要在上面点上一下，就会显示十字准星，接着程序会返回你选择的坐标。可以用于区域选择\n	解释：	left,top;right,down:选择的区域（如果超过这两个点那么他就不会显示十字准星）\n	px，py：这两个变量是用于传回的，不需要有传入值，否则会被覆盖\n	--由LZ编写 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n②：\n	要使用一个鼠标控制程序很简单，几乎不需要用到键盘（如果你是编写者也建议你看一下） \n	首先，你要根据程序提示，等到你看到你的鼠标下有一个'+'时代表你可以用鼠标了（如果编写者自定义了光标则另当别论） \n	你如果要选择一个选项，你只需要点击那个文字即可。\n	如果你想知道某个选项的帮助，1.把鼠标在上面停留一会看是否会弹出一个窗口（注释）；\n	2.看看把鼠标停在上面时会不会在旁边（或者另一个窗口）显示一个什么 \n	最后：这个程序好不好用其实取决于编写他的人，请遵照程序的提示。\n	 --由LZ编写 \n	 \n\n\n";
-char* COptionsFileName=const_cast<char*>("options.txt");
 #else
-const string Note_simple="**精简版**\n帮助:[2019.8.18]\n说白了，电脑怎么用就怎么用\n\n这个程序是一个用鼠标操纵的程序（仅此而已）。\n使用时将光标准心对准文字点击就能选择。\n如果其他窗口遮住了文字，可以拖动边框来移开，但部分窗口可能不允许。\n\n\n帮助只有那么多，后面的不用看了\n\nV2.7pre1-simple最后完成于2020.7.27\n\n\n当前版本	V2.7pre1-simple\n完成时间	2020.7.27\n\n\n#define 敬请期待! 楼主lz又偷懒了!\n\n";
+const string Note_simple="**精简版**\n帮助:[2019.8.18]\n说白了，电脑怎么用就怎么用\n\n这个程序是一个用鼠标操纵的程序（仅此而已）。\n使用时将光标准心对准文字点击就能选择。\n如果其他窗口遮住了文字，可以拖动边框来移开，但部分窗口可能不允许。\n\n\n帮助只有那么多，后面的不用看了\n\nV2.7-simple最后完成于2020.12.06\n\n\n当前版本	V2.7-simple\n完成时间	2020.12.06\n\n\n#define 敬请期待! 楼主lz又偷懒了!\n\n";
 #endif
 //空间声明 
 struct CWCN{int dl,wd,ls;}TempCWCN;/*线程传递数据 NEEDED*/ 
@@ -191,6 +192,7 @@ string
 	in.close();
 	return ans;
 }
+#ifndef CLICK_SIMPLE
 /*p rivate*/ inline bool LinePr(char* COptionsFileName, int linenum,string ot)//文件写(把COptionsFileName文件第linenum变为ot)
 {
 	if (COptionsFileName=="*A")
@@ -244,6 +246,7 @@ string
 	return ans;
 }
 
+#endif
 //advanced plugins高级插件 
 inline void gotoxy(int x,int y)//cursor position setting光标位置设置 
 {
@@ -443,6 +446,7 @@ struct CONSOLE_FONT//FontSizer needed
 #endif
 }
 #ifndef CLICK_RELEASE
+#ifndef CLICK_SIMPLE
 const int junior=5;
 const int senior[junior+1]={1,4,4,3,2,1};
 char menu[][15][55]={
@@ -663,8 +667,10 @@ char menu[][15][55]={
 	return 1;
 }
 #endif
+#endif
 /*p rivate*/ bool VerVerify()//设置检查读取 
 {
+#ifndef CLICK_SIMPLE
 	int Ln=2;
 	int ans;
 	char anss[128],ccc;
@@ -741,6 +747,40 @@ char menu[][15][55]={
 			if (SetSystem()==0)goto Reread;
 		}
 	}
+#endif
+#else//if you want to change options of litemode,change it here! 
+#define O(a,b) Options[a][b]
+	Optionstringtot=1;
+	Optionstring[1]="clicking!.exe";
+	Optionstot=6;
+	O(0,0)=0;
+	O(1,0)=4;
+	O(1,1)=-1;O(1,2)=-1;O(1,3)=-1;O(1,4)=-1;
+	O(2,0)=5;
+	O(2,1)=1;O(2,2)=7;O(2,3)=8;O(2,4)=16;O(2,5)=0;
+	O(3,0)=2;
+	O(3,1)=7;O(3,2)=25;
+	O(4,0)=1;
+	O(4,1)=0;
+	O(5,0)=-1;
+	O(5,1)=0;
+	O(6,0)=12;
+	O(6,1)=3;O(6,2)=5;O(6,3)=5;O(6,4)=8;O(6,5)=6;O(6,6)=12;
+	O(6,7)=8;O(6,8)=16;O(6,9)=8;O(6,10)=18;O(6,11)=10;O(6,12)=20;
+	O(7,0)=12;
+	O(7,1)=2663;O(7,2)=517;O(7,3)=1600;O(7,4)=325;O(7,5)=1327;O(7,6)=208;
+	O(7,7)=2000;O(7,8)=426;O(7,9)=1000;O(7,10)=142;O(7,11)=800;O(7,12)=125;
+	O(8,0)=12;
+	O(8,1)=0;O(8,2)=0;O(8,3)=2;O(8,4)=0;O(8,5)=7;O(8,6)=0;
+	O(8,7)=1;O(8,8)=0;O(8,9)=13;O(8,10)=0;O(8,11)=15;O(8,12)=0;
+//		{4,-1,-1,-1,-1},
+//		{5,1,7,8,16,0},
+//		{2,7,25},
+//		{1,0},
+//		{-1},
+//		{12,3,5,5,8,6,12,8,16,8,18,10,20},
+//		{12,2663,517,1600,325,1327,208,2000,426,1000,142,800,125},
+//		{12,0,0,2,0,7,0,1,0,13,0,15,0}
 #endif
 	return 1;
 }
@@ -1817,31 +1857,42 @@ int main(int argc,char* argv[])
 //AreaRefresh() 中文补齐 
 //中文后半块bug
 //CAreaRefresh() 英文 
-	_example();
-	return 0;
+//	_example();
+//	return 0;
 	cout<<"这是样例程序！\n(当前字体)"<<CFontSizeX<<" "<<CFontSizeY<<endl;
 	cout<<"获得更多帮助请按 H \n观看实例请按 E \n";
 	char cc=getch();
 	if(cc=='H'||cc=='h')
 	{
 		ofstream of("Note.txt");
+#ifndef CLICK_SIMPLE
 	 	of<<Note;
+#else
+		of<<Note_simple;
+#endif
 	 	of<<"\n"<<Version;
 	 	of.close();
-	 	of.open("Licence.txt");
-	 	of<<Licence;
-	 	of.close();
+#ifndef CLICK_SIMPLE
 	 	of.open("Tutor.txt");
 	 	of<<Tutor;
 	 	of.close();
 	 	system("start \"\" Tutor.txt");
+#endif
+	 	of.open("Licence.txt");
+	 	of<<Licence;
+	 	of.close();
 	 	system("start \"\" Licence.txt");
 	 	system("start \"\" Note.txt");
 	}
 	if(cc=='E'||cc=='e')
 	{
+#ifndef CLICK_RELEASE
 		_example();
 		for(int i=1;i<=5;i++)CDeleteWindow(i);
+#else
+		puts("\n[Main]WARNING:_example() not found\nDisable CLICK_RELEASE to avoid");
+		Sleep(500);
+#endif
 	}
  return 0;
 }
