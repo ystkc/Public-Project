@@ -1,0 +1,21 @@
+cd "E:\Git repository\future-dream"
+cd "E:\Git repository\CodesBackup"
+cd "E:\Git repository\Public-Project"
+cd "E:\Git repository"
+git status
+git differ HEAD(^) --<filename>
+git clone <url>
+git fetch remoteorigin remotebranch:localbranch
+git pull remoteorigin remotebranch
+git push --set-upstream remoteorigin localbranch remotebranch
+git checkout -b -d newbranch
+git log --graph --all
+git stash (apply)
+cat <filename>
+
+git push --set-upstream CodesBackup master
+
+*Step1.ADD File
+*Step2.ADD commit(save)
+Step3.ADD origin(remote)
+*Step4.push~OK!
