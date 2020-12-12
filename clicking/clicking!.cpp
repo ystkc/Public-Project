@@ -6,22 +6,22 @@ Create:lz
 Coded:V1.0 to latest:lz,yyc
 Debug:V1.0 to latest:lz
 Contributor:yyc,Icy_Ybk
-
 Other license:
 //Run _example() to learn to use or ask the editor.
 //I will be thankful if you discover any bug in it.
-
 PS:并没有装逼，都是自己翻的awa... 
-
 知识共享许可协议
 本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。
 https://creativecommons.org/Licence/by-nc-sa/4.0/
-
 （其实我也只是编来玩，没有谋求利益的意思，这还可以被更多人认可，为什么不呢？）
 联系作者：qq:1612162886(验证信息注明你是通过程序备注找到的)；洛谷ID：43845（是OIer就来luogu啊）
 Github地址：https://github.com/ystkc/Public-Project/tree/master/clicking 
 }
 **/
+
+#ifndef _CLICKING_//如果你想把我当作cpp来编译，那么请注释掉这三行 
+#define _CLICKING_
+#endif
 
 
 #include<cstdio>
@@ -31,6 +31,11 @@ Github地址：https://github.com/ystkc/Public-Project/tree/master/clicking
 #include<cstring>
 #include<windows.h>
 #include<pthread.h>
+
+#ifndef WIN_PTHREADS_H
+#error please use TDM-GCC 4.9.2 library.
+#endif
+
 #include<cmath>
 #include<conio.h>
 #include<tchar.h>
@@ -84,8 +89,13 @@ BACKGROUND_INTENSITY 0x80
 #define lFreeze() {SetWindowLong(CMainHwnd, GWL_STYLE, GetWindowLong(CMainHwnd, GWL_STYLE) & ~WS_CAPTION);CConsoleTopBoard=8;CTempRect=CWindowRect;Oscillate(CTempRect);}
 #define ChineseCheck( k1, k2) ((k1&0x80)&&(k2&0x80))
 
-#define CLICK_RELEASE//去除一切无关输出 
-#define CLICK_SIMPLE//精简版 
+//#define CLICK_RELEASE//去除一切无关输出 
+//#define CLICK_SIMPLE//精简版 
+
+//接下来要大开眼界了，估计没有一个正式的头文件会把函数实现一股脑塞进一个头文件里面
+//不过个人觉得没必要把实现和接口分离 
+
+
 
 //CSYS NORMAL SYMBOL!--------------------------------
 
@@ -101,7 +111,7 @@ const string Version="ClickingVersionsV2.7\nCreated by Lz\n"
 const int CAuthority[15]={67,79,68,69,68,32,66,89,58,76,105,110,90,101,46};
 char* COptionsFileName=const_cast<char*>("options.txt");
 #ifndef CLICK_SIMPLE
-const string OptionsForge="[DoNOTModify]Identifier:ClickingVersionsV2.7-By LZ-\n[WindowPosition](left,width,top,heigh)\n4\n-1 -1 -1 -1 \n[Trans;wOldColorAttrs;CFontSizeX;CFontSizeY;FocusVisible]\n5\n1 7 8 16 0 \n[EOUT:EoutDelay,IDDTFP]\n2\n7 25\n[WindowVersion](<=Win7:0;>Win7:1)\n1\n0 \n[ProcessName](Format:*.exe)\n-1\nclicking!.exe\n[FontSize](Format:X1 Y1 X2 Y2...)\n12\n3 5 5 8 6 12 8 16 8 18 10 20\n[FontInfo](Format:x1 y1 x2 y2...)\n12\n2663 517 1600 325 1327 208 2000 426 1000 142 800 125\n[FontIndex](Format:n1 0 n2 0...)\n12\n0 0 2 0 7 0 1 0 13 0 15 0 \n\n\n"
+const string OptionsForge="[DoNOTModify]Identifier:ClickingVersionsV2.7-By LZ-\n[WindowPosition](left,width,top,heigh)\n4\n-1 -1 -1 -1 \n[Trans;wOldColorAttrs;CFontSizeX;CFontSizeY;FocusVisible]\n5\n1 7 8 16 2 \n[EOUT:EoutDelay,IDDTFP]\n2\n7 25\n[WindowVersion](<=Win7:0;>Win7:1)\n1\n0 \n[ProcessName](Format:*.exe)\n-1\nclicking!.exe\n[FontSize](Format:X1 Y1 X2 Y2...)\n12\n3 5 5 8 6 12 8 16 8 18 10 20\n[FontInfo](Format:x1 y1 x2 y2...)\n12\n2663 517 1600 325 1327 208 2000 426 1000 142 800 125\n[FontIndex](Format:n1 0 n2 0...)\n12\n0 0 2 0 7 0 1 0 13 0 15 0 \n\n\n"
 /*更新信息*/,Note="Version:\n\nClickingVersionsV2.7\nCreated by Lz\n\n----------------------------------------------------------------\n\n\n**完整版**\n\nUpdate:\n \nV0.1/*首版*/\ncongratulation!Clicking()函数诞生了，修复横竖不分显示现象，是Lz编的一个允许鼠标移动的C++程序哦！\nV1.0/*2019清明特辑*/\n添加了中文插件，并确定和记录了初始窗口位置和颜色。\nV1.1\nLz爆肝允许了窗口移动，修复了大部分BUG包括连点（但是他偷懒了），准备添加注释插件。\nV2.0/*2019清明特辑*/\n冒着被*的危险，成功添加注释插件！注释功能多样，还具备即时刷新功能，快来探索吧！\nV2.1\nSetConsoleTextAttribute(COutputHandle,0x20|0x80)启动！允许五颜六色的标签啦！\nV2.2\n填充了标签，修复了超界漏洞（Debug程序越来越长了呵呵），还有让那个信息框识字（中文）。。。\n因为psy建议，添加了防止win10的闪电字幕出现卡字现象的插件，添加了win10稳定模式\nV2.3\n添加了窗口功能（当场吐血），现在知道xy轴混用的危害了（qwq抓了一星期臭虫）。另外抓了一个自添加注释就隐藏的bug，今天总算把它揪出来了——右移时一次跳两格。还精简了函数变量。。\n还有一个惊讶地发现，clicking已经快炸内存了……119688kb（116.87890625MB），但是用电脑管家加速后剩396kb（不足1MB），有种扎心感觉\nV2.3开始可以公布了~AWA~，因为楼主的功能已经差不多了（好像也没啥好打了）\nV2.4\nV2.3没有考虑Trans的情况于是发现了一大堆新bug，决定再肝一场。。。配置也多了很多，可以不用改内置就改设置啦\n决定2.3、2.4因为有bug，所以更改为2.5才公布。接下来还有V2.5版准备添加线程（速度嗖嗖的）\nV2.5\n成功添加多线程，虽然给操作带来了巨大麻烦和巨多bug（好像每一次都有很多），但是成功为其可游戏操作奠基。添加了拖动取消功能和锁定窗口（不允许拖动）功能。\n还特地肝了一个教程（lj）出来\n虽然有些人认为现在图形库那么发达，随便用个java、VC，或者c++装个EGE、Box2D都比他好（其实我也想学），但是怎么说呢，有个能面向大众（懒awa）的鼠标控制程序还是挺有创意的吧。。。\n如果有时间会将其转换为头文件，将正式公开V2.5[rep].rar\nV2.6\n进行了小改\n上次被我妈和刘姐姐测试了一下发现她们一拿到的反应——这个怎么用啊？(...)不过后来发现是因为中年人们使用鼠标习惯了用尖尖对准按钮，我们喜欢整个挪上去，所以进行了一些些改动。另外因为字体需要，爆肝（真的很惨）了一个活动字体变量CFontSizeX和CFontSizeY(我估计以后不会再添加这些恶心的东西了)，又花了一下午。另外修了一些小bug\n添加了精简版（其实就是删了几个注释。。。），为了时它体积小一些、使用没那么繁琐（但是改起来就繁琐了）\n本来8.1已经定稿了，后来想着觉得不对劲，8.18从重庆刚回来就干，总算把校准搞定了（我不会再弄他了。。。恶心。。。）另外完善了冻结窗口做法\nV2.7(UNFINISHED,pre1) \n初三第一次大测后初改 \n对速度进行了改进，（puts的速度实在太令人震惊了） \n而且深受格式之害，决定对整个程序重整（虽然对功能并没有什么改进） \n初三中考后二改\n发现了一个奇怪但是有用的字体函数，爆肝了两天啃了下来，现在clicking可以适应各种电脑字体了\n加了设置系统，打开程序时按住Tab可以进入（因为判断时间很短，建议打开之前先按住Tab）\n另外发现一个bug，我把所有的version（版本）写成了verson（打脸*INF）\nV2.7pre1最后完成于2020.12.06\n\n\n\n\n#define 敬请期待!  lz又偷懒了!\n\n"
 			,Tutor="Help:[2019.7.19]注意:这个教程将只适用于clickingV2.7pre1，V2.7正式版将有较大改动\n这个程序就是一个可DIY的拥有鼠标控制功能的程序，你可以通过鼠标来控制程序，告诉他你想干嘛，而不再使用键盘\n教程稍稍冗(rǒng)长，请见谅！\n\n接下来是教程：如果你是制作者，请看①；如果你是使用者，请看②。\n\n\n\n\n\n\n\n\n①：\n	\n	想要编一个属于自己的鼠标控制程序吗？？赶紧往下看吧！\n	\n	本程序包含三个板块：1.菜单写入器；2.菜单执行（选择）器；3.区域选择器。\n	虽然程序里有很多别的干货，但是出于线程稳定和变量依赖考虑，不建议单独调用。\n	\n	☆数据公开：\n	string MessageboxLeftBoard[]={'|','*','#','+','',' ','  ','│','┃','┆','┇','┊','┋','╳','□','■','█','▌','○','●','☆','★','?','?','?'},MessageboxTopBoard[]={'-','*','#','+','',' ','  ','─','━','┄','┅','┈','┉','╳','□','■','█','▄','○','●','☆','★','?','?','?'};\n	string WindowLeftBoard[]={'|','*','#','+',' ','!','?',''','.','+'},WindowTopBoard[]={'-','*','#','+',' ','!','?',''','.','='};\n	const char Ch0[]='┼',Ch1[]='╋',En0[]='+',En1[]='*',Sp0[]='╬',Sp1[]='#';//光标形式 (1个半角或全角字符)\n	\n	//颜色参考 \n	FOREGROUND_BLUE 0x1 蓝色字\n	FOREGROUND_GREEN 0x2 绿色字\n	FOREGROUND_RED 0x4 红色字\n	FOREGROUND_INTENSITY 0x8（加亮）\n	BACKGROUND_BLUE 0x10 蓝色背景\n	BACKGROUND_GREEN 0x20 绿色背景\n	BACKGROUND_RED 0x40 红色背景\n	BACKGROUND_INTENSITY 0x80（加亮） \n	\n	\n	★★★从这里开始就是如何编一个鼠标控制程序的过程了，跟着看下去包你看懂\n	★Step1.\n	1.void cwd(int wd,int wdbds,string wdtp,int cwl,int cwt,int cwr,int cwb)//window writing system窗口创建系统\n	2.void cw(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,int cmdl,int cmmd,int cmbds,int cl)//menu writing system菜单写入系统*\n	\n	\n	用法：cwd用于创建窗口，cw用于写入文字用于执行的菜单（也就是在屏幕上会显示的东西）\n	☆注意要先创建才能写入\n	解释:1:	wd：你的窗口编号（如果你只有一个窗口，你就写个1或者随便编个数）\n	wdbds:你的窗口边框形式（可以在上面的WindowLeftBoard和WindowTopBoard选一对，他们是一一对应的，填写他们是数组中的第几个）\n	wdtp:你的窗口标题（不用担心，程序已经帮你自动居中了，不过要注意不能超过窗口宽度）\n	cwl:你的窗口左坐标（你的窗口显示出来时，左边框的坐标）\n	cwt:你的窗口上坐标（全都同上）\n	cwr:右坐标（全都同上）\n	cwb:下坐标（全都同上）\n	2:	wd:你的窗口编号（你创建的窗口的编号）\n	x,y:文字的起始点坐标（是绝对坐标而不是相对窗口位置坐标）\n	s:你的文字内容\n	ct:文字值（就是你点击他的时候程序会返回一个什么值，如果想要他不返回（就是点它也没反应）就填0，不要填负数，因为负数是保留值）\n	cm:它的注释，就是你的鼠标停留在上面时会弹出一个小窗口显示着（如果不要就填''，然后接下来cml,cmt,cmdl,cmmd,cmbds都可以填0）\n	cml,cmt:注释的位置（绝对坐标），如果懒可以两个都填-1，程序会自动帮你分配\n	cmdl:你的鼠标停留在上面过多少时间才显示注释（单位ms）\n	cmmd:注释样式（0：默认；1:3D，2:闪电字幕（可以自己试试看））\n	cmbds:注释边框模式（可以从MessageboxLeftBoard和MessageboxTopBoard里面选一对，和窗口边框样式规则一样）\n	cl:注释颜色（填写的时候可以填FOREGROUND_BLUE...也可以填0x1...，如果要混色的话在两个属性之间加个'|'）\n	★Step2.\n	1.void ent(int dl/*LEAST 50!*/,int wd,int ls,int wt)//menu choosing system starter菜单选择系统启动程序* \n	\n	用法：ent用于启动窗口选择主程序\n	解释:1:dl:刷新间隔时间（就是这个程序多久反应一次（。。。），单位ms，建议不小于50ms）\n	wd:窗口编号\n	ls:返回值可持续性（就是你点击了一个有效选择（就是前面的ct>0）以后，如果ls=1，那么菜单会返回值后继续运行，否则他会返回值后退出）\n	wt:是否启动线程（如果wt=1那么你要等这个菜单把值返回了，退出了，你的程序才能继续运行；如果wt=0，那么你的程序可以继续运行，而他会作为另外一个线程启动）\n	\n	★Step3.\n	了解了主程序用法之后，介绍几个变量：\n	1.CEnabled(bool)		这个变量在选择程序运行时会变为true(1),退出时会变为false(0),但是，你可以在它运行时通过在你的主程序里更改CEnabled为0来停止他\n			☆☆☆为了防止乱码，程序末尾一定要记得CEnabled=0；否则你会在屏幕上看到一堆字符，而且严重的会导致内存泄漏\n	2.CCurrentY,CCurrentX(short int)	这两个是指当前光标所在的坐标（然而好像没什么用）\n	3.CWindowOrder(string)		这个字符串指的是窗口的排列顺序（由上到下指0~size()-1），不过因为不能引起及时刷新，所以建议只是读取而不要更改\n	☆4.CChoseValue[](int[])	很多同学会疑问：既然是多线程，返回值我怎么获取？（我都为常规获取返回值的步骤感到恶心）不过别担心，我特地把所有返回值存进了这个数组里，既保障了分离运行，又可以可连续传值。\n			要提取返回值时，CChoseValue[0]是总个数（如果它的值是0那么代表没有返回值）,可以用这样的语句:while(CChoseValue[0]==0)Sleep(100)或者执行你自己的语句，跳出循环后写一个xxx=CChoseValue[CChoseValue[0]--(一定要记得--)]便可以了\n	☆5.CCurrentValidValue(int)		这个变量是指鼠标停留在的文字上的值（就算没有点下去也会取得到值），可以在循环中用if(CCurrentValidValue==...)执行\n			设计这个变量主要有一个很有用的用途：如果它的值是某个文字的值，那么马上用cw在旁边写一句话（提示用），可以有效迅速地反馈\n	☆6.CTasks_sys[](int[])	因为多线程运行的时候如果你的程序在输出一个什么就会导致光标错位，所以想到了个办法\n		这里要介绍几个函数：\n		1.spclr(int wd)（用来显示窗口,wd是编号）\n		2.wcrr(int wd)（用来删除一个窗口，然后被删除的窗口就会永久消失，除非你重新创建写入）\n			因为有时候互动需要，可能要显示一个窗口或者删除一个窗口，所以添加了这个数组\n			如果你要显示一个窗口:CTasks_sys[++CTasks_sys[0]]=窗口编号\n			如果你要删除一个窗口:CTasks_sys[++CTasks_sys[0]]=窗口编号的相反数（就是加个负号）\n	7.CMovable_sys[](bool[])	这个程序是可以拖动窗口的（尽管有点慢），如果你想要禁止你的窗口被移动，你可以调用lock(你的窗口编号)或者CMovable_sys[编号]=1;要解锁的话只需再调用一遍lock(编号)或CMovable_sys[编号]=0即可\n 8.CFontSizeX,CFontSizeY	这两个变量是指控制台的字体大小（宽，长；单位像素），可以在属性-字体-大小 查看。因技术有限，没有添加自动校准系统，如果要改需要在程序里改\n	☆☆接下来的这些变量可以在options.txt修改（提示：options.txt会自动出现，无需理会）\n	8.CConsoleLeft,CConsoleRight,CConsoleTop,CConsoleBottom	这四个变量是指窗口（是控制台，就是整个程序进程的窗口）的左、宽、上、高（注意顺序），如果不想调（懒+1）填四个-1即可\n	9.Trans			(transparent 透明)，如果Trans=0，那么你将无法看到非焦点（就是在后面的）窗口。但是如果你的电脑严重卡顿，可以将其修改为0。\n	10.wOldColorAttrs	(Window Old Color Attributes 窗口默认颜色属性)建议不要改，默认7，除非你想看到一个红色、蓝色、绿色为背景的窗口？\n	11.EoutDelay		话说注释里面有个模式叫闪电字幕，而这个变量就是控制其输出快慢的（越大越慢），单位ms\n	12.IDDTFP		(并不是缩写，我乱编的 停止注释偏移)当闪电字幕在输出的时候，如果你不想看了怎么办？是不是挪开鼠标？对的，你只需要挪开IDDTFP像素就可以停止了（所以你知道这是干嘛的了吧）\n	13.WindowVerson		Win10用户注意了！\n			话说从Win10开始，微软肥肠的贴心，为中国客户的Win10电脑里面的（退格符）一次退两格（为了防止把中文字切成两半）。\n			但是这就把我的程序搞傻了，闪电字幕全都没掉，至今没找到两全之策。所以只能再加一个参数。如果你是Win10用户请把它改成1\n	★附.\n	前面介绍了有个函数叫区域选择器。不过因为这个函数我从V2左右就已经完成了，后来都没改过，本来不打算介绍。不过既然有点用处，也介绍一下。\n	void cost(int left,int top,int right,int down,int &px,int &py)//area selecting区域选择* \n	\n	用法：屏幕会变黑，你需要在上面点上一下，就会显示十字准星，接着程序会返回你选择的坐标。可以用于区域选择\n	解释：	left,top;right,down:选择的区域（如果超过这两个点那么他就不会显示十字准星）\n	px，py：这两个变量是用于传回的，不需要有传入值，否则会被覆盖\n	--由LZ编写 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n②：\n	要使用一个鼠标控制程序很简单，几乎不需要用到键盘（如果你是编写者也建议你看一下） \n	首先，你要根据程序提示，等到你看到你的鼠标下有一个'+'时代表你可以用鼠标了（如果编写者自定义了光标则另当别论） \n	你如果要选择一个选项，你只需要点击那个文字即可。\n	如果你想知道某个选项的帮助，1.把鼠标在上面停留一会看是否会弹出一个窗口（注释）；\n	2.看看把鼠标停在上面时会不会在旁边（或者另一个窗口）显示一个什么 \n	最后：这个程序好不好用其实取决于编写他的人，请遵照程序的提示。\n	 --由LZ编写 \n	 \n\n\n";
 #else
@@ -114,7 +124,8 @@ string Optionstring[105];/*options.txt<-VerVerify NEEDED*/
 char CTitle[1005];//程序窗口标题
 string CWindowOrder="";//窗口顺序
 int CMessageXLine,CMessageXHeight;/*msgbox() NEEDED*/
-int CEnabled;//线程是否启动
+pthread_t CRecentTids;
+int CEnabled,CPause,Trans=1,CButton=2,CLatestNum,CClickable=1,FV=2,CTopCurrentWindow;//线程是否启动,暂停（鼠标移出窗口）非焦点窗口可见性  按钮特效开关  当前运行线程编号 是否允许选择 当前窗口是否置顶 
 int CurrentFontSizeX,CurrentFontSizeY,CurrentFontIndex;//(current-)当前字体大小 
 /*p rivate*/ char cc;//全局getch() 
 //API SYMBOL
@@ -125,16 +136,15 @@ CONSOLE_SCREEN_BUFFER_INFO CConsoleScreenBufferInfo;//窗口缓冲区信息
 RECT CWindowRect,CTempRect;//窗口位置，缓存WindowRect
 LONG CWindowOldLong=GetWindowLong(CMainHwnd, GWL_STYLE);//窗口样式，用于隐藏标题 
 CONSOLE_CURSOR_INFO CCursorInfo;//光标信息，用于隐藏光标 
-#ifndef CLICK_RELEASE
-COORD CBufferSize={255,255};//缓冲区大小 
-#else
+#ifndef CBufferSize
+	#warning:DEFINE CBufferSize={x,y} as *COORD* to define buffer size,or it will be {80,25}.
 COORD CBufferSize={80,25};//更改窗口大小应该在此处 
 #endif
-
 
 //Function declare
 int INTSc(int linenum, int number);
 bool LinePr(char* COptionsFileName, int linenum,string ot);
+int GetSystemVersion();
 void gotoxy(int x,int y);
 bool Form_load();
 bool VerVerify();
@@ -144,13 +154,17 @@ bool VerVerify();
 /*p rivate*/ bool _VerVerify=VerVerify();//数据检查和读取 
 //常量 
 /*p rivate*/ const int
-		EoutDelay=Options[3][1],IDDTFP=Options[3][2],FV=Options[2][5],//闪电字幕延时(!>5) 注释终止偏移  窗口累积最大个数
-		WDD=15,//窗口数量 
+		EoutDelay=Options[3][1],IDDTFP=Options[3][2],//闪电字幕延时(!>5) 注释终止偏移  窗口累积最大个数
+#ifndef WDD//可以在主程序里自己定义，此处仅供参考 
+		WDD=5,//窗口数量 
+#endif
+#ifndef WDLMT
 		WDLMT=205,//窗口大小（长边） 
-		Trans=Options[2][1],wOldColorAttrs=Options[2][2],//非焦点窗口可见性  默认窗口文字颜色 
-		WinVer=Options[4][1],//系统版本（用于修复Win10中文\b的双倍回格） 
-		CFontSizeX=Options[2][3],CFontSizeY=Options[2][4],//字体大小 宽*长pixel
+#endif
+		wOldColorAttrs=Options[2][2],//默认窗口文字颜色 
 		CMD_MAXCHAR=512;//PipeCMD最大输出长度 
+int		WinVer=GetSystemVersion(),//系统版本（用于修复Win10中文\b的双倍回格） 
+		CFontSizeX=Options[2][3],CFontSizeY=Options[2][4];//字体大小 宽*长pixel
 //主系统 
 short int 
 /*基础*/			CValue_sys[WDD][WDLMT][WDLMT],CColor_sys[WDD][WDLMT][WDLMT],
@@ -275,6 +289,27 @@ inline void gotoxy(int x,int y)//cursor position setting光标位置设置
 	SetConsoleCursorPosition(COutputHandle, newCursorPointer);
 	return;
 }
+int GetSystemVersion()
+{
+	OSVERSIONINFOEX os;
+	os.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	if(GetVersionEx((OSVERSIONINFO *)&os))
+	{
+		string vname;
+#ifndef OLD_VERSION
+		if (os.dwMajorVersion==4 && os.dwMinorVersion==0 && os.dwPlatformId==VER_PLATFORM_WIN32_NT)return 0;//Windows NT 4.0
+		if (os.dwMajorVersion==4 && os.dwMinorVersion==0 && os.dwPlatformId==VER_PLATFORM_WIN32_WINDOWS)return 0;//Windows 95
+		if (os.dwMajorVersion==4 && os.dwMinorVersion==10)return 0;//Windows 98
+		if (os.dwMajorVersion==4 && os.dwMinorVersion==90)return 0;//Windows Me
+		if (os.dwMajorVersion==5 && os.dwMinorVersion==0)return 0;//Windows 2000
+		if (os.dwMajorVersion==5 && os.dwMinorVersion==1)return 0;//Windows XP
+		if (os.dwMajorVersion==6 && os.dwMinorVersion==0)return 0;//Windows Vista
+#endif
+		if (os.dwMajorVersion==6 && os.dwMinorVersion==1)return 0;//Windows 7
+		if (os.dwMajorVersion==10 && os.dwMinorVersion==0)return 1;//Windows 10
+	}
+	return 0;//failed
+}
 void CExeCMD(char* cmd,char* result)
 {
 	char buffer[CMD_MAXCHAR]={'\0'};
@@ -335,6 +370,27 @@ struct CONSOLE_FONT//FontSizer needed
 	else if (tmp.find("0x100008") != string::npos || tmp.find("0x0") != string::npos)CurrentFontSizeX=8,CurrentFontSizeY=16;
 	else if (tmp.find("0x120008") != string::npos)CurrentFontSizeX=8,CurrentFontSizeY=18;
 	else if (tmp.find("0x14000a") != string::npos)CurrentFontSizeX=10,CurrentFontSizeY=20;
+	else if (tmp.find("0000") != string::npos)//Win10的奇怪字体储存方式 
+	{
+		if (tmp.find( "0x50000") != string::npos)CurrentFontSizeX=3,CurrentFontSizeY=6;
+		else if (tmp.find( "0x60000") != string::npos)CurrentFontSizeX=3,CurrentFontSizeY=7;
+		else if (tmp.find( "0x70000") != string::npos)CurrentFontSizeX=4,CurrentFontSizeY=8;
+		else if (tmp.find( "0x80000") != string::npos)CurrentFontSizeX=4,CurrentFontSizeY=9;
+		else if (tmp.find( "0xa0000") != string::npos)CurrentFontSizeX=5,CurrentFontSizeY=11;
+		else if (tmp.find( "0xc0000") != string::npos)CurrentFontSizeX=6,CurrentFontSizeY=14;
+		else if (tmp.find( "0xe0000") != string::npos)CurrentFontSizeX=7,CurrentFontSizeY=16;
+		else if (tmp.find("0x100000") != string::npos)CurrentFontSizeX=8,CurrentFontSizeY=18;
+		else if (tmp.find("0x120000") != string::npos)CurrentFontSizeX=9,CurrentFontSizeY=21;
+		else if (tmp.find("0x140000") != string::npos)CurrentFontSizeX=10,CurrentFontSizeY=23;
+		else if (tmp.find("0x1c0000") != string::npos)CurrentFontSizeX=14,CurrentFontSizeY=32;
+		else if (tmp.find("0x240000") != string::npos)CurrentFontSizeX=18,CurrentFontSizeY=41;
+		else if (tmp.find("0x480000") != string::npos)CurrentFontSizeX=36,CurrentFontSizeY=82;
+		else if (tmp.find("0x520000") != string::npos)CurrentFontSizeX=41,CurrentFontSizeY=94;
+		else if (tmp.find("0x5e0000") != string::npos)CurrentFontSizeX=47,CurrentFontSizeY=107;
+		else if (tmp.find("0x6b0000") != string::npos)CurrentFontSizeX=54,CurrentFontSizeY=122;
+		else if (tmp.find("0x7a0000") != string::npos)CurrentFontSizeX=61,CurrentFontSizeY=139;
+		WinVer=Options[4][1];
+	}
 	else
 	{
 #ifndef CLICK_RELEASE
@@ -398,7 +454,6 @@ struct CONSOLE_FONT//FontSizer needed
 		tmps="";
 		puts ("---Restoring Local Font Info完成");
 	}
-#endif
 	if (CurrentFontSizeX!=Options[2][3]||CurrentFontSizeY!=Options[2][4])
 	for (int i=1;i<=Options[6][0];i+=2)
 	if (Options[6][i]==Options[2][3]&&Options[6][i+1]==Options[2][4])
@@ -407,6 +462,11 @@ struct CONSOLE_FONT//FontSizer needed
 		CurrentFontIndex=Options[8][i];
 		break;
 	}
+#else
+	CFontSizeX=CurrentFontSizeX,CFontSizeY=CurrentFontSizeY;
+#endif
+#else
+	CFontSizeX=CurrentFontSizeX,CFontSizeY=CurrentFontSizeY;
 #endif
 	return;
 	//以下是旧版本(本来是当心坠物需要临时编的) 
@@ -782,6 +842,8 @@ char menu[][15][55]={
 //		{12,2663,517,1600,325,1327,208,2000,426,1000,142,800,125},
 //		{12,0,0,2,0,7,0,1,0,13,0,15,0}
 #endif
+	Trans=Options[2][1];
+	FV=Options[2][5];//为了给他俩调顺序，允许修改，只能把预处理放在这儿了 
 	return 1;
 }
 /*p rivate*/ bool Form_load()
@@ -948,80 +1010,162 @@ void CAreaRefresh(int sx,int sy,int ex,int ey)
 //explain:from(sx,sy)to(ex,ey)将sx,sy到ex,ey之间的空间还原（为原来的窗口内容） 
 {
 //	printf("ACLR:%d %d-%d %d\n%s",sx,sy,ex,ey,CWindowOrder.c_str());
-	int bs,ctextcolour=wOldColorAttrs,CTempWD=CCurrentWD,LastIsChinese=0;
+	int bs,ctextcolour=wOldColorAttrs,CTempWD=CCurrentWD,BeSwitched=0;
 	string tmp="";
+//#ifndef OLD_VERSION
+//	for (int i=sx;i<=ex;i++)
+//	{
+//		if (tmp!="")
+//		{
+//			SetConsoleTextAttribute (COutputHandle,ctextcolour);
+//			cout<<tmp;
+//			ctextcolour=CColor_sys[bs][i][sy];
+//			tmp="";
+//		}
+////		gotoxy(22,0);
+////		cout<<i<<" "<<sy<<"   ";
+////		Sleep(200);
+////		cout<<"\b\b\b\b\b\b\b\b                ";
+//
+//		//更新CTempWD
+//		if (!Trans)bs=CWindowOrder[0]-'0';//若设置了"仅顶层窗口可见"
+//		else
+//		for (int ii=0;ii<CWindowOrder.size();ii++)//否则查找当前位置属于哪个窗口 
+//		if (sy-1>=CWindowLeft_sys[CWindowOrder[ii]-'0'] && sy-1<=CWindowRight_sys[CWindowOrder[ii]-'0'] && i>=CWindowTop_sys[CWindowOrder[ii]-'0'] && i<=CWindowBottom_sys[CWindowOrder[ii]-'0'])//判断当前位置属于窗口
+//		{
+//			CTempWD=CWindowOrder[ii]-'0';
+//			break;
+//		}
+//		LastIsChinese=0;
+//		
+//		gotoxy(i,sy);
+//		for (int j=sy;j<=ey;j++)
+//		{
+//			bs=0;
+//			if (!Trans)bs=CWindowOrder[0]-'0';//若设置了"仅顶层窗口可见"
+//			else
+//			for (int ii=0;ii<CWindowOrder.size();ii++)//否则查找当前位置属于哪个窗口 
+//			if (j>=CWindowLeft_sys[CWindowOrder[ii]-'0'] && j<=CWindowRight_sys[CWindowOrder[ii]-'0'] && i>=CWindowTop_sys[CWindowOrder[ii]-'0'] && i<=CWindowBottom_sys[CWindowOrder[ii]-'0'])//判断当前位置属于窗口
+//			{
+//				bs=CWindowOrder[ii]-'0';
+//				break;
+//			}
+//			if (bs!=CTempWD)//窗口之间必须完成输出 
+//			{
+//			//gotoxy(24,0);cout<<"bswd"<<" "<<bs<<" "<<CTempWD;cc=getch();
+//				CTempWD=bs;
+//				SetConsoleTextAttribute (COutputHandle,ctextcolour);
+//				cout<<tmp;
+//				gotoxy(i,j);
+//				tmp="";
+////				if (CValue_sys[bs][i][j]==-1)
+////				tmp=" ";//补齐行首 
+////				else
+////				tmp=CChar_sys[bs][i][j];
+////				j++;
+//			}
+//			
+//			if (CValue_sys[bs][i][j]==-1)
+//			{
+//				if (!LastIsChinese)
+//				{
+//					cout<<'\b';
+//					j-=2;
+//				}
+//				j++;
+//			}
+//			if (CColor_sys[bs][i][j]==ctextcolour)
+//			{
+//				tmp=tmp+CChar_sys[bs][i][j];
+//			}
+//			else
+//			{
+//				SetConsoleTextAttribute (COutputHandle,ctextcolour);
+//				cout<<tmp;
+//				ctextcolour=CColor_sys[bs][i][j];
+//				tmp=CChar_sys[bs][i][j];
+//			}
+//			if (CChar_sys[bs][i][j].size()>1)LastIsChinese=1;
+//			else LastIsChinese=0;
+////旧版本：完全令人想不到的是，scanf比cin快，但printf却像拖拉机一样慢，比puts慢4倍左右,比cout慢十倍以上! 
+////			if (CValue_sys[bs][i][j]!=-1)
+////			{
+////				SetConsoleTextAttribute (COutputHandle,CColor_sys[bs][i][j]);
+////				printf ("%s",CChar_sys[bs][i][j].c_str());
+////				if (CChar_sys[bs][i][j].size()==2)j++;
+////			}
+////			else
+////			{
+////				SetConsoleTextAttribute (COutputHandle,CColor_sys[bs][i][j-1]);
+////				printf ("\b%s",CChar_sys[bs][i][j-1].c_str());
+////			}
+//		}
+//	}
+//#else
+	//更新CTempWD
+	if (!Trans)bs=CWindowOrder[0]-'0';//若设置了"仅顶层窗口可见"
+	else
+	for (int ii=0;ii<CWindowOrder.size();ii++)//否则查找当前位置属于哪个窗口 
+	if (sy>=CWindowLeft_sys[CWindowOrder[ii]-'0'] && sy<=CWindowRight_sys[CWindowOrder[ii]-'0'] && sx>=CWindowTop_sys[CWindowOrder[ii]-'0'] && sx<=CWindowBottom_sys[CWindowOrder[ii]-'0'])//判断当前位置属于窗口
+	{
+		bs=CWindowOrder[ii]-'0';
+		break;
+	}
+//	LastIsChinese=0;
 	for (int i=sx;i<=ex;i++)
 	{
-		if (tmp!="")
-		{
-			SetConsoleTextAttribute (COutputHandle,ctextcolour);
-			cout<<tmp;
-			ctextcolour=CColor_sys[bs][i][sy];
-			tmp="";
-		}
-//		gotoxy(22,0);
-//		cout<<i<<" "<<sy<<"   ";
-//		Sleep(200);
-//		cout<<"\b\b\b\b\b\b\b\b                ";
-
-		//更新CTempWD
-		if (!Trans)bs=CWindowOrder[0]-'0';//若设置了"仅顶层窗口可见"
-		else
-		for (int ii=0;ii<CWindowOrder.size();ii++)//否则查找当前位置属于哪个窗口 
-		if (sy-1>=CWindowLeft_sys[CWindowOrder[ii]-'0'] && sy-1<=CWindowRight_sys[CWindowOrder[ii]-'0'] && i>=CWindowTop_sys[CWindowOrder[ii]-'0'] && i<=CWindowBottom_sys[CWindowOrder[ii]-'0'])//判断当前位置属于窗口
-		{
-			CTempWD=CWindowOrder[ii]-'0';
-			break;
-		}
-		LastIsChinese=0;
-		
-		gotoxy(i,sy);
 		for (int j=sy;j<=ey;j++)
 		{
-			bs=0;
-			if (!Trans)bs=CWindowOrder[0]-'0';//若设置了"仅顶层窗口可见"
-			else
-			for (int ii=0;ii<CWindowOrder.size();ii++)//否则查找当前位置属于哪个窗口 
-			if (j>=CWindowLeft_sys[CWindowOrder[ii]-'0'] && j<=CWindowRight_sys[CWindowOrder[ii]-'0'] && i>=CWindowTop_sys[CWindowOrder[ii]-'0'] && i<=CWindowBottom_sys[CWindowOrder[ii]-'0'])//判断当前位置属于窗口
+			ctextcolour=CColor_sys[bs][i][j];
+			gotoxy(i,j);
+			while (j<=ey)
 			{
-				bs=CWindowOrder[ii]-'0';
-				break;
-			}
-			if (bs!=CTempWD)//窗口之间必须完成输出 
-			{
-			//gotoxy(24,0);cout<<"bswd"<<" "<<bs<<" "<<CTempWD;cc=getch();
-				CTempWD=bs;
-				SetConsoleTextAttribute (COutputHandle,ctextcolour);
-				cout<<tmp;
-				tmp="";
-				gotoxy(i,j);
-				if (CValue_sys[bs][i][j]==-1)
-				tmp=" ";//补齐行首 
-				j++;
-			}
-			
-			if (CValue_sys[bs][i][j]==-1)
-			{
-				if (!LastIsChinese)
+				//更新CTempWD
+				if (!Trans)CTempWD=CWindowOrder[0]-'0';//若设置了"仅顶层窗口可见"
+				else
+				for (int ii=0;ii<CWindowOrder.size();ii++)//否则查找当前位置属于哪个窗口 
+				if (j>=CWindowLeft_sys[CWindowOrder[ii]-'0'] && j<=CWindowRight_sys[CWindowOrder[ii]-'0'] && i>=CWindowTop_sys[CWindowOrder[ii]-'0'] && i<=CWindowBottom_sys[CWindowOrder[ii]-'0'])//判断当前位置属于窗口
 				{
-					cout<<'\b';
-					j-=2;
+					CTempWD=CWindowOrder[ii]-'0';
+					if (bs != CTempWD)
+					{
+						bs=CTempWD;
+						j--;
+						BeSwitched=1;//发生了窗口切换 
+					}
+					break;
+				}
+				if (BeSwitched)
+				{BeSwitched=0;break;}//接受窗口切换消息 
+				CIfRefresh_sys[bs][i][j]=0;
+				if (CValue_sys[bs][i][j]==-1)
+				{
+//					if (CChar_sys[bs][i][j-1].size()<=1)//该中文后半块被切开 
+//					tmp=" ",j++;
+//					else
+					if (j==sy)
+					{
+						ctextcolour=CColor_sys[bs][i][j-1];
+						tmp=CChar_sys[bs][i][j-1];//输出被切断的中文 
+						gotoxy(i,j-1);//回退一格用于补齐中文 
+					}
+					j++;//(不管是否截断)中文已经输出了，跳过 
+				}
+				if (CColor_sys[bs][i][j]==ctextcolour)
+				{
+					tmp=tmp+CChar_sys[bs][i][j];
+				}
+				else
+				{
+					j--;//颜色不同，下一轮再处理，把光标回移1
+					break;//退出循环再处理已吸收数据 
 				}
 				j++;
 			}
-			if (CColor_sys[bs][i][j]==ctextcolour)
-			{
-				tmp=tmp+CChar_sys[bs][i][j];
-			}
-			else
-			{
+			//因为是矩阵，必然会有输出 
 				SetConsoleTextAttribute (COutputHandle,ctextcolour);
 				cout<<tmp;
-				ctextcolour=CColor_sys[bs][i][j];
-				tmp=CChar_sys[bs][i][j];
-			}
-			if (CChar_sys[bs][i][j].size()>1)LastIsChinese=1;
-			else LastIsChinese=0;
+				tmp="";
 //旧版本：完全令人想不到的是，scanf比cin快，但printf却像拖拉机一样慢，比puts慢4倍左右,比cout慢十倍以上! 
 //			if (CValue_sys[bs][i][j]!=-1)
 //			{
@@ -1036,22 +1180,9 @@ void CAreaRefresh(int sx,int sy,int ex,int ey)
 //			}
 		}
 	}
-	SetConsoleTextAttribute (COutputHandle,ctextcolour);
-	cout<<tmp;
+//#endif
 //	gotoxy(22,0);
 //	printf("finish");Sleep(500);cout<<"\b\b  ";
-	return;
-}
-
-void CShowWindow(int wd)
-{
-	for(int i=0;i<CWindowOrder.size();i++)
-	if (CWindowOrder[i]-'0'==wd)
-	{
-		CWindowOrder.erase(i,1);
-		break;
-	}
-	CWindowOrder.insert(0,1,(char)(wd+'0'));
 	return;
 }
 void CWriteWindow(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,int cmdl,int cmmd,int cmbds,int cl)//menu writing system菜单写入系统*
@@ -1099,6 +1230,267 @@ void CWriteWindow(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,i
 	}
 	return;
 }
+void CAllRefresh()
+{
+//	printf("CLR:%d %d %d %d\n",(CConsoleBottom-CConsoleTop-CConsoleTopBoard),(CConsoleRight-CConsoleLeft-CConsoleBoard),(CConsoleBottom-CConsoleTop-CConsoleTopBoard)/CFontSizeY-2,(CConsoleRight-CConsoleLeft-CConsoleBoard)/CFontSizeX-2);
+	CAreaRefresh(0,0,(CConsoleBottom-CConsoleTop-CConsoleTopBoard-CConsoleBoard)/CFontSizeY,(CConsoleRight-CConsoleLeft-(CConsoleBoard<<1))/CFontSizeX);
+	return;
+}
+void CSpeedRefresh(int Count,...)//快速刷新，只刷新被更新的窗口位置 ，原来的spclr替换为本函数 
+{
+	int bs,ctextcolour=-1,*tmpnum=&Count,BeCovered=0,CTempWD=0,tasktmp;
+	string tmp="";
+	if (!Count)//若Count=0则刷新全局，否则刷新指定的窗口 
+	{
+		//执行part (执行Show\Hide标记的任务)
+		for(;CTasks_sys[0]>=1;CTasks_sys[0]--)
+		{
+			tasktmp=CTasks_sys[CTasks_sys[0]];
+			if(tasktmp>0)//显示某个窗口 
+			{
+				CSpeedRefresh(1,tasktmp);
+			}
+			else if (tasktmp<0)
+			{
+				tasktmp=-tasktmp;
+				CAreaRefresh(CWindowTop_sys[tasktmp],CWindowLeft_sys[tasktmp],CWindowBottom_sys[tasktmp],CWindowRight_sys[tasktmp]);//刷新窗口内的全部字符 
+				if (tasktmp==CCurrentWD)//防止窗口去注释不空 
+				CAreaRefresh(CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight,CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine);//清除注释
+			}
+			else//tasktmp==0
+			{
+				SetConsoleTextAttribute(COutputHandle,wOldColorAttrs);
+				lr();//为了清除不必要的颜色 
+				CAllRefresh();
+			}
+		}
+		
+		for (int wd=CWindowOrder.size()-1;wd>=0;wd--)
+		{
+			bs=CWindowOrder[wd]-'0';
+			for (int i=CWindowTop_sys[bs];i<=CWindowBottom_sys[bs];i++)
+			{
+				for (int j=CWindowLeft_sys[bs];j<=CWindowRight_sys[bs];j++)
+				if (CIfRefresh_sys[bs][i][j])
+				{
+//					if (CMessageXHeight&&CMessageXLine//触发了comment 
+//					&&i>=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]
+//					&&i<=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight
+//					
+//					&&j>=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]
+//					&&j<=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine//假如刷新在msgbox范围就会造成搞笑效果
+//					||
+//					bs!=CTempWD)
+//					continue;
+
+	//				gotoxy(23,0);
+	//				cout<<i<<" "<<j;
+	//				Sleep(50);
+	//				cout<<"\b\b\b\b\b     ";
+					
+					ctextcolour=CColor_sys[bs][i][j];
+					gotoxy(i,j);
+					while (j<=CWindowRight_sys[bs]&&CIfRefresh_sys[bs][i][j])
+					{
+						if (!Trans)CTempWD=CWindowOrder[0]-'0';//若设置了"仅顶层窗口可见"
+						else
+						for (int ii=0;ii<CWindowOrder.size();ii++)//否则查找当前位置属于哪个窗口 
+						if (j>=CWindowLeft_sys[CWindowOrder[ii]-'0'] && j<=CWindowRight_sys[CWindowOrder[ii]-'0'] && i>=CWindowTop_sys[CWindowOrder[ii]-'0'] && i<=CWindowBottom_sys[CWindowOrder[ii]-'0'])//判断当前位置属于窗口
+						{
+							CTempWD=CWindowOrder[ii]-'0';
+							if (bs!=CTempWD)//刷新的位置被遮盖 
+							{
+								j=CWindowRight_sys[CWindowOrder[ii]-'0']+1;
+								BeCovered=1;
+							}
+							break;
+						}
+						if (CMessageXHeight&&CMessageXLine//触发了comment 
+						&&i>=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]
+						&&i<=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight
+						
+						&&j>=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]
+						&&j<=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine//假如刷新在msgbox范围就会造成搞笑效果
+						)
+						{
+							j=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine+1;//直接跳过msgbox 
+							continue;
+						}
+						if (BeCovered)
+						{BeCovered=0;continue;}//接受被覆盖的消息 
+						
+						CIfRefresh_sys[bs][i][j]=0;
+						if (CValue_sys[bs][i][j]==-1)
+						{
+							if (CChar_sys[bs][i][j-1].size()<=1)//该中文后半块被切开 
+							tmp=" ";
+							j++;
+						}
+						if (CColor_sys[bs][i][j]==ctextcolour)
+						{
+							tmp=tmp+CChar_sys[bs][i][j];
+						}
+						else
+						{
+							j--;//颜色不同，下一轮再处理，把光标回移1
+							break;//退出循环再处理已吸收数据 
+						}
+						j++;
+					}
+					if (tmp!="")
+					{
+						SetConsoleTextAttribute (COutputHandle,ctextcolour);
+						cout<<tmp;
+						tmp="";
+					}
+				}
+			}
+		}
+		for (int i=0;i<=(CConsoleBottom-CConsoleTop-CConsoleTopBoard-CConsoleBoard)/CFontSizeY;i++)//刷新野地里的光标、注释之类 
+		{
+			for (int j=0;j<=(CConsoleRight-CConsoleLeft-(CConsoleBoard<<1))/CFontSizeX;j++)
+			if (CIfRefresh_sys[0][i][j])
+			{
+				ctextcolour=CColor_sys[0][i][j];
+				gotoxy(i,j);
+				while (j<=(CConsoleRight-CConsoleLeft-(CConsoleBoard<<1))/CFontSizeX&&CIfRefresh_sys[0][i][j])
+				{
+					if (CMessageXHeight&&CMessageXLine//触发了comment 
+					&&i>=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]
+					&&i<=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight
+					
+					&&j>=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]
+					&&j<=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine//假如刷新在msgbox范围就会造成搞笑效果
+					)
+					{
+						j=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine+1;//直接跳过msgbox 
+						continue;
+					}
+					
+					CIfRefresh_sys[0][i][j]=0;
+					if (CValue_sys[0][i][j]==-1)
+					{
+						if (CChar_sys[0][i][j-1].size()<=1)//该中文后半块被切开 
+						tmp=" ";
+						j++;
+					}
+					if (CColor_sys[0][i][j]==ctextcolour)
+					{
+						tmp=tmp+CChar_sys[0][i][j];
+					}
+					else
+					{
+						j--;//颜色不同，下一轮再处理，把光标回移1
+						break;//退出循环再处理已吸收数据 
+					}
+					j++;
+				}
+				if (tmp!="")
+				{
+					SetConsoleTextAttribute (COutputHandle,ctextcolour);
+					cout<<tmp;
+					tmp="";
+				}
+			}
+		}
+	}
+	else
+	for (int wd=1;wd<=Count;wd++)//该处替换spclr()函数 ，刷新bs内的所有(包括空格)字符
+	{
+		*tmpnum++;*tmpnum++;//我也不知道为什么要加两次，但是这样才有数据 
+		bs=*tmpnum;
+		for (int i=CWindowTop_sys[bs];i<=CWindowBottom_sys[bs];i++)
+		for (int j=CWindowLeft_sys[bs];j<=CWindowRight_sys[bs];j++)
+		{
+//			while (j<=CWindowRight_sys[bs])
+//			{
+//				if (CValue_sys[bs][i][j]==-1)
+//				{
+//					if (!LastIsChinese)
+//					{
+//						tmp+=CChar_sys[bs][i][j-1];
+//						cout<<'\b';
+//					}
+//					j++;
+//				}
+//				if (CColor_sys[bs][i][j]==ctextcolour)
+//				{
+//					tmp=tmp+CChar_sys[bs][i][j];
+//				}
+//				else
+//				{
+//					SetConsoleTextAttribute (COutputHandle,ctextcolour);
+//					cout<<tmp;
+//					tmp=CChar_sys[bs][i][j];
+//					ctextcolour=CColor_sys[bs][i][j];
+//				}
+//				if (CChar_sys[bs][i][j].size()>1)LastIsChinese=1;
+//				else LastIsChinese=0;
+//				j++;
+//			}
+//			if (tmp!="")
+//			{
+//				SetConsoleTextAttribute (COutputHandle,ctextcolour);
+//				cout<<tmp;
+//				tmp="";
+//			}
+			gotoxy(i,j);
+			ctextcolour=CColor_sys[bs][i][j];
+			while (j<=CWindowRight_sys[bs])
+			{
+				CIfRefresh_sys[bs][i][j]=0;
+				if (CValue_sys[bs][i][j]==-1)
+				{
+					if (CChar_sys[bs][i][j-1].size()<=1)//该中文后半块被切开 
+					tmp=" ";
+					j++;
+				}
+				if (CColor_sys[bs][i][j]==ctextcolour)
+				{
+					tmp=tmp+CChar_sys[bs][i][j];
+				}
+				else
+				{
+					j--;//颜色不同，下一轮再处理，把光标回移1
+					break;//退出循环再处理已吸收数据 
+				}
+				j++;
+			}
+			if (tmp!="")
+			{
+				SetConsoleTextAttribute (COutputHandle,ctextcolour);
+				cout<<tmp;
+				tmp="";
+			}
+		}
+	}
+	return;
+}
+void CShowWindow(int wd)//显示窗口k ,可以在CEnabled=0时调用 
+{
+	for(int i=0;i<CWindowOrder.size();i++)
+	if (CWindowOrder[i]-'0'==wd)
+	{
+		CWindowOrder.erase(i,1);
+		break;
+	}
+	CWindowOrder.insert(0,1,(char)(wd+'0'));
+	CTasks_sys[++CTasks_sys[0]]=wd;
+//	cout<<CWindowOrder<<endl;system("pause");
+	return;
+}
+void CHideWindow(int wd)//隐藏窗口k ,可以在CEnabled=0时调用
+{
+	for(int i=0;i<CWindowOrder.size();i++)
+	if(CWindowOrder[i]-'0'==wd)
+	{
+		CWindowOrder.erase(i,1);
+		break;
+	}
+	CTasks_sys[++CTasks_sys[0]]=-wd;
+//	cout<<CWindowOrder<<endl;system("pause");
+	return;
+}
 /*p rivate*/ void CCreateWindow(int wd,int wdbds,string wdtp,int cwl,int cwt,int cwr,int cwb)//window writing system窗口创建系统
 {
 	int o=0;
@@ -1110,35 +1502,22 @@ void CWriteWindow(int wd,int x,int y,string s,int ct,string cm,int cml,int cmt,i
 	CWindowTopic_sys[wd]=wdtp;
 
 	for(int i=1;i<=cwr-cwl;i++)tmp+=WindowTopBoard[wdbds];
-	CWriteWindow(wd,cwt,cwl,tmp,-2,"",0,0,0,0,0,wOldColorAttrs|0x8);
-	CWriteWindow(wd,cwb,cwl,tmp,-2,"",0,0,0,0,0,wOldColorAttrs|0x8);
+	CWriteWindow(wd,cwt,cwl,tmp,32767,"",0,0,0,0,0,wOldColorAttrs|0x8);
+	CWriteWindow(wd,cwb,cwl,tmp,0,"",0,0,0,0,0,wOldColorAttrs|0x8);
 	tmp="";
 	for(int i=1;i<=cwb-cwt+1;i++)tmp+=WindowLeftBoard[wdbds]+'}';
-	CWriteWindow(wd,cwt,cwl,tmp,-2,"",0,0,0,0,0,wOldColorAttrs|0x8);
-	CWriteWindow(wd,cwt,cwr,tmp,-2,"",0,0,0,0,0,wOldColorAttrs|0x8);
-	CWriteWindow(wd,cwt,(cwl+cwr)/2-wdtp.size()/2,wdtp,-2,"",0,0,0,0,0,wOldColorAttrs|0x8);
+	CWriteWindow(wd,cwt,cwl,tmp,0,"",0,0,0,0,0,wOldColorAttrs|0x8);
+	CWriteWindow(wd,cwt,cwr,tmp,0,"",0,0,0,0,0,wOldColorAttrs|0x8);
+	CWriteWindow(wd,cwt,(cwl+cwr)/2-wdtp.size()/2,wdtp,32767,"",0,0,0,0,0,wOldColorAttrs|0x8);
 	//本来想添加，不过至今还没编写 
 //	cw(wd,cwt,cwr-6,"[ ][ ]",0,"",0,0,0,0,0,wOldColorAttrs);
 //	cw(wd,cwt,cwr-5,"-",-3,"",0,0,0,0,0,wOldColorAttrs|0x8|0x10|0x80);
 //	cw(wd,cwt,cwr-2,"X",-4,"",0,0,0,0,0,wOldColorAttrs|0x8|0x10|0x80);
 	return;
 }
-void CHideWindow(int k)//隐藏窗口k
-{
-	for(int i=0;i<CWindowOrder.size();i++)
-	if(CWindowOrder[i]-'0'==k)
-	{
-		CWindowOrder.erase(i,1);
-		break;
-	}
-	CAreaRefresh(CWindowTop_sys[k],CWindowLeft_sys[k],CWindowBottom_sys[k],CWindowRight_sys[k]);
-	if (k==CCurrentWD)
-	CAreaRefresh(CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight,CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine);//清除注释
-	return;
-}
 void CDeleteWindow(int k)//删除窗口k 
 {
-//	CHideWindow(k);
+	CHideWindow(k);
 	for(int i=0;i<WDLMT;i++)//删除它的数据 
 	for(int j=0;j<WDLMT;j++)
 	{
@@ -1151,144 +1530,6 @@ void CDeleteWindow(int k)//删除窗口k
 		CCommentMode_sys[k][i][j]=0;
 		CCommentBoard_sys[k][i][j]=0;
 		CColor_sys[k][i][j]=wOldColorAttrs;
-	}
-	return;
-}
-void CAllRefresh()
-{
-//	printf("CLR:%d %d %d %d\n",(CConsoleBottom-CConsoleTop-CConsoleTopBoard),(CConsoleRight-CConsoleLeft-CConsoleBoard),(CConsoleBottom-CConsoleTop-CConsoleTopBoard)/CFontSizeY-2,(CConsoleRight-CConsoleLeft-CConsoleBoard)/CFontSizeX-2);
-	CAreaRefresh(0,0,(CConsoleBottom-CConsoleTop-CConsoleTopBoard-CConsoleBoard)/CFontSizeY,(CConsoleRight-CConsoleLeft-(CConsoleBoard<<1))/CFontSizeX);
-	return;
-}
-void CSpeedRefresh(int Count,...)//快速刷新，只刷新被更新的窗口位置 ，原来的spclr替换为本函数 
-{
-	int bs,ctextcolour=-1,*tmpnum=&Count,LastIsChinese=0,CTempWD=0;
-	string tmp="";
-	if (!Count)//若Count=0则刷新全局，否则刷新指定的窗口 
-	{
-		//执行part (执行主线程的任务)
-		for(;CTasks_sys[0]>=1;CTasks_sys[0]--)
-		if(CTasks_sys[CTasks_sys[0]]>0)//显示某个窗口 
-		{
-			CShowWindow(CTasks_sys[CTasks_sys[0]]);
-			CSpeedRefresh(1,CTasks_sys[CTasks_sys[0]]);
-		}
-		else 
-		{
-			CHideWindow(-CTasks_sys[CTasks_sys[0]]);//隐藏窗口 
-		}
-		
-		for (int wd=CWindowOrder.size()-1;wd>=0;wd--)
-		{
-			bs=CWindowOrder[wd]-'0';
-			for (int i=CWindowTop_sys[bs];i<=CWindowBottom_sys[bs];i++)
-			{
-				for (int j=CWindowLeft_sys[bs];j<=CWindowRight_sys[bs];j++)
-				if (CIfRefresh_sys[bs][i][j])
-				{
-					if (!Trans)CTempWD=CWindowOrder[0]-'0';//若设置了"仅顶层窗口可见"
-					else
-					for (int ii=0;ii<CWindowOrder.size();ii++)//否则查找当前位置属于哪个窗口 
-					if (j>=CWindowLeft_sys[CWindowOrder[ii]-'0'] && j<=CWindowRight_sys[CWindowOrder[ii]-'0'] && i>=CWindowTop_sys[CWindowOrder[ii]-'0'] && i<=CWindowBottom_sys[CWindowOrder[ii]-'0'])//判断当前位置属于窗口
-					{
-						CTempWD=CWindowOrder[ii]-'0';
-						break;
-					}
-					if (CMessageXHeight&&CMessageXLine//触发了comment 
-					&&i>=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]
-					&&i<=CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXHeight
-					
-					&&j>=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]
-					&&j<=CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY]+CMessageXLine//假如刷新在msgbox范围就会造成搞笑效果
-					||
-					bs!=CTempWD)//刷新的位置被遮盖 
-					continue;
-	//				gotoxy(23,0);
-	//				cout<<i<<" "<<j;
-	//				Sleep(50);
-	//				cout<<"\b\b\b\b\b     ";
-					
-					gotoxy(i,j);
-					while (j<=CWindowRight_sys[bs]&&CIfRefresh_sys[bs][i][j])
-					{
-						CIfRefresh_sys[bs][i][j]=0;
-						if (CValue_sys[bs][i][j]==-1)
-						{
-							if (!LastIsChinese)
-							{
-								cout<<'\b';
-								j-=2;
-							}
-							j++;
-						}
-						if (CColor_sys[bs][i][j]==ctextcolour)
-						{
-							tmp=tmp+CChar_sys[bs][i][j];
-						}
-						else
-						{
-							SetConsoleTextAttribute (COutputHandle,ctextcolour);
-							cout<<tmp;
-							tmp=CChar_sys[bs][i][j];
-							ctextcolour=CColor_sys[bs][i][j];
-						}
-						if (CChar_sys[bs][i][j].size()>1)LastIsChinese=1;
-						else LastIsChinese=0;
-						j++;
-					}
-					if (tmp!="")
-					{
-						SetConsoleTextAttribute (COutputHandle,ctextcolour);
-						cout<<tmp;
-						tmp="";
-					}
-				}
-				
-			}
-		}
-	}
-	else
-	for (int wd=1;wd<=Count;wd++)
-	{
-		*tmpnum++;*tmpnum++;//我也不知道为什么要加两次，但是这样才有数据 
-		bs=*tmpnum;
-		for (int i=CWindowTop_sys[bs];i<=CWindowBottom_sys[bs];i++)
-		for (int j=CWindowLeft_sys[bs];j<=CWindowRight_sys[bs];j++)
-		{
-			gotoxy(i,j);
-			while (j<=CWindowRight_sys[bs])
-			{
-				if (CValue_sys[bs][i][j]==-1)
-				{
-					if (!LastIsChinese)
-					{
-						tmp+=CChar_sys[bs][i][j-1];
-						cout<<'\b';
-					}
-					j++;
-				}
-				if (CColor_sys[bs][i][j]==ctextcolour)
-				{
-					tmp=tmp+CChar_sys[bs][i][j];
-				}
-				else
-				{
-					SetConsoleTextAttribute (COutputHandle,ctextcolour);
-					cout<<tmp;
-					tmp=CChar_sys[bs][i][j];
-					ctextcolour=CColor_sys[bs][i][j];
-				}
-				if (CChar_sys[bs][i][j].size()>1)LastIsChinese=1;
-				else LastIsChinese=0;
-				j++;
-			}
-			if (tmp!="")
-			{
-				SetConsoleTextAttribute (COutputHandle,ctextcolour);
-				cout<<tmp;
-				tmp="";
-			}
-		}
 	}
 	return;
 }
@@ -1395,23 +1636,25 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 //cwcn来自主线程的传递 
 {
 	CWCN* TempCWCN=(CWCN*)cwcn;
-	int dl=TempCWCN->dl,ls=TempCWCN->ls;//CCurrentWD焦点窗口，dl刷新频率，ls是否持续运行 
+	int dl=TempCWCN->dl,ls=TempCWCN->ls,ThreadNum=CLatestNum;//CCurrentWD焦点窗口，dl刷新频率，ls是否持续运行  
+	//ThreadNum进程标识，若与CLatestNum不符则退出线程，同时设CEnabled为0 
 	CCurrentWD=TempCWCN->wd;
-	//为了提高运行效率，请设置dl在50到200之间 
+	//为了提高运行效率，请设置dl在25到100之间 
+	//解释：FV=0隐藏全部光标；=1隐藏未点击光标；=2全部显示
+	//CButton=0不使用按钮特效；=1 开启单字符加亮；=2开启按钮加亮 
 	if(Trans==0)
 	{
 		lr();
 		CSpeedRefresh(1,CCurrentWD);
 	}
 	else CAllRefresh();
-	
+
  	POINT pt;
 	int t=0,cpst=0,cmdl=0,tCCurrentY,tCCurrentX,bs=CCurrentWD;
 	bool TKmoved=0;//是否改变鼠标操作 
 	CCurrentY=CCurrentX=1;
-	dl=max(30,dl);
-	
-	while(CEnabled)
+
+	while(CLatestNum==ThreadNum)
 	{
 		//待机part 
 		do
@@ -1420,9 +1663,11 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 			GetCursorPos(&pt);
 			AutoAlign();
 			CSpeedRefresh(0);
+			if (pt.y<CConsoleTop||pt.y>CConsoleBottom-(CFontSizeY<<2)||pt.x<CConsoleLeft||pt.x>CConsoleRight-(CFontSizeX<<2))
+			CPause=1;
+			else CPause=0;//暂停` 
 		}
-		while(pt.y<CConsoleTop||pt.y>CConsoleBottom-(CFontSizeY<<2)||pt.x<CConsoleLeft||pt.x>CConsoleRight-(CFontSizeX<<2));
-		//BUGS
+		while(CPause);
 		
 		pt.x-=CConsoleLeft;
 		pt.y-=CConsoleTop;
@@ -1433,12 +1678,13 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 		&&(pt.y)/CFontSizeY==CCurrentX
 		&&!KEY_DOWN(MOUSE_MOVED))//鼠标按下时不允许出现注释 
 		{
-			if(CComment_sys[CCurrentWD][CCurrentX][CCurrentY]!=""//存在注释 
+			if((CTopCurrentWindow==0 || CTopCurrentWindow==CCurrentWD) && CComment_sys[CCurrentWD][CCurrentX][CCurrentY]!=""//存在注释 
 			&&cmdl==CCommentDelay_sys[CCurrentWD][CCurrentX][CCurrentY]/dl)//到达注释时间 
 			{
 				Sleep(CCommentDelay_sys[CCurrentWD][CCurrentX][CCurrentY]%dl);//等够cmdl中的ms数 
 				cpst=CCommentDelay_sys[CCurrentWD][CCurrentX][CCurrentY]%dl;//后面补回 
-				msgbox(bs,CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY],ColoredColor,CComment_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentMode_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentBoard_sys[CCurrentWD][CCurrentX][CCurrentY]);
+				SetConsoleTextAttribute(COutputHandle,CColor_sys[CCurrentWD][CCurrentX][CCurrentY]);
+				msgbox(CCurrentWD,CCommentTop_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentLeft_sys[CCurrentWD][CCurrentX][CCurrentY],ColoredColor,CComment_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentMode_sys[CCurrentWD][CCurrentX][CCurrentY],CCommentBoard_sys[CCurrentWD][CCurrentX][CCurrentY]);
 			}
 			GetCursorPos(&pt);
 			pt.x-=CConsoleLeft;
@@ -1455,84 +1701,253 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 		//填坑part
 		if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)//实在没办法，中文真的不好改 
 		{
-			SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]);
-			gotoxy(CCurrentX,CCurrentY-1);
-			cout<<CChar_sys[CCurrentWD][CCurrentX][CCurrentY-1];
+//			SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]);
+//			gotoxy(CCurrentX,CCurrentY-1);
+//			cout<<CChar_sys[CCurrentWD][CCurrentX][CCurrentY-1];
+			CIfRefresh_sys[CCurrentWD][CCurrentX][CCurrentY-1]=1;
 		}
-		else
-		{
-			SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY]);
-			gotoxy(CCurrentX,CCurrentY);
-			cout<<CChar_sys[CCurrentWD][CCurrentX][CCurrentY];
-		}
-		//还原color 
-		if (!FV&&CValue_sys[CCurrentWD][CCurrentX][CCurrentY]!=0)
-		{
-			while(ColoredPositionY>0
-			&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
-			CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)
-			&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==CTempColor)
-				ColoredPositionY--;//向左找到最左端 
-			while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
-			CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
-			&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==CTempColor)
-			{
-				CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=ColoredColor;//还原 
-				CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
-				ColoredPositionY++;//向右染色
-			}
-		}
+		CIfRefresh_sys[CCurrentWD][CCurrentX][CCurrentY]=1;
 		
-		//输出part
-		CCurrentY=(pt.x)/CFontSizeX;//储存当前位置坐标，为了和下一刻对比 
-		CCurrentX=(pt.y)/CFontSizeY;
-		bs=0;
-		if(Trans)//bs当前焦点窗口，CCurrentWD默认焦点窗口 
+		//partB
+		if (CButton==1)
 		{
-			for(int i=0;i<CWindowOrder.size();i++)
-			if(CCurrentY>=CWindowLeft_sys[CWindowOrder[i]-'0']&&CCurrentY<=CWindowRight_sys[CWindowOrder[i]-'0']&&CCurrentX>=CWindowTop_sys[CWindowOrder[i]-'0']&&CCurrentX<=CWindowBottom_sys[CWindowOrder[i]-'0'])
-			{
-				bs=CWindowOrder[i]-'0';break;
+			if (ColoredColor)
+			{//偷了一个小懒，本来Button=1的时候不用左右染色，为了还原Color2，姑且这么写着吧 
+				while(ColoredPositionY>0
+				&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)//保证连续性 
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==CTempColor)//保证颜色连续性 
+					ColoredPositionY--;//向左找到最左端 
+				while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==CTempColor)
+				{
+					CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=ColoredColor;//还原 
+					CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
+					ColoredPositionY++;//向右染色
+				}
+				ColoredColor=0;//用ColoredColor判断是否需要还原 
 			}
-		}
-		if(bs==0)bs=CCurrentWD;
-		//如果切换了窗口 
-		if(bs!=CCurrentWD)
-		{
-			CCurrentWD=bs;
-			CShowWindow(CCurrentWD);
-			CSpeedRefresh(1,CCurrentWD);
-		}
-		//改变按钮的颜色(鼠标停留)
-		if (!FV&&CValue_sys[CCurrentWD][CCurrentX][CCurrentY]!=0)
-		{
+			//输出sec
+			CCurrentY=(pt.x)/CFontSizeX;//储存当前位置坐标，为了和下一刻对比 
+			CCurrentX=(pt.y)/CFontSizeY;
+			bs=0;
+			if(Trans)//bs当前焦点窗口，CCurrentWD默认焦点窗口 
+			{
+				for(int i=0;i<CWindowOrder.size();i++)
+				if(CCurrentY>=CWindowLeft_sys[CWindowOrder[i]-'0']&&CCurrentY<=CWindowRight_sys[CWindowOrder[i]-'0']
+				&&CCurrentX>=CWindowTop_sys[CWindowOrder[i]-'0']&&CCurrentX<=CWindowBottom_sys[CWindowOrder[i]-'0'])
+				{
+					bs=CWindowOrder[i]-'0';
+					break;
+				}
+			}
+			else
+			{
+				if(CCurrentY>=CWindowLeft_sys[CWindowOrder[0]-'0']&&CCurrentY<=CWindowRight_sys[CWindowOrder[0]-'0']
+				&&CCurrentX>=CWindowTop_sys[CWindowOrder[0]-'0']&&CCurrentX<=CWindowBottom_sys[CWindowOrder[0]-'0'])
+				{
+					bs=CWindowOrder[0]-'0';
+				}
+				else bs=0;
+			}
+			CSpeedRefresh(0);//本身刷新颜色就需要refresh，而如果锁定窗口也需要，故放在此处 
+			//如果锁定了窗口 sec
+			if (CTopCurrentWindow && bs!=CTopCurrentWindow)
+			{
+				CCurrentWD=bs;
+				continue;
+			}
+			//如果切换了窗口 sec
+			if (bs!=CCurrentWD)
+			{
+				CCurrentWD=bs;
+				if (bs)
+				{
+					CShowWindow(CCurrentWD);
+					CSpeedRefresh(1,CCurrentWD);
+				}
+			}
+			//鼠标停留 sec
 			ColoredPositionX=CCurrentX,ColoredPositionY=CCurrentY;//位置的tmp
-			ColoredValue=CValue_sys[CCurrentWD][CCurrentX][CCurrentY];//变色的是哪个按钮 
+			if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)ColoredValue=CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1];
+			else ColoredValue=CValue_sys[CCurrentWD][CCurrentX][CCurrentY];//变色的是哪个按钮
 			ColoredColor=//原来是啥色 
 			CTempColor=CColor_sys[CCurrentWD][CCurrentX][CCurrentY];//变啥色
 			if ((ColoredColor&(0x10|0x20|0x40|0x80))==0)//如果没有背景
 			{
-				CTempColor|=0x1|0x2|0x4|0x8| 0x10|0x20|0x40;//深白色字体+暗白色背景 
+				CTempColor|=0x1|0x2|0x4|0x8|0x10|0x20|0x40;//深白色字体+暗白色背景 
 			}
-			else CTempColor|=0x8| 0x80;//深色字体+深色背景 
-			while(ColoredPositionY>0
-			&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
-			CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)
-			&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredColor)
-				ColoredPositionY--;//向左找到最左端 
-			while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
-			CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
-			&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredColor)
+			else CTempColor|=0x8| 0x80;
+			if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)
 			{
-				CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=CTempColor;
-				CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
-				ColoredPositionY++;//向右染色
+				CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]=CTempColor;
+				CIfRefresh_sys[CCurrentWD][CCurrentX][CCurrentY-1]=1;
+			}
+			CColor_sys[CCurrentWD][CCurrentX][CCurrentY]=CTempColor;
+			CIfRefresh_sys[CCurrentWD][CCurrentX][CCurrentY]=1;
+		}
+		else //partA
+		if (CButton==2)
+		{
+			//还原color sec
+			CSpeedRefresh(0);//防止闪现，必须先刷新 
+			if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]>0 || CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1 && CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1]>0)
+			//Button=2时对于=0根本不睬，因此特别小心判断条件(一定有三部分) 
+			//本身有值 或者前板块有值 
+			if (ColoredColor)
+			{
+				while(ColoredPositionY>0
+				&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)//保证连续性 
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==CTempColor)//保证颜色连续性 
+					ColoredPositionY--;//向左找到最左端 
+				while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==CTempColor)
+				{
+					CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=ColoredColor;//还原 
+					CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
+					ColoredPositionY++;//向右染色
+				}
+				ColoredColor=0;//用ColoredColor判断是否需要还原 
+			}
+			//以下三个sec ABpart是一样的 
+			//输出sec
+			CCurrentY=(pt.x)/CFontSizeX;//储存当前位置坐标，为了和下一刻对比 
+			CCurrentX=(pt.y)/CFontSizeY;
+			bs=0;
+			if(Trans)//bs当前焦点窗口，CCurrentWD默认焦点窗口 
+			{
+				for(int i=0;i<CWindowOrder.size();i++)
+				if(CCurrentY>=CWindowLeft_sys[CWindowOrder[i]-'0']&&CCurrentY<=CWindowRight_sys[CWindowOrder[i]-'0']
+				&&CCurrentX>=CWindowTop_sys[CWindowOrder[i]-'0']&&CCurrentX<=CWindowBottom_sys[CWindowOrder[i]-'0'])
+				{
+					bs=CWindowOrder[i]-'0';
+					break;
+				}
+			}
+			else
+			{
+				if(CCurrentY>=CWindowLeft_sys[CWindowOrder[0]-'0']&&CCurrentY<=CWindowRight_sys[CWindowOrder[0]-'0']
+				&&CCurrentX>=CWindowTop_sys[CWindowOrder[0]-'0']&&CCurrentX<=CWindowBottom_sys[CWindowOrder[0]-'0'])
+				{
+					bs=CWindowOrder[0]-'0';
+				}
+				else bs=0;
+			}
+			//如果锁定了窗口 sec
+			if (CTopCurrentWindow && bs!=CTopCurrentWindow)
+			{
+				CCurrentWD=bs;
+				CSpeedRefresh(0);
+				continue;
+			}
+			//如果切换了窗口 sec
+			if (bs!=CCurrentWD)
+			{
+				CCurrentWD=bs;
+				if (bs)
+				{
+					CShowWindow(CCurrentWD);
+					CSpeedRefresh(1,CCurrentWD);
+				}
+			}
+			//鼠标停留sec
+			ColoredColor=CColor_sys[CCurrentWD][CCurrentX][CCurrentY];//给注释留一条活路 
+			if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]>0 || CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1 && CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1]>0)
+			{
+				ColoredPositionX=CCurrentX,ColoredPositionY=CCurrentY;//位置的tmp
+				if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)ColoredValue=CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1];
+				else ColoredValue=CValue_sys[CCurrentWD][CCurrentX][CCurrentY];//变色的是哪个按钮
+				ColoredColor=//原来是啥色 
+				CTempColor=CColor_sys[CCurrentWD][CCurrentX][CCurrentY];//变啥色
+				if ((ColoredColor&(0x10|0x20|0x40|0x80))==0)//如果没有背景
+				{
+					CTempColor|=0x1|0x2|0x4|0x8|0x10|0x20|0x40;//深白色字体+暗白色背景 
+				}
+				else CTempColor|=0x8| 0x80;//深色字体+深色背景 
+				while(ColoredPositionY>0
+				&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredColor)
+					ColoredPositionY--;//向左找到最左端 
+				while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredColor)
+				{
+					CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=CTempColor;
+					CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
+					ColoredPositionY++;//向右染色
+				}
 			}
 		}
-		if(KEY_DOWN(MOUSE_MOVED))
+		else if (CButton==0)
 		{
-			//输出光标 (鼠标点击)
-			if (!FV&&CValue_sys[CCurrentWD][CCurrentX][CCurrentY]!=0)
+			if (ColoredColor)
+			{//偷了一个小懒，本来Button=0的时候根本不用染色，为了还原Color2，姑且这么写着吧 
+				while(ColoredPositionY>0
+				&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)//保证连续性 
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==CTempColor)//保证颜色连续性 
+					ColoredPositionY--;//向左找到最左端 
+				while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
+				CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
+				&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==CTempColor)
+				{
+					CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=ColoredColor;//还原 
+					CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
+					ColoredPositionY++;//向右染色
+				}
+				ColoredColor=0;//用ColoredColor判断是否需要还原 
+			}
+			//以下三个sec ABpart是一样的 
+			//输出sec
+			CCurrentY=(pt.x)/CFontSizeX;//储存当前位置坐标，为了和下一刻对比 
+			CCurrentX=(pt.y)/CFontSizeY;
+			bs=0;
+			if(Trans)//bs当前焦点窗口，CCurrentWD默认焦点窗口 
+			{
+				for(int i=0;i<CWindowOrder.size();i++)
+				if(CCurrentY>=CWindowLeft_sys[CWindowOrder[i]-'0']&&CCurrentY<=CWindowRight_sys[CWindowOrder[i]-'0']
+				&&CCurrentX>=CWindowTop_sys[CWindowOrder[i]-'0']&&CCurrentX<=CWindowBottom_sys[CWindowOrder[i]-'0'])
+				{
+					bs=CWindowOrder[i]-'0';
+					break;
+				}
+			}
+			else
+			{
+				if(CCurrentY>=CWindowLeft_sys[CWindowOrder[0]-'0']&&CCurrentY<=CWindowRight_sys[CWindowOrder[0]-'0']
+				&&CCurrentX>=CWindowTop_sys[CWindowOrder[0]-'0']&&CCurrentX<=CWindowBottom_sys[CWindowOrder[0]-'0'])
+				{
+					bs=CWindowOrder[0]-'0';
+				}
+				else bs=0;
+			}
+			//如果锁定了窗口 sec
+			if (CTopCurrentWindow && bs!=CTopCurrentWindow)
+			{
+				CCurrentWD=bs;
+				CSpeedRefresh(0);
+				continue;
+			}
+			//如果切换了窗口 sec
+			if (bs!=CCurrentWD)
+			{
+				CCurrentWD=bs;
+				if (bs)
+				{
+					CShowWindow(CCurrentWD);
+					CSpeedRefresh(1,CCurrentWD);
+				}
+			}
+			ColoredColor=CColor_sys[CCurrentWD][CCurrentX][CCurrentY];//给注释留一条活路 
+		}
+		
+		if(KEY_DOWN(MOUSE_MOVED) && CClickable)//CClickable=0时为预览模式 
+		{
+			if (CButton==2 && (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]>0 || CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1 && CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1]>0))//改颜色when 点击 
 			{
 				t=CTempColor;
 				CTempColor=ColoredColor;
@@ -1557,30 +1972,54 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 					ColoredPositionY++;//向右染色
 				}
 			}
+			else if (CButton==1)
+			{
+				t=CTempColor;
+				CTempColor=ColoredColor;
+				if ((ColoredColor&(0x10|0x20|0x40|0x80))==0)//没有背景 
+				{
+					CTempColor|=0x80;//去除深色字体+深黑色背景 
+					CTempColor&=~(0x8);
+				}
+				else CTempColor&=~(0x80|0x8);//去除深色背景字体 
+				
+				if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)
+				{
+					CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]=CTempColor;
+					CIfRefresh_sys[CCurrentWD][CCurrentX][CCurrentY-1]=1;
+				}
+				CColor_sys[CCurrentWD][CCurrentX][CCurrentY]=CTempColor;
+				CIfRefresh_sys[CCurrentWD][CCurrentX][CCurrentY]=1;
+			}
 			
-			t=0;
-			if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)//实在没办法，中文真的不好改 
+			//输出光标 (鼠标点击)
+			t=0;//t=0代表鼠标没有点击有效值 
+			if (FV)//>0
 			{
-				SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]);
-				gotoxy(CCurrentX,CCurrentY-1);
+				if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)//实在没办法，中文真的不好改 
 				{
-					if(CChar_sys[CCurrentWD][CCurrentX][CCurrentY-1].size()>1)
-					cout<<Ch1;
-					else cout<<En1;
+					SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]);
+					gotoxy(CCurrentX,CCurrentY-1);
+					{
+						if(CChar_sys[CCurrentWD][CCurrentX][CCurrentY-1].size()>1)
+						cout<<Ch1;
+						else cout<<En1;
+					}
+				}
+				else
+				{
+					SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY]);
+					gotoxy(CCurrentX,CCurrentY);
+					{
+						if(CChar_sys[CCurrentWD][CCurrentX][CCurrentY].size()>1)
+						cout<<Ch1;
+						else cout<<En1;
+					}
 				}
 			}
-			else
-			{
-				SetConsoleTextAttribute(COutputHandle,(WORD)CColor_sys[CCurrentWD][CCurrentX][CCurrentY]);
-				gotoxy(CCurrentX,CCurrentY);
-				{
-					if(CChar_sys[CCurrentWD][CCurrentX][CCurrentY].size()>1)
-					cout<<Ch1;
-					else cout<<En1;
-				}
-			}
-			if(CValue_sys[CCurrentWD][CCurrentX][CCurrentY]>0//点击了、选择了按钮 
+			if((CValue_sys[CCurrentWD][CCurrentX][CCurrentY]>0//点击了、选择了按钮 
 			||CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1]>0)//全角字符的后半块 
+			&& CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1]!=32767)//非拖动操作 
 			{
 				CSpeedRefresh(0);
 				while(KEY_DOWN(MOUSE_MOVED))Sleep(dl);//等待鼠标弹起 
@@ -1597,11 +2036,12 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 					cout<<CChar_sys[CCurrentWD][CCurrentX][CCurrentY];
 				}
 				
+				t=0;
 				GetCursorPos(&pt);//这个地方为了探测点击以后有无移开鼠标（取消操作） 
 				pt.x-=CConsoleLeft;
 				pt.y-=CConsoleTop;
 				if(CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-1)pt.x-=CFontSizeX;//如果这是全角字符的后半块，那么转移 
-				if(CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]<=0)t=1;
+				if(CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]<=0)t=1;//鼠标移开了 
 				if (!t)
 				{
 					CChoseValue[++CChoseValue[0]]=CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX];//将值储存到CChoseValue中 
@@ -1609,8 +2049,26 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 				}
 			}
 			
-			if(!t&&CValue_sys[CCurrentWD][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-2&&CMovable_sys[CCurrentWD]==0)//移动窗口(点击了边框)，CMovable_sys可否移动 
+			if(CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==32767
+			&&CMovable_sys[CCurrentWD]==0)//移动窗口(点击了边框)，CMovable_sys可否移动 
 			{
+				if (ColoredColor)
+				{//继续偷了一个小懒
+					while(ColoredPositionY>0
+					&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
+					CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==-1)//保证连续性 
+					&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==CTempColor)//保证颜色连续性 
+						ColoredPositionY--;//向左找到最左端 
+					while((CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==ColoredValue||
+					CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==-1)
+					&&CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]==CTempColor)
+					{
+						CColor_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=ColoredColor;//还原 
+						CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
+						ColoredPositionY++;//向右染色
+					}
+					ColoredColor=0;//用ColoredColor判断是否需要还原 
+				}
 				tCCurrentX=tCCurrentY=1;
 				while(KEY_DOWN(MOUSE_MOVED))//跟踪想要移去的地方 
 				{
@@ -1647,8 +2105,7 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 				if(CWindowBottom_sys[CCurrentWD]+tmpx>(CConsoleBottom-CConsoleTop-CConsoleTopBoard-CConsoleBoard)/CFontSizeY)//超出下边框 
 				tmpx=(CConsoleBottom-CConsoleTop-CConsoleTopBoard-CConsoleBoard)/CFontSizeY-CWindowBottom_sys[CCurrentWD];
 				 
-				CHideWindow(CCurrentWD);
-				CDeleteWindow(CCurrentWD);
+				CDeleteWindow(CCurrentWD);//Delete包括hide 
 				CWindowLeft_sys[CCurrentWD]=max(0,CWindowLeft_sys[CCurrentWD]+tmpy);
 				CWindowTop_sys[CCurrentWD]=max(0,CWindowTop_sys[CCurrentWD]+tmpx);
 				CWindowRight_sys[CCurrentWD]=max(0,CWindowRight_sys[CCurrentWD]+tmpy);
@@ -1667,8 +2124,9 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 					CColor_sys[CCurrentWD][i][j]=tCColor_sys[i-tmpx][j-tmpy];
 				}
 				CShowWindow(CCurrentWD);
-				CAllRefresh();//输出回来 清除轨迹 
-				CSpeedRefresh(1,CCurrentWD);
+				CTasks_sys[0]-=2;//前面两个都是要统一refresh的，不如后面一次搞定 
+				CTasks_sys[++CTasks_sys[0]]=0;//清屏 
+				CSpeedRefresh(0);
 			}
 			/*if(CValue_sys[bs][(pt.y)/CFontSizeY][(pt.x)/CFontSizeX]==-3)
 			{
@@ -1703,7 +2161,8 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 			}*/
 			
 			//还原color 
-			if (!FV&&CValue_sys[CCurrentWD][CCurrentX][CCurrentY]!=0)
+			if (CButton==2)
+			if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]>0 || CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1 && CValue_sys[CCurrentWD][CCurrentX][CCurrentY-1]>0)
 			{
 				while(ColoredPositionY>0
 				&&(CValue_sys[CCurrentWD][ColoredPositionX][ColoredPositionY-1]==ColoredValue||
@@ -1718,9 +2177,19 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 					CIfRefresh_sys[CCurrentWD][ColoredPositionX][ColoredPositionY]=1;
 					ColoredPositionY++;//向右染色
 				}
-			} 
+			}
+			else if (CButton==1)
+			{
+				if (CValue_sys[CCurrentWD][CCurrentX][CCurrentY]==-1)
+				{
+					CColor_sys[CCurrentWD][CCurrentX][CCurrentY-1]=ColoredColor;
+					CIfRefresh_sys[CCurrentWD][CCurrentX][CCurrentY-1]=1;
+				}
+				CColor_sys[CCurrentWD][CCurrentX][CCurrentY]=ColoredColor;
+				CIfRefresh_sys[CCurrentWD][CCurrentX][CCurrentY]=1;
+			}
 		}
-		else if (FV)//如果不点击时光标不可见，那么输出原字符 ,否则输出光标0 
+		else if (FV>1)//如果不点击时光标不可见，那么输出原字符 ,否则输出光标0 
 		{
 			if (CValue_sys[bs][CCurrentX][CCurrentY]==-1)
 			{
@@ -1739,37 +2208,56 @@ void* CRunWindow(void* cwcn)//menu choosing system菜单选择系统*
 				else cout<<En0;
 			}
 		}
-
 		if(CValue_sys[bs][CCurrentX][CCurrentY]>0)CCurrentValidValue=CValue_sys[bs][CCurrentX][CCurrentY];		//最近的有效值
 		if(CValue_sys[bs][CCurrentX][CCurrentY]==-1)CCurrentValidValue=CValue_sys[bs][CCurrentX][CCurrentY-1];
 		CCurrentValue=CValue_sys[bs][CCurrentX][CCurrentY];	//即时值
 		
 		
 			//DEBUG tools
-				gotoxy(23,0);//printf("#pxy(abs):(%d,%d) <%d,%d>;dxy:%d %d;Ch:%s;V:%d#   \nCo:%d",pt.x,pt.y,pt.x,pt.y,CCurrentY,CCurrentX,CChar_sys[CCurrentWD][CCurrentX][CCurrentY].c_str(),CValue_sys[CCurrentWD][CCurrentX][CCurrentY],CColor_sys[CCurrentWD][CCurrentX][CCurrentY]);
+//				gotoxy(23,0);//printf("#pxy(abs):(%d,%d) <%d,%d>;dxy:%d %d;Ch:%s;V:%d#   \nCo:%d",pt.x,pt.y,pt.x,pt.y,CCurrentY,CCurrentX,CChar_sys[CCurrentWD][CCurrentX][CCurrentY].c_str(),CValue_sys[CCurrentWD][CCurrentX][CCurrentY],CColor_sys[CCurrentWD][CCurrentX][CCurrentY]);
 //				gotoxy(23,0);printf("#WInfo.l%d t%d r%d b%d#   \n",CConsoleLeft,CConsoleTop,CConsoleRight,CConsoleBottom);
 //				Sleep(100);
 				if (kbhit()&&getch()=='c')CAllRefresh();
 	}
 	OptionsDeep();
+	CEnabled=0;
 	lr();
 	return NULL;
 }
-void CStartWindow(int delay/*LEAST 50!*/,int window,int to_be_continued,int to_waiting)//menu choosing system starter菜单选择系统启动程序* 
+void COpenThread(int delay/*LEAST 50!*/,int window,int to_be_continued)//menu choosing system starter菜单选择系统启动程序_线程* 
 //explain:Fps:1000/dl(ms),which menu,whether going on when get values,whether waiting
 {
-	CEnabled=1;
 	CWCN* cwcn;
 	TempCWCN.dl=delay;
 	TempCWCN.wd=window;
 	TempCWCN.ls=to_be_continued;
 	cwcn=&TempCWCN;
-	if(to_waiting) CRunWindow((void*)cwcn);
-	else
-	{
-		pthread_t tids;
-		pthread_create(&tids, NULL, CRunWindow, (void*)cwcn);
-	}
+	CEnabled=1;
+	CLatestNum++;
+	if (CLatestNum>10000)CLatestNum%=10000;
+	
+	pthread_create(&CRecentTids, NULL, CRunWindow, (void*)cwcn);
+	return;
+}
+void COpenWindow(int delay/*LEAST 50!*/,int window,int to_be_continued)//menu choosing system starter菜单选择系统启动程序_等待* 
+//explain:Fps:1000/dl(ms),which menu,whether going on when get values,whether waiting
+{
+	CWCN* cwcn;
+	TempCWCN.dl=delay;
+	TempCWCN.wd=window;
+	TempCWCN.ls=to_be_continued;
+	cwcn=&TempCWCN;
+	CEnabled=1;
+	CLatestNum++;
+	if (CLatestNum>10000)CLatestNum%=10000;
+	
+	CRunWindow((void*)cwcn);
+	return;
+}
+void CCloseWindow()
+{
+	CLatestNum++;
+	while (CEnabled)Sleep(25);
 	return;
 }
 #ifndef CLICK_RELEASE
@@ -1778,21 +2266,39 @@ void _example()
  int a,b,ans;char cc=0;
  HideCursor();
 // cout<<"select player area:\n(click it!)";cost(10,10,75,45,a,b);lr();
-CCreateWindow(1,0,"EXAMPLE",0,0,33,20);CShowWindow(1);
-CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
+CCreateWindow(1,0,"EXAMPLE",0,0,33,20);
+CCreateWindow(3,2,"提示",35,0,55,20);
 //system("mode con cols=80 lines=25");//Warn 
  CWriteWindow(1,1,1,"-------------菜单-------------",0,"看我干嘛awa}我只是一个标题...",-1,-1,1000,1,3,0x2|0x8);
  CWriteWindow(1,3,15,"开始play",1,"点此来开始游戏}等等，楼主还没放游戏呢qwq",-1,-1,0,1,0,0x4|0x1|0x8|0x80|0x20);
  CWriteWindow(1,6,15,"退出exit",2,"单击退出",-1,-1,0,0,0,wOldColorAttrs);
  CWriteWindow(1,10,5,"弹出一个新的窗口awa",3,"。。。}...}!",-1,-1,500,1,7,0x4);
  CWriteWindow(1,11,5,"锁定\\解锁窗口",4,"",0,0,0,0,0,wOldColorAttrs);
- CWriteWindow(1,7,1,"光标示例:┼╋+*╬#",15,"好看吗？}如果你不满意，可以通过程序首行的“光标形式”更改}多种多样，只有想不到没有做不到！}",8,15,600,2,21,0x2|0x10|0x8|0x80);
+ CWriteWindow(1,7,1,"光标示例:┼ ╋ +*╬ #",15,"好看吗？}如果你不满意，可以通过程序首行的“光标形式”更改}多种多样，只有想不到没有做不到！}",8,15,600,2,21,0x2|0x10|0x8|0x80);
  CWriteWindow(3,2,36,"挪动你的鼠标~",5,"敢不敢点我一下",0,0,0,0,0,wOldColorAttrs|0x8);
  CWriteWindow(3,18,36,"关闭",6,"",0,0,0,0,0,wOldColorAttrs|0x8|0x4);
  CWriteWindow(3,16,36,"查看帮助\\版本信息",20,"",0,0,0,0,0,0x8);
+ CWriteWindow(3,10,36,"光标",0,"改变控制台光标可见性",-1,-1,0,0,1,0x1|0x8);
+ CWriteWindow(3,10,41,"s",30,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,10,43,"h",31,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,11,36,"准星",0,"改变CLICKING系统光标可见性",-1,-1,0,0,1,0x1|0x8);
+ CWriteWindow(3,11,41,"0",32,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,11,43,"1",33,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,11,45,"2",34,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,12,36,"透视",0,"非焦点窗口可见性",-1,-1,0,0,1,0x1|0x8);
+ CWriteWindow(3,12,41,"0",35,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,12,43,"1",36,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,13,36,"按钮",0,"改变按钮特效",-1,-1,0,0,1,0x1|0x8);
+ CWriteWindow(3,13,41,"0",37,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,13,43,"1",38,"",0,0,0,0,0,0x1|0x2|0x4);
+ CWriteWindow(3,13,45,"2",39,"",0,0,0,0,0,0x1|0x2|0x4);
  
- /*CTasks_sys[++CTasks_sys[0]]=3;*/CLockWindow(3);
- CStartWindow(50,1,1,0);
+ 
+//此处不能用/*CTasks_sys[++CTasks_sys[0]]=3;*/，而应该用CShowWindow()，为了插入窗口顺序 
+ CLockWindow(3);
+ CShowWindow(3);
+ CShowWindow(1);
+ COpenThread(15,1,1);//COpenThread之前的这些函数都是可以自由调用的，不受CEnabled限制 
  while(ans!=2&&CEnabled)
  {
  	while(!CChoseValue[0])
@@ -1801,28 +2307,31 @@ CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
 	 	if(CCurrentValidValue==1)
 	 	{
 	 		CWriteWindow(3,5,36,"这是样例程序，}所以没有游戏}可以自己写鸭！",0,"",0,0,0,0,0,0x2|0x8);
-	 		while(CCurrentValidValue==1&&!CChoseValue[0])Sleep(50);
+	 		while((CCurrentValue==-1||CCurrentValue==1)&&!CChoseValue[0])Sleep(50);CCurrentValidValue=0;//ValidValue一定要记得清空，否则有可能重复执行 
 	 		CWriteWindow(3,5,36,"              }            }              ",0,"",0,0,0,0,0,wOldColorAttrs);
 		 }
 		if(CCurrentValidValue==6)
 	 	{
 	 		CWriteWindow(3,5,36,"且慢，请三思}关掉的话}没有提示了哦...",0,"",0,0,0,0,0,0x4|0x8);
-	 		while(CCurrentValidValue==6&&!CChoseValue[0])Sleep(50);
+	 		while((CCurrentValue==-1||CCurrentValue==6)&&!CChoseValue[0])Sleep(50);CCurrentValidValue=0;
 	 		CWriteWindow(3,5,36,"            }        }               ",0,"",0,0,0,0,0,wOldColorAttrs);
 		 }
 		 if(CCurrentValidValue==4)
 		 {
 		 	lFreeze();
-		 	while(CCurrentValue==4&&!CChoseValue[0])Sleep(50);
+		 	while((CCurrentValue==-1||CCurrentValue==4)&&!CChoseValue[0])Sleep(50);CCurrentValidValue=0;
 		 	CCurrentValue=CCurrentValidValue=0;
 		 	lInitial();
 		 	Sleep(100);
 		 	AutoAlign();
+		 	Sleep(200);
+		 	CTasks_sys[++CTasks_sys[0]]=0;
+		 	HideCursor()
 		 }
 		 if(CCurrentValidValue==15)
 		 {
 		 	CWriteWindow(3,5,36,"可惜，}这只能在程序里更改",0,"没什么好看的",-1,-1,0,0,1,0x1|0x8|0x20|0x80);
-	 		while(CCurrentValidValue==15&&!CChoseValue[0])Sleep(50);
+	 		while((CCurrentValue==-1||CCurrentValue==15)&&!CChoseValue[0])Sleep(50);CCurrentValidValue=0;
 	 		CWriteWindow(3,5,36,"      }                  ",0,"",0,0,0,0,0,wOldColorAttrs);
 		 }
 	 }
@@ -1830,12 +2339,13 @@ CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
  	if(ans==3){
  		CCreateWindow(2,1,"I AM THE 弹窗",10,7,25,15);
  		CWriteWindow(2,8,11,"关掉",9,"不要点",-1,-1,0,0,0,wOldColorAttrs);
- 		CTasks_sys[++CTasks_sys[0]]=2;
+ 		CShowWindow(2);CTopCurrentWindow=2;
  		while(!CChoseValue[0])Sleep(100);
+ 		CTopCurrentWindow=0;
 	 }
- 	if(ans==9)CTasks_sys[++CTasks_sys[0]]=-2;
+ 	if(ans==9)CHideWindow(2);//CDeleteWindow(2);亦可 
 	 if(ans==5) system("start notepad");
-	 if(ans==6) CTasks_sys[++CTasks_sys[0]]=-3;
+	 if(ans==6) CHideWindow(3);
 	 if(ans==20)
 	 {
 	 	ofstream of("Note.txt");
@@ -1844,22 +2354,28 @@ CCreateWindow(3,2,"提示",35,0,55,20);CShowWindow(3);
 	 	of.close();
 	 	system("Note.txt");
 	 }
-
+	 if (ans>=30)
+	 {
+	 	if (ans==30)ShowCursor()
+	 	else if (ans==31)HideCursor()
+	 	else if (ans<=34)FV=ans-32;
+	 	else if (ans<=36)Trans=ans-35,CTasks_sys[++CTasks_sys[0]]=0;//增加一个0代表全局刷新 
+	 	else if (ans<=39)CButton=ans-37;
+	 }
   //mains?[with both(a,b)]
  }
- CEnabled=0;
+CCloseWindow();
  lr();
  
 }
 #endif
+#ifndef _CLICKING_//头文件不能有main 
 int main(int argc,char* argv[])
 {
-//AreaRefresh() 中文补齐 
 //中文后半块bug
-//CAreaRefresh() 英文 
 //	_example();
 //	return 0;
-	cout<<"这是样例程序！\n(当前字体)"<<CFontSizeX<<" "<<CFontSizeY<<endl;
+	cout<<"这是样例程序！\n(当前字体)"<<CurrentFontSizeX<<" "<<CurrentFontSizeY<<endl;
 	cout<<"获得更多帮助请按 H \n观看实例请按 E \n";
 	char cc=getch();
 	if(cc=='H'||cc=='h')
@@ -1896,3 +2412,4 @@ int main(int argc,char* argv[])
 	}
  return 0;
 }
+#endif
