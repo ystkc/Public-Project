@@ -1,2 +1,2 @@
-git fetch PP master
+git pull PP master
 pause
