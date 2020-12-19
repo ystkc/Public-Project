@@ -10,7 +10,7 @@ Welcome to try out my project which should be compiled by TDM-GCC 4.9.2 64/32 bi
 Any suggestions,write to 1612162886@qq.com
 Looking forward to your proposal~
 
-
+更多教程请见https://github.com/ystkc/Public-Project/wiki
 
 Licence:
 
